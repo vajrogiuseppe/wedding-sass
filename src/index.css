@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+/* ─── Design tokens ─────────────────────────────────── */
+:root {
+  --bg:           #f5f0e8;
+  --bg-alt:       #faf7f2;
+  --bg-card:      #ffffff;
+  --bg-dark:      #1e1a14;
+  --text:         #1e1a14;
+  --text-muted:   #7a6f63;
+  --text-faint:   #b5a898;
+  --accent:       #c9a96e;
+  --accent-light: #e8d5b0;
+  --accent-dark:  #a07838;
+  --border:       #e0d8cc;
+  --border-light: #ede8df;
+}
+
+/* ─── Reset ─────────────────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Oswald', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+.font-display { font-family: 'Vidaloka', serif; }
+
+/* ─── Gradient text ─────────────────────────────────── */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #a07838, #c9a96e, #8b6914);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Custom scrollbar ──────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+/* ─── ScrollVelocity ─────────────────────────────────── */
+.parallax {
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+}
+.scroller {
+  display: flex;
+  white-space: nowrap;
+}
+
+/* ─── Spotlight card ─────────────────────────────────── */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,169,110,0.18) 0%, transparent 70%);
+  left: var(--mouse-x, -140px);
+  top: var(--mouse-y, -140px);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.spotlight-card:hover::before { opacity: 1; }
+.spotlight-card > * { position: relative; z-index: 1; }
+
+/* ─── Video loop carousel ───────────────────────────── */
+@keyframes video-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.video-track {
+  display: flex;
+  animation: video-scroll 26s linear infinite;
+  will-change: transform;
+}
+.video-track:hover { animation-play-state: paused; }
+@media (max-width: 640px) {
+  .video-track { animation-duration: 18s; }
+}
+
+/* ─── Custom drag cursor ─────────────────────────────── */
+/*
+  SVG path below — edit freely to change the drag cursor icon.
+  The cursor is a gold circle with ← → arrows.
+  Hotspot: center (20 20).
+*/
+.cursor-drag {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23c9a96e' opacity='0.92'/%3E%3Cpolyline points='14,16 9,20 14,24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='9' y1='20' x2='31' y2='20' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3Cpolyline points='26,16 31,20 26,24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 20 20, grab;
+}
+.cursor-drag:active {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23a07838' opacity='0.95'/%3E%3Ccircle cx='20' cy='20' r='4' fill='white'/%3E%3C/svg%3E") 20 20, grabbing;
+}
+
+/* ─── Hide scrollbar ─────────────────────────────────── */
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ─── Mobile ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .hide-mobile { display: none !important; }
+}
+@media (min-width: 641px) {
+  .show-mobile-only { display: none !important; }
+}

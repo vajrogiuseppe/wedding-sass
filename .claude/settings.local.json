@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build 2>&1 | tail -40)",
+      "Bash(npx tsc --noEmit 2>&1 | grep -E \"src/sections|src/components/Navbar|src/components/Footer|src/App\" | head -20)",
+      "Bash(npm run dev)",
+      "Bash(npx tsc --noEmit 2>&1 | grep -E \"error TS\" | grep -v \"NoiseMask\\\\|CircularGallery\\\\|GradientCarousel\\\\|BallpitSection\" | head -20)",
+      "Bash(npx tsc --noEmit 2>&1 | grep -E \"error TS\" | head -20)",
+      "Bash(npx vite build 2>&1 | tail -40)",
+      "Bash(npx tsc --noEmit 2>&1 | grep -E \"error TS\")",
+      "WebFetch(domain:envelope-gsap.netlify.app)",
+      "WebFetch(domain:codepen.io)",
+      "Bash(npm list canvas-confetti --prefix /Users/giuseppevajro/Desktop/inviti-studio 2>/dev/null | head -3)",
+      "Bash(npm install canvas-confetti --save 2>&1 | tail -3)",
+      "Bash(npm list canvas-confetti 2>/dev/null | head -3 && ls node_modules/canvas-confetti/types* 2>/dev/null || true)",
+      "Bash(npm install @types/canvas-confetti --save-dev 2>&1 | tail -2)",
+      "Bash(npm install @react-three/drei 2>&1 | tail -3)"
+    ]
+  }
+}
