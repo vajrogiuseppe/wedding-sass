@@ -13,6 +13,7 @@ import { PricingSection } from '@/sections/PricingSection'
 import { FAQSection } from '@/sections/FAQSection'
 import { ContactSection } from '@/sections/ContactSection'
 import { ScrollVelocity } from '@/components/ui/ScrollVelocity'
+import { LinkColorProvider } from './components/LinkColorContext'
 
 const AdminDashboard  = lazy(() => import('@/pages/AdminDashboard'))
 const JourneyPage     = lazy(() => import('@/pages/JourneyPage'))
@@ -22,42 +23,35 @@ function LandingPage() {
   return (
     <>
       <Navbar />
-      <main style={{ paddingBottom: 80 }}>
-        {/* dark — hero stays dramatic */}
-        <MarketingHeroSection />
-        {/* cream #f5f0e8 */}
-        <HowItWorksSection />
-        {/* cream #f5f0e8 — 8-item grid with Spotlight */}
-        <FeaturedSection />
-        {/* cream #1c1408 — draggable showcase cards */}
-        <FeaturesSection />
-        {/* ScrollVelocity divider */}
-        <ScrollVelocity
-          texts={['inviti digitali eleganti', 'RSVP integrato']}
-          velocity={90}
-          parallaxStyle={{ padding: '50px 0', background: '#1e1a14' }}
-          scrollerStyle={{ fontSize: 22, fontWeight: 700, color: '#c9a96e', letterSpacing: '0.05em' }}
-        />
-        {/* cream #faf7f2 */}
-        <InvitationShowcaseSection />
+        <LinkColorProvider isLight={true}>
+        <main style={{ paddingBottom: 80 }}>
+          <LinkColorProvider isLight={false}>
+            <MarketingHeroSection />
+          </LinkColorProvider>
+          <HowItWorksSection />
+          <FeaturedSection />
+          <FeaturesSection />
 
-        {/* cream #f5f0e8 */}
-        <GallerySection />
-        {/* ScrollVelocity divider */}
-        <ScrollVelocity
-          texts={['50+ coppie felici', 'link pronto in 48h']}
-          velocity={100}
-          parallaxStyle={{ padding: '50px 0', background: '#1e1a14' }}
-          scrollerStyle={{ fontSize: 22, fontWeight: 700, color: '#c9a96e', letterSpacing: '0.05em' }}
-        />
-        {/* cream #faf7f2 */}
-        <PricingSection />
-        {/* cream #faf7f2 */}
-        <FAQSection />
-        {/* cream #f5f0e8 */}
-        <ContactSection />
-      </main>
-      <Footer />
+          <ScrollVelocity
+            texts={['inviti digitali eleganti', 'RSVP integrato']}
+            velocity={90}
+            numCopies={12}
+            className="custom-scroll-text"
+            parallaxStyle={{ padding: '10px 0', background: '#1e1a14' }}
+            scrollerStyle={{ fontSize: 35, fontWeight: 700, color: '#c9a96e', letterSpacing: '0.05em' }}
+          />
+
+          <InvitationShowcaseSection />
+          <GallerySection />
+          <PricingSection />
+          <FAQSection />
+          <ContactSection />
+        </main>
+
+        <LinkColorProvider isLight={false}>
+          <Footer />
+        </LinkColorProvider>
+      </LinkColorProvider>
     </>
   )
 }

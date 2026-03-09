@@ -14,7 +14,13 @@
       "Bash(npm install canvas-confetti --save 2>&1 | tail -3)",
       "Bash(npm list canvas-confetti 2>/dev/null | head -3 && ls node_modules/canvas-confetti/types* 2>/dev/null || true)",
       "Bash(npm install @types/canvas-confetti --save-dev 2>&1 | tail -2)",
-      "Bash(npm install @react-three/drei 2>&1 | tail -3)"
+      "Bash(npm install @react-three/drei 2>&1 | tail -3)",
+      "Bash(npm run:*)",
+      "Bash(npm install:*)",
+      "WebFetch(domain:reactbits.dev)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(mkdir:*)"
     ]
   }
 }
