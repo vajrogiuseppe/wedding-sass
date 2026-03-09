@@ -290,8 +290,9 @@ export default function NoiseMaskHeroNew({
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const gl = canvas.getContext('webgl2')
-    if (!gl) { console.error('WebGL2 not supported'); return }
+    const glOrNull = canvas.getContext('webgl2')
+    if (!glOrNull) { console.error('WebGL2 not supported'); return }
+    const gl: WebGL2RenderingContext = glOrNull
 
     // ── resize (verbatim from hero.html) ──────────────────────────────────────
     function resize() {

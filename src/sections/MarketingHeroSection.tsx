@@ -35,257 +35,287 @@ export function MarketingHeroSection() {
     return () => clearTimeout(t)
   }, [])
 
-  return (
-    <section
-      id="hero"
+ return (
+  <section
+    id="hero"
+    style={{
+      position: 'relative',
+      minHeight: '100vh',
+      overflow: 'hidden',
+      background: 'radial-gradient(circle at 50% 25%, #1a0d22 0%, #0a0610 50%, #030206 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    {/* Ballpit background */}
+    <div style={{ position: 'absolute', inset: 0 }}>
+      <Ballpit
+        count={150}
+        gravity={0.2}
+        friction={1}
+        wallBounce={1}
+        followCursor={false}
+        colors={[0xf5e4c2, 0xe8c87c, 0xd4a060, 0xf0d8b4, 0xd0907a, 0xfaf0e0]}
+        minSize={0.3}
+        maxSize={0.9}
+      />
+    </div>
+
+    {/* Central luxury glow */}
+    <div
+      style={{
+        position: 'absolute',
+        top: '35%',
+        left: '50%',
+        transform: 'translate(-50%,-50%)',
+        width: 900,
+        height: 500,
+        pointerEvents: 'none',
+        background:
+          'radial-gradient(circle, rgba(240,210,155,0.45), rgba(200,140,100,0.18) 50%, transparent 72%)',
+        filter: 'blur(90px)',
+      }}
+    />
+
+    {/* Main overlay (soft vignette) */}
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        background: `
+          radial-gradient(
+            ellipse 80% 70% at 50% 40%,
+            rgba(43, 95, 236, 0.22) 0%,
+            rgba(66, 16, 202, 0.25) 55%,
+            rgba(26, 3, 88, 0.82) 100%
+          )
+        `,
+      }}
+    />
+
+    {/* Light on balls */}
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 240,
+        
+        pointerEvents: 'none',
+        background: `
+          radial-gradient(
+            ellipse at center bottom,
+            rgba(243, 242, 241, 0.5) 0%,
+            rgba(220,170,100,0.22) 40%,
+            transparent 70%
+          )
+        `,
+      }}
+    />
+
+    {/* Content */}
+    <div
       style={{
         position: 'relative',
-        minHeight: '100vh',
-        overflow: 'hidden',
-        background: '#151515',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        zIndex: 1,
+        textAlign: 'center',
+        padding: '0 24px',
+        maxWidth: '100%',
+        margin: '0 auto',
       }}
     >
-      {/* Ballpit background — full canvas, mouse interaction preserved */}
-      <div style={{ position: 'absolute', inset: 0 }}>
-        <Ballpit
-          count={100}
-          gravity={0.7}
-          friction={1}
-          wallBounce={1}
-          followCursor={false}
-          colors={[0xc9a96e, 0xe8d5b0, 0xd4a854, 0xa07838, 0xf0e0c0, 0xb8904e]}
-          minSize={0.3}
-          maxSize={0.9}
-        />
-      </div>
-
-      {/* Warm overlay — keeps text readable, pointer-events none so mouse reaches canvas */}
-      <div
+      {/* Payoff */}
+      <motion.p
+        initial={{ opacity: 0, y: 12 }}
+        animate={ready ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6 }}
         style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          background: 'rgba(14,12,10,0.62)',
+          fontSize: 14,
+          fontWeight: 700,
+          textTransform: 'uppercase',
+          color: '#d4aa6e',
+          marginBottom: 28,
         }}
-      />
-      {/* Extra center softening — cream warmth over balls */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          background:
-            'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(246, 174, 18, 0.04) 0%, transparent 70%)',
-        }}
-      />
+        className="font-mono"
+      >
+        La piattaforma per inviti digitali da matrimonio
+      </motion.p>
 
-      {/* Content */}
-      <div
+      {/* Title */}
+      <motion.h1
+        initial={{ opacity: 0, y: 28 }}
+        animate={ready ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, delay: 0.1 }}
+        className="font-display titlehero"
         style={{
-          position: 'relative',
-          zIndex: 1,
-          textAlign: 'center',
-          padding: '0 24px',
-          maxWidth: '100%',
-          margin: '0 auto',
+          fontSize: 'clamp(2rem, 10vw, 5rem)',
+          fontWeight: 600,
+          color: '#faf6f0',
+          lineHeight: 1.0,
+          marginBottom: 24,
+          
         }}
       >
-        {/* Payoff small */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={ready ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          style={{
-            fontSize: 11,
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            color: '#c9a96e',
-            marginBottom: 28,
-          }}
-          className="font-mono"
-        >
-          La piattaforma per inviti digitali da matrimonio
-        </motion.p>
-
-        {/* Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 28 }}
-          animate={ready ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="font-display titlehero"
-          style={{
-            fontSize: 'clamp(2rem, 10vw, 5rem)',
-            fontWeight: 600,
-            color: '#f5f0e8',
-            lineHeight: 1.0,
-            marginBottom: 24,
-          }}
-          
-        >
-          <GradienText>
-          Il giorno più bello
-          <br />
-          <span className="text-gradient-gold" style={{ fontStyle: 'italic' }}>
+        Il giorno più bello
+        <br />
+        <GradienText colors={['#faf6f0', '#f79adb', '#cf8300', ]}>
+          <span style={{ fontStyle: 'italic' }}>
             merita un invito perfetto.
           </span>
-          </GradienText>
-        </motion.h1>
+        </GradienText>
+      </motion.h1>
 
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={ready ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.25 }}
-          style={{
-            fontSize: 17,
-            lineHeight: 1.75,
-            color: '#fff',
-            maxWidth: 520,
-            margin: '0 auto 48px',
-          }}
-        >
-          Crea in pochi minuti un invito digitale elegante con RSVP integrato,
-          gestione ospiti e un link unico da condividere ovunque.
-        </motion.p>
-
-        {/* Avatar circles + social proof */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={ready ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 16,
-            marginBottom: 44,
-            flexWrap: 'wrap',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {people.map((p, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ y: -10, scale: 1.15, zIndex: 10 }}
-                transition={{ type: 'spring', stiffness: 500, damping: 22 }}
-                style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: '2px solid rgba(201,169,110,0.5)',
-                  marginLeft: i > 0 ? -12 : 0,
-                  position: 'relative',
-                  zIndex: people.length - i,
-                  boxShadow: '0 0 0 2px #0e0c0a',
-                  cursor: 'pointer',
-                  flexShrink: 0,
-                }}
-              >
-                <img
-                  src={p.avatar}
-                  alt={p.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                  loading="lazy"
-                />
-              </motion.div>
-            ))}
-          </div>
-          <p style={{ fontSize: 13, color: '#fff', textAlign: 'left' }}>
-            <span style={{ color: '#f5f0e8', fontWeight: 600 }}>50+ coppie</span> hanno già
-            <br />
-            scelto inviti.studio
-          </p>
-        </motion.div>
-
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={ready ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.55 }}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 14,
-            flexWrap: 'wrap',
-          }}
-        >
-          <button
-            onClick={() =>
-              document.querySelector('#come-funziona')?.scrollIntoView({ behavior: 'smooth' })
-            }
-            style={{
-              borderRadius: 9999,
-              background: 'transparent',
-              color: '#fffff0e8',
-              padding: '13px 32px',
-              fontSize: 15,
-              fontWeight: 500,
-              border: '1px solid #fffff0e8',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = '#5a5248'
-              e.currentTarget.style.color = '#f5f0e8'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = '#2e2820'
-              e.currentTarget.style.color = '#9a8e83'
-            }}
-          >
-            Scopri di più
-          </button>
-
-          <button
-            onClick={() =>
-              document.querySelector('#contatti')?.scrollIntoView({ behavior: 'smooth' })
-            }
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              borderRadius: 9999,
-              background: '#c9a96e',
-              color: '#0e0c0a',
-              padding: '13px 32px',
-              fontSize: 15,
-              fontWeight: 700,
-              border: 'none',
-              cursor: 'pointer',
-              boxShadow: '0 4px 28px rgba(201,169,110,0.35)',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#e8d5b0'
-              e.currentTarget.style.boxShadow = '0 4px 36px rgba(201,169,110,0.5)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#c9a96e'
-              e.currentTarget.style.boxShadow = '0 4px 28px rgba(201,169,110,0.35)'
-            }}
-          >
-            Inizia subito il tuo invito <ArrowRight size={16} />
-          </button>
-        </motion.div>
-      </div>
-
-      {/* Bottom fade */}
-      <div
+      {/* Subtitle */}
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={ready ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, delay: 0.25 }}
         style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 120,
-          pointerEvents: 'none',
-          background: 'linear-gradient(to bottom, transparent, #0e0c0a)',
+          fontSize: 18,
+          lineHeight: 1.75,
+          color: 'rgba(250,246,240,0.78)',
+          maxWidth: '70%',
+          margin: '0 auto 48px',
+          fontWeight: 300,
         }}
-      />
-    </section>
-  )
+      >
+        Crea in pochi minuti un invito digitale elegante con RSVP integrato,
+        gestione ospiti e un link unico da condividere ovunque.
+      </motion.p>
+
+      {/* Social proof */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={ready ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 16,
+          marginBottom: 44,
+          flexWrap: 'wrap',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {people.map((p, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -10, scale: 1.15, zIndex: 10 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 22 }}
+              style={{
+                width: 42,
+                height: 42,
+                borderRadius: '50%',
+                overflow: 'hidden',
+                border: '2px solid rgba(212,175,115,0.65)',
+                marginLeft: i > 0 ? -12 : 0,
+                position: 'relative',
+                zIndex: people.length - i,
+               
+                cursor: 'pointer',
+                flexShrink: 0,
+              }}
+            >
+              <img
+                src={p.avatar}
+                alt={p.name}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+                loading="lazy"
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        <p style={{ fontSize: 13, color: '#fff', textAlign: 'left' }}>
+          <span style={{ color: '#f5f0e8', fontWeight: 600 }}>50+ coppie</span>{' '}
+          hanno già
+          <br />
+          scelto inviti.studio
+        </p>
+      </motion.div>
+
+      {/* CTA */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={ready ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.55 }}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 14,
+          flexWrap: 'wrap',
+        }}
+      >
+        <button
+          onClick={() =>
+            document
+              .querySelector('#come-funziona')
+              ?.scrollIntoView({ behavior: 'smooth' })
+          }
+          style={{
+            borderRadius: 9999,
+            background: 'transparent',
+            color: '#f5f0e8',
+            padding: '13px 32px',
+            fontSize: 15,
+            fontWeight: 500,
+            border: '1px solid #f5f0e8',
+            cursor: 'pointer',
+              backdropFilter: 'blur(10px)',
+          }}
+        >
+          Scopri di più
+        </button>
+
+        <button
+          onClick={() =>
+            document
+              .querySelector('#contatti')
+              ?.scrollIntoView({ behavior: 'smooth' })
+          }
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            borderRadius: 9999,
+            background: '#d1c4ad',
+            color: '#0e0c0a',
+            padding: '13px 32px',
+            fontSize: 15,
+            fontWeight: 700,
+            border: 'none',
+            cursor: 'pointer',
+            
+            
+          }}
+        >
+          Inizia subito il tuo invito <ArrowRight size={16} />
+        </button>
+      </motion.div>
+    </div>
+
+    {/* Bottom fade */}
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 120,
+        pointerEvents: 'none',
+        background: 'linear-gradient(to bottom, transparent, #0e0c0a)',
+      }}
+    />
+  </section>
+)
 }

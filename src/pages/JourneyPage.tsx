@@ -35,6 +35,25 @@ function buildPath(): string {
 
 const PATH_D = buildPath()
 
+// ─── Mobile SVG path ───────────────────────────────────────────────────────────
+function buildMobilePath(w: number, h: number): string {
+  const cx = w / 2, lx = w * 0.18, rx = w * 0.82
+  const heroH = h * 0.15
+  const secH = (h * 0.78) / 4
+  const dirs = [lx, rx, lx, rx]
+  let d = `M ${cx},0 L ${cx},${heroH}`
+  dirs.forEach((ax, i) => {
+    const y0 = heroH + i * secH
+    const ym = y0 + secH / 2
+    const y1 = y0 + secH
+    const ctrl = secH * 0.3
+    d += ` C ${cx},${y0 + ctrl} ${ax},${y0 + ctrl} ${ax},${ym}`
+    d += ` C ${ax},${y1 - ctrl} ${cx},${y1 - ctrl} ${cx},${y1}`
+  })
+  d += ` L ${cx},${h}`
+  return d
+}
+
 // ─── Responsive hook ───────────────────────────────────────────────────────────
 function useIsDesktop() {
   const [v, setV] = useState(
@@ -358,46 +377,33 @@ function MobileSection({ data, isLast }: { data: Section; isLast: boolean }) {
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7 }}
-      viewport={{ once: true, amount: 0.15 }}
-      style={{ position: 'relative', paddingLeft: 36, marginBottom: isLast ? 0 : 56 }}
+      viewport={{ once: true, amount: 0.12 }}
+      style={{ position: 'relative', marginBottom: isLast ? 0 : 64, textAlign: 'center' }}
     >
-      {/* Dot */}
-      <motion.div
-        initial={{ scale: 0 }}
-        whileInView={{ scale: 1 }}
-        transition={{ type: 'spring', stiffness: 280, delay: 0.1 }}
-        viewport={{ once: true }}
-        style={{
-          position: 'absolute', left: 0, top: 12,
-          width: 16, height: 16, borderRadius: '50%',
-          background: '#c9a96e', border: '3px solid #faf7f2',
-          boxShadow: '0 0 0 4px rgba(201,169,110,0.18)',
-          transform: 'translateX(-50%)',
-        }}
-      />
       {/* Photo */}
-      <div style={{ borderRadius: 14, overflow: 'hidden', aspectRatio: '16/9', marginBottom: 18, boxShadow: '0 8px 28px rgba(30,26,20,0.14)', border: '1px solid rgba(201,169,110,0.1)' }}>
+      <div style={{ borderRadius: 16, overflow: 'hidden', aspectRatio: '4/3', marginBottom: 20, boxShadow: '0 8px 28px rgba(30,26,20,0.14)', border: '1px solid rgba(201,169,110,0.1)' }}>
         <img src={data.img} alt={data.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} loading="lazy" />
       </div>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 10, borderRadius: 9999, border: '1px solid rgba(201,169,110,0.35)', background: 'rgba(201,169,110,0.07)', padding: '4px 12px' }}>
+      {/* Badge */}
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 12, borderRadius: 9999, border: '1px solid rgba(201,169,110,0.35)', background: 'rgba(201,169,110,0.07)', padding: '5px 14px' }}>
         <IconComp size={9} color="#a07838" />
         <span style={{ fontSize: 9, fontWeight: 700, color: '#a07838', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
           {data.badge}
         </span>
       </div>
-      <h3 className="font-display" style={{ fontSize: '1.65rem', fontWeight: 600, color: '#1e1a14', lineHeight: 1.12, marginBottom: 8, whiteSpace: 'pre-line' }}>
+      <h3 className="font-display" style={{ fontSize: '1.75rem', fontWeight: 600, color: '#1e1a14', lineHeight: 1.1, marginBottom: 8, whiteSpace: 'pre-line' }}>
         {data.title}
       </h3>
-      <p style={{ fontSize: 11, fontWeight: 600, color: '#c9a96e', letterSpacing: '0.08em', marginBottom: 10 }}>
+      <p style={{ fontSize: 11, fontWeight: 600, color: '#c9a96e', letterSpacing: '0.1em', marginBottom: 12 }}>
         {data.subtitle}
       </p>
-      <p style={{ fontSize: 13, color: '#7a6e65', lineHeight: 1.8, whiteSpace: 'pre-line' }}>
+      <p style={{ fontSize: 13, color: '#7a6e65', lineHeight: 1.85, whiteSpace: 'pre-line' }}>
         {data.desc}
       </p>
       {data.isRSVP && (
         <a href="#rsvp" style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 18,
-          borderRadius: 9999, background: '#c9a96e', padding: '12px 28px',
+          display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 20,
+          borderRadius: 9999, background: '#c9a96e', padding: '13px 30px',
           fontSize: 13, fontWeight: 700, color: '#fff', textDecoration: 'none',
           boxShadow: '0 4px 18px rgba(201,169,110,0.4)',
         }}>
@@ -414,26 +420,95 @@ export default function JourneyPage() {
   const pathProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20, restDelta: 0.001 })
   const isDesktop = useIsDesktop()
 
+  const mobileContainerRef = useRef<HTMLDivElement>(null)
+  const [mobileDims, setMobileDims] = useState({ w: 390, h: 2800 })
+
   useEffect(() => { window.scrollTo(0, 0) }, [])
+
+  useEffect(() => {
+    if (isDesktop) return
+    const el = mobileContainerRef.current
+    if (!el) return
+    const update = () => setMobileDims({ w: el.clientWidth, h: el.scrollHeight })
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    update()
+    return () => ro.disconnect()
+  }, [isDesktop])
 
   // ── MOBILE ────────────────────────────────────────────────────────────────────
   if (!isDesktop) {
+    const { w: mw, h: mh } = mobileDims
+    const mobPathD = buildMobilePath(mw, mh)
+    const heroH = mh * 0.15
+    const secH = (mh * 0.78) / 4
+    const mobDirs = [mw * 0.18, mw * 0.82, mw * 0.18, mw * 0.82]
+
     return (
       <div style={{ background: '#faf7f2', minHeight: '100vh' }}>
         <Navbar />
-        <div style={{ position: 'relative', padding: '120px 28px 80px' }}>
-          {/* Vertical gold line */}
-          <div style={{
-            position: 'absolute', left: 28, top: 80, bottom: 60, width: 1,
-            background: 'linear-gradient(to bottom, transparent 0%, rgba(201,169,110,0.35) 8%, rgba(201,169,110,0.35) 92%, transparent 100%)',
-          }} />
+        <div ref={mobileContainerRef} style={{ position: 'relative', padding: '120px 24px 80px' }}>
+
+          {/* ── Animated SVG path (same as desktop) ── */}
+          <svg
+            width={mw} height={mh}
+            viewBox={`0 0 ${mw} ${mh}`}
+            style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none', zIndex: 1 }}
+          >
+            <defs>
+              <filter id="mob-glow" x="-50%" y="-5%" width="200%" height="110%">
+                <feGaussianBlur stdDeviation="7" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            {/* Ambient wide */}
+            <path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.05)" strokeWidth={28} strokeLinecap="round" />
+            {/* Ghost dashed */}
+            <path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.12)" strokeWidth={1} strokeLinecap="round" strokeDasharray="3 10" />
+            {/* Ghost solid thin */}
+            <path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.08)" strokeWidth={3} strokeLinecap="round" />
+            {/* Animated outer gold band */}
+            <motion.path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.2)" strokeWidth={8} strokeLinecap="round" style={{ pathLength: pathProgress }} />
+            {/* Animated mid */}
+            <motion.path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.35)" strokeWidth={3} strokeLinecap="round" style={{ pathLength: pathProgress }} />
+            {/* Animated bright inner */}
+            <motion.path d={mobPathD} fill="none" stroke="#c9a96e" strokeWidth={1.5} strokeLinecap="round" filter="url(#mob-glow)" style={{ pathLength: pathProgress }} />
+          </svg>
+
+          {/* ── Apex dots ── */}
+          {mobDirs.map((ax, i) => {
+            const ym = heroH + i * secH + secH / 2
+            return (
+              <motion.div
+                key={i}
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true, amount: 0.95 }}
+                transition={{ type: 'spring', stiffness: 250, delay: 0.05 }}
+                style={{ position: 'absolute', left: ax, top: ym, transform: 'translate(-50%, -50%)', zIndex: 4 }}
+              >
+                <div style={{
+                  width: 40, height: 40, borderRadius: '50%',
+                  background: 'rgba(201,169,110,0.06)',
+                  border: '1px solid rgba(201,169,110,0.35)',
+                  boxShadow: '0 0 0 8px rgba(201,169,110,0.04)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <div style={{ width: 11, height: 11, borderRadius: '50%', background: '#c9a96e', boxShadow: '0 0 10px rgba(201,169,110,0.65)' }} />
+                </div>
+              </motion.div>
+            )
+          })}
 
           {/* Hero mobile */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            style={{ textAlign: 'center', marginBottom: 72, paddingBottom: 48 }}
+            style={{ textAlign: 'center', marginBottom: 72, paddingBottom: 48, position: 'relative', zIndex: 2 }}
           >
             <p style={{ fontSize: 9, letterSpacing: '0.3em', color: '#a07838', fontWeight: 700, textTransform: 'uppercase', marginBottom: 20 }}>
               14 Giugno 2026
@@ -449,10 +524,17 @@ export default function JourneyPage() {
             <p style={{ fontSize: 12, color: '#7a6e65', letterSpacing: '0.1em', marginTop: 20, lineHeight: 1.7 }}>
               Vi aspettiamo per celebrare con noi<br />il giorno più bello della nostra vita
             </p>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
+              style={{ marginTop: 36, color: 'rgba(201,169,110,0.6)', fontSize: 20 }}
+            >
+              ↓
+            </motion.div>
           </motion.div>
 
           {/* Sections */}
-          <div style={{ paddingLeft: 16 }}>
+          <div style={{ position: 'relative', zIndex: 2 }}>
             {sections.map((sec, i) => (
               <MobileSection key={i} data={sec} isLast={i === sections.length - 1} />
             ))}
@@ -463,7 +545,7 @@ export default function JourneyPage() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            style={{ textAlign: 'center', paddingTop: 56, marginTop: 40 }}
+            style={{ textAlign: 'center', paddingTop: 56, marginTop: 40, position: 'relative', zIndex: 2 }}
           >
             <GoldDivider />
             <p className="font-display" style={{ fontSize: '1.4rem', color: '#1e1a14', marginTop: 28, marginBottom: 6 }}>Con amore,</p>

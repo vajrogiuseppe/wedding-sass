@@ -24,7 +24,7 @@ export function BallpitSection() {
     friction={0.998}
     wallBounce={1}
     followCursor={false}
-    colors={["#eccd04","#dddfdd","#858585"]}
+    colors={[0xeccd04, 0xdddfdd, 0x858585]}
   />
 </div>
       </Suspense>

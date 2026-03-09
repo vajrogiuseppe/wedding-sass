@@ -25,7 +25,7 @@ const statusConfig = {
 }
 
 function StatCard({ value, label, icon: Icon, color, bg, inView }: {
-  value: number; label: string; icon: React.ElementType; color: string; bg: string; inView: boolean
+  value: number; label: string; icon: React.ComponentType<{ size?: number; className?: string }>; color: string; bg: string; inView: boolean
 }) {
   const count = useCountUp(value, 1800, inView)
   return (

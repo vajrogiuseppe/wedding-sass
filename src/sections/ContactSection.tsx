@@ -278,7 +278,6 @@ export function ContactSection() {
       name: form.name,
       email: form.email,
       phone: form.phone,
-      service: form.service,
       message: form.message,
     })
     setLoading(false)

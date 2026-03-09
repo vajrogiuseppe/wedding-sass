@@ -38,6 +38,7 @@ export function Navbar() {
           justifyContent: 'center',
           pointerEvents: 'none',
           padding: '0 0 20px',
+            backdropFilter: 'blur(10px)',
         }}
       >
         <div
@@ -46,13 +47,14 @@ export function Navbar() {
             display: 'flex',
             alignItems: 'center',
             gap: 10,
-            background: 'rgba(20,17,12,0.95)',
+            background: 'rgba(20, 17, 12, 0)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
             borderRadius: 9999,
             border: '1px solid #2e2820',
             padding: '10px 16px',
             boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+              backdropFilter: 'blur(10px)',
           }}
         >
           {/* Logo */}
@@ -63,7 +65,7 @@ export function Navbar() {
               fontSize: 16,
               fontStyle: 'italic',
               fontWeight: 600,
-              color: '#f5f0e8',
+              color: '#080807',
               textDecoration: 'none',
             }}
           >

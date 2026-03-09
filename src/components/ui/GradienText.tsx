@@ -11,11 +11,20 @@ export default function GradientText({
   direction = 'horizontal',
   pauseOnHover = false,
   yoyo = true
+}: {
+  children: React.ReactNode
+  className?: string
+  colors?: string[]
+  animationSpeed?: number
+  showBorder?: boolean
+  direction?: 'horizontal' | 'vertical' | 'diagonal'
+  pauseOnHover?: boolean
+  yoyo?: boolean
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const progress = useMotionValue(0);
   const elapsedRef = useRef(0);
-  const lastTimeRef = useRef(null);
+  const lastTimeRef = useRef<number | null>(null);
 
   const animationDuration = animationSpeed * 1000;
 

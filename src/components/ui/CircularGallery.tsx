@@ -311,7 +311,7 @@ class App {
 
   onTouchDown(e: any) {
     this.isDown = true
-    this.scroll.position = this.scroll.current
+    ;(this.scroll as any).position = this.scroll.current
     this.start = e.touches ? e.touches[0].clientX : e.clientX
   }
 

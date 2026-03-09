@@ -124,7 +124,7 @@ function ShowcaseCard({ item }: { item: Item }) {
           background: 'rgba(255,252,248,0.9)', backdropFilter: 'blur(6px)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          {item.media.type === 'video' ? <Play size={12} color="#a07838" /> : <Image size={12} color="#a07838" />}
+          {(item.media.type as string) === 'video' ? <Play size={12} color="#a07838" /> : <Image size={12} color="#a07838" />}
         </div>
 
         {/* Bottom overlay */}

@@ -8,7 +8,6 @@ import { HowItWorksSection } from '@/sections/HowItWorksSection'
 import { FeaturedSection } from '@/sections/FeaturedSection'
 import { FeaturesSection } from '@/sections/FeaturesSection'
 import { InvitationShowcaseSection } from '@/sections/InvitationShowcaseSection'
-import { VideoShowcaseSection } from '@/sections/VideoShowcaseSection'
 import { GallerySection } from '@/sections/GallerySection'
 import { PricingSection } from '@/sections/PricingSection'
 import { FAQSection } from '@/sections/FAQSection'
@@ -36,19 +35,20 @@ function LandingPage() {
         <ScrollVelocity
           texts={['inviti digitali eleganti', 'RSVP integrato']}
           velocity={90}
-          style={{ padding: '50px 0', background: '#1e1a14', fontSize: 22, fontWeight: 700, color: '#c9a96e', letterSpacing: '0.05em' }}
+          parallaxStyle={{ padding: '50px 0', background: '#1e1a14' }}
+          scrollerStyle={{ fontSize: 22, fontWeight: 700, color: '#c9a96e', letterSpacing: '0.05em' }}
         />
         {/* cream #faf7f2 */}
         <InvitationShowcaseSection />
-        {/* dark — TikTok video content */}
-        <VideoShowcaseSection />
+
         {/* cream #f5f0e8 */}
         <GallerySection />
         {/* ScrollVelocity divider */}
         <ScrollVelocity
           texts={['50+ coppie felici', 'link pronto in 48h']}
           velocity={100}
-          style={{ padding: '50px 0', background: '#1e1a14', fontSize: 22, fontWeight: 700, color: '#c9a96e', letterSpacing: '0.05em' }}
+          parallaxStyle={{ padding: '50px 0', background: '#1e1a14' }}
+          scrollerStyle={{ fontSize: 22, fontWeight: 700, color: '#c9a96e', letterSpacing: '0.05em' }}
         />
         {/* cream #faf7f2 */}
         <PricingSection />
@@ -64,7 +64,7 @@ function LandingPage() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/demo">
       <Toaster position="bottom-right" richColors theme="dark" />
       <Routes>
         <Route path="/" element={<LandingPage />} />

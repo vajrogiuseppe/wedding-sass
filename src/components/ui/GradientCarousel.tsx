@@ -56,7 +56,7 @@ export function GradientCarousel({ items, autoPlayInterval = 4500 }: GradientCar
   // refs — no re-render side effects
   const activeRef = useRef(0)
   const colorsRef = useRef<Map<number, [number, number, number]>>(new Map())
-  const autoRef = useRef<ReturnType<typeof setTimeout>>()
+  const autoRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const n = items.length
 
