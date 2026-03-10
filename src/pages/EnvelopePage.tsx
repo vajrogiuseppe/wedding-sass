@@ -7,7 +7,7 @@ import LightRays from '@/components/ui/LightRays'
 // ─── Personalizzazione ────────────────────────────────────────────────────────
 const SEAL_BG       = '#c9a96e'
 const SEAL_ACCENT   = '#a07838'
-const SEAL_INITIALS = 'S & M'
+const SEAL_INITIALS = 'G & S'
 
 const WEDDING = {
   date:     'Sabato 14 Giugno 2026',
@@ -64,7 +64,7 @@ const LETTER_CARDS = [
 ]
 
 // ─── Drag helper ─────────────────────────────────────────────────────────────
-function makeDraggable(el: HTMLElement) {
+function makeDraggable(el: HTMLElement, horizontalOnly = false) {
   el.style.cursor = 'grab'
   let ox = 0, oy = 0
 
@@ -89,7 +89,9 @@ function makeDraggable(el: HTMLElement) {
     const move = (ev: MouseEvent | TouchEvent) => {
       const p = ev instanceof TouchEvent ? ev.touches[0] : ev as MouseEvent
       el.style.left = `${p.clientX - ox}px`
-      el.style.top  = `${p.clientY - oy}px`
+      if (!horizontalOnly) {
+        el.style.top = `${p.clientY - oy}px`
+      }
     }
     const up = () => {
       el.style.cursor = 'grab'
@@ -123,12 +125,14 @@ export default function EnvelopePage() {
   const envelopeRef = useRef<HTMLDivElement>(null)
   const letterRefs  = useRef<(HTMLDivElement | null)[]>([])
 
-  // Center letters horizontally + place them inside envelope on mount
+  // Center letters horizontally + place them inside envelope on mount (desktop only)
   useEffect(() => {
     function init() {
       const section  = sectionRef.current
       const envelope = envelopeRef.current
       if (!section || !envelope) return
+      const isMobile = window.innerWidth < 650
+      if (isMobile) return // CSS handles positioning on mobile
       const cx = section.offsetWidth / 2
       letterRefs.current.forEach((el) => {
         if (!el) return
@@ -148,6 +152,7 @@ export default function EnvelopePage() {
 
     const envelope = envelopeRef.current
     if (!envelope) return
+    const isMobile = window.innerWidth < 650
     const riseAmount = envelope.offsetTop
 
     // Stagger each letter with slight horizontal offset + delay
@@ -157,12 +162,21 @@ export default function EnvelopePage() {
       const xOffset = (i - 1) * 14 // slight fan: -14, 0, +14 px
 
       setTimeout(() => {
-        el.style.zIndex    = `${200 - i}`
-        el.style.transition = `transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)`
-        el.style.transform  = `translateX(${xOffset}px) translateY(-${riseAmount}px)`
+        if (isMobile) {
+          el.style.zIndex    = '300'
+          el.style.transform = 'none'
+          void el.offsetWidth // forza reflow così il browser registra la posizione attuale
+          el.style.transition = 'left 0.85s cubic-bezier(0.22, 1, 0.36, 1), top 0.85s cubic-bezier(0.22, 1, 0.36, 1)'
+          el.style.left = '20%'
+          el.style.top  = '30%'
+        } else {
+          el.style.zIndex    = `${200 - i}`
+          el.style.transition = `transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)`
+          el.style.transform  = `translateX(${xOffset}px) translateY(-${riseAmount}px)`
+        }
 
         // Enable drag after letter finishes rising
-        setTimeout(() => makeDraggable(el), 900)
+        setTimeout(() => makeDraggable(el, isMobile), 900)
       }, delay)
     })
   }
@@ -278,13 +292,17 @@ export default function EnvelopePage() {
           cursor: default;
           /* mobile */
           width: min(260px, calc(100vw - 48px));
-          height: calc(min(260px, calc(100vw - 48px)) * 0.85);
+          height: calc(min(260px, calc(100vw - 48px)) * 0.7);
+          left: 20%;
+          top: 37%;
         }
         @media (min-width: 650px) {
           .ep-letter {
             width: 480px;
             height: calc(400px - 1.5rem - 10px);
             padding: 2rem 1.8rem 1.5rem;
+            left: unset;
+            top: unset;
           }
         }
 
@@ -428,6 +446,10 @@ export default function EnvelopePage() {
 
         /* ── Mobile touch friendliness ───────────────────────────────── */
         @media (max-width: 649px) {
+          .cssletter {
+            align-items: center;
+            justify-content: center;
+          }
           .ep-letter { padding: 1.2rem 0.9rem 0.9rem; }
           .lc-names  { font-size: 1.4rem; }
         }

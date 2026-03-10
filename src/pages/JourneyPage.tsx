@@ -417,6 +417,8 @@ function MobileSection({ data, isLast }: { data: Section; isLast: boolean }) {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 export default function JourneyPage() {
   const { scrollYProgress } = useScroll()
+  // Desktop: spring morbida per un effetto fluido
+  // Mobile: scroll diretto senza spring (evita lag e scatti su touch)
   const pathProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20, restDelta: 0.001 })
   const isDesktop = useIsDesktop()
 
@@ -429,10 +431,15 @@ export default function JourneyPage() {
     if (isDesktop) return
     const el = mobileContainerRef.current
     if (!el) return
-    const update = () => setMobileDims({ w: el.clientWidth, h: el.scrollHeight })
+    const update = () => {
+      // offsetWidth/offsetHeight includono padding, clientWidth no → usiamo offsetWidth per la larghezza reale
+      // Per l'altezza usiamo offsetHeight (l'altezza occupata dal container nel flow)
+      setMobileDims({ w: el.offsetWidth, h: el.offsetHeight })
+    }
     const ro = new ResizeObserver(update)
     ro.observe(el)
-    update()
+    // Aspetta il prossimo frame per avere layout completo
+    requestAnimationFrame(update)
     return () => ro.disconnect()
   }, [isDesktop])
 
@@ -449,33 +456,30 @@ export default function JourneyPage() {
         <Navbar />
         <div ref={mobileContainerRef} style={{ position: 'relative', padding: '120px 24px 80px' }}>
 
-          {/* ── Animated SVG path (same as desktop) ── */}
+          {/* ── Animated SVG path ── */}
           <svg
             width={mw} height={mh}
             viewBox={`0 0 ${mw} ${mh}`}
+            preserveAspectRatio="none"
             style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none', zIndex: 1 }}
           >
             <defs>
               <filter id="mob-glow" x="-50%" y="-5%" width="200%" height="110%">
-                <feGaussianBlur stdDeviation="7" result="blur" />
+                <feGaussianBlur stdDeviation="5" result="blur" />
                 <feMerge>
                   <feMergeNode in="blur" />
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
             </defs>
-            {/* Ambient wide */}
-            <path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.05)" strokeWidth={28} strokeLinecap="round" />
+            {/* Ambient ghost */}
+            <path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.07)" strokeWidth={18} strokeLinecap="round" />
             {/* Ghost dashed */}
-            <path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.12)" strokeWidth={1} strokeLinecap="round" strokeDasharray="3 10" />
-            {/* Ghost solid thin */}
-            <path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.08)" strokeWidth={3} strokeLinecap="round" />
-            {/* Animated outer gold band */}
-            <motion.path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.2)" strokeWidth={8} strokeLinecap="round" style={{ pathLength: pathProgress }} />
-            {/* Animated mid */}
-            <motion.path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.35)" strokeWidth={3} strokeLinecap="round" style={{ pathLength: pathProgress }} />
+            <path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.13)" strokeWidth={1} strokeLinecap="round" strokeDasharray="3 10" />
+            {/* Animated gold band — usa scrollYProgress diretto, senza spring */}
+            <motion.path d={mobPathD} fill="none" stroke="rgba(201,169,110,0.28)" strokeWidth={5} strokeLinecap="round" style={{ pathLength: scrollYProgress }} />
             {/* Animated bright inner */}
-            <motion.path d={mobPathD} fill="none" stroke="#c9a96e" strokeWidth={1.5} strokeLinecap="round" filter="url(#mob-glow)" style={{ pathLength: pathProgress }} />
+            <motion.path d={mobPathD} fill="none" stroke="#c9a96e" strokeWidth={1.5} strokeLinecap="round" filter="url(#mob-glow)" style={{ pathLength: scrollYProgress }} />
           </svg>
 
           {/* ── Apex dots ── */}

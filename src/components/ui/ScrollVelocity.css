@@ -18,6 +18,17 @@
   flex-shrink: 0;
 }
 
+.scroller span.custom-scroll-text {
+  display: inline-block;
+  font-family: 'Fraunces', serif !important;
+  font-style: italic;
+  background: linear-gradient(90deg, #faf6f0 0%, #f79adb 50%, #cf8300 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
 @media (min-width: 768px) {
   .scroller {
     font-size: 5rem;

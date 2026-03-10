@@ -58,7 +58,7 @@ export function PricingSection() {
     document.querySelector('#contatti')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <section id="prezzi" style={{ padding: '100px 0', background: '#faf7f2' }}>
+    <section id="prezzi" style={{ padding: '100px 0', background: '#0e0c0a', position: 'relative' }}>
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -91,7 +91,7 @@ export function PricingSection() {
             style={{
               fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
               fontWeight: 600,
-              color: '#1e1a14',
+              color: '#f5f0e8',
               lineHeight: 1.1,
               marginBottom: 16,
             }}
@@ -105,7 +105,7 @@ export function PricingSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            style={{ fontSize: 15, color: '#7a6e65', maxWidth: 420, margin: '0 auto' }}
+            style={{ fontSize: 15, color: 'rgba(245,240,232,0.5)', maxWidth: 420, margin: '0 auto' }}
           >
             Pagamento una tantum, nessun abbonamento. Il vostro invito resta online fino al
             giorno del matrimonio.
@@ -125,13 +125,13 @@ export function PricingSection() {
                 position: 'relative',
                 borderRadius: 24,
                 padding: plan.featured ? '36px 32px' : '32px 28px',
-                background: plan.featured ? '#ffffff' : '#faf7f2',
+                background: plan.featured ? 'rgba(255,252,248,0.06)' : 'rgba(255,255,255,0.03)',
                 border: plan.featured
                   ? '1.5px solid rgba(201,169,110,0.5)'
-                  : '1px solid #e0d8cc',
+                  : '1px solid rgba(255,255,255,0.08)',
                 boxShadow: plan.featured
-                  ? '0 12px 40px rgba(30,26,20,0.12)'
-                  : '0 2px 8px rgba(30,26,20,0.05)',
+                  ? '0 12px 40px rgba(201,169,110,0.12)'
+                  : 'none',
                 transform: plan.featured ? 'scale(1.03)' : 'scale(1)',
               }}
             >
@@ -172,8 +172,8 @@ export function PricingSection() {
                     background: plan.featured
                       ? 'rgba(201,169,110,0.15)'
                       : 'rgba(255,255,255,0.04)',
-                    color: plan.featured ? '#c9a96e' : '#7a6e65',
-                    border: `1px solid ${plan.featured ? 'rgba(201,169,110,0.3)' : '#2e2820'}`,
+                    color: plan.featured ? '#c9a96e' : 'rgba(245,240,232,0.35)',
+                    border: `1px solid ${plan.featured ? 'rgba(201,169,110,0.3)' : 'rgba(255,255,255,0.1)'}`,
                   }}
                 >
                   {plan.badge}
@@ -187,15 +187,15 @@ export function PricingSection() {
                   style={{
                     fontSize: 52,
                     fontWeight: 600,
-                    color: plan.featured ? '#1e1a14' : '#b5a898',
+                    color: plan.featured ? '#f5f0e8' : 'rgba(245,240,232,0.35)',
                     lineHeight: 1,
                   }}
                 >
                   €{plan.price}
                 </span>
               </div>
-              <div style={{ fontSize: 12, color: '#5a5248', marginBottom: 14 }}>{plan.period}</div>
-              <p style={{ fontSize: 13, color: '#7a6e65', marginBottom: 24, lineHeight: 1.6 }}>
+              <div style={{ fontSize: 12, color: 'rgba(245,240,232,0.35)', marginBottom: 14 }}>{plan.period}</div>
+              <p style={{ fontSize: 13, color: 'rgba(245,240,232,0.5)', marginBottom: 24, lineHeight: 1.6 }}>
                 {plan.description}
               </p>
 
@@ -220,7 +220,7 @@ export function PricingSection() {
                     <span
                       style={{
                         fontSize: 13,
-                        color: plan.featured ? '#7a6f63' : '#b5a898',
+                        color: plan.featured ? 'rgba(245,240,232,0.65)' : 'rgba(245,240,232,0.35)',
                       }}
                     >
                       {feat}
@@ -238,11 +238,11 @@ export function PricingSection() {
                   padding: '12px 0',
                   fontSize: 14,
                   fontWeight: 600,
-                  border: plan.featured ? 'none' : '1px solid #e0d8cc',
+                  border: plan.featured ? 'none' : '1px solid rgba(255,255,255,0.12)',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   background: plan.featured ? '#c9a96e' : 'transparent',
-                  color: plan.featured ? '#ffffff' : '#b5a898',
+                  color: plan.featured ? '#0e0c0a' : 'rgba(245,240,232,0.45)',
                   fontFamily: 'inherit',
                 }}
                 onMouseEnter={(e) => {
@@ -257,8 +257,8 @@ export function PricingSection() {
                   if (plan.featured) {
                     e.currentTarget.style.background = '#c9a96e'
                   } else {
-                    e.currentTarget.style.borderColor = '#e0d8cc'
-                    e.currentTarget.style.color = '#b5a898'
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'
+                    e.currentTarget.style.color = 'rgba(245,240,232,0.45)'
                   }
                 }}
               >

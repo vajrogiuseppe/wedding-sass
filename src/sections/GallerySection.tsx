@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import GradienText from "@/components/ui/GradienText";
 
 interface Testimonial {
   name: string
@@ -175,7 +176,7 @@ export function GallerySection() {
   const col3 = testimonials.slice(6, 9)
 
   return (
-    <section id="testimonianze" style={{ padding: '100px 0', background: '#f5f0e8', overflow: 'hidden' }}>
+    <section id="testimonianze" style={{ padding: '100px 0', background: '#f5f0e8', overflow: 'hidden', position: 'relative' }}>
       {/* Header */}
       <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-16 text-center">
         <motion.span
@@ -212,7 +213,11 @@ export function GallerySection() {
             marginBottom: 16,
           }}
         >
-          Coppie che ci amano
+         <GradienText colors={["#faf6f0", "#f79adb", "#cf8300"]}>
+            <span style={{ fontStyle: "italic" }}>
+              merita un invito perfetto.
+            </span>
+          </GradienText>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 12 }}

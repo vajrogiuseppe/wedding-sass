@@ -45,22 +45,23 @@ function BubbleFAQ({ faq, index, open, onToggle }: {
           viewport={{ once: true }}
           transition={{ delay: index * 0.05 }}
           style={{
-            background: open ? '#c9a96e' : '#f5f0e8',
-            border: `1.5px solid ${open ? '#c9a96e' : '#e0d8cc'}`,
+            background: open ? '#c9a96e' : 'rgba(255,252,248,0.08)',
+            border: `1.5px solid ${open ? '#c9a96e' : 'rgba(255,255,255,0.14)'}`,
             borderRadius: '18px 18px 4px 18px',
             padding: '12px 18px',
             fontSize: 14,
             fontWeight: 600,
-            color: open ? '#ffffff' : '#1e1a14',
+            color: open ? '#0e0c0a' : '#f5f0e8',
             cursor: 'pointer',
             textAlign: 'left',
             maxWidth: 480,
             lineHeight: 1.5,
             fontFamily: 'inherit',
             transition: 'background 0.2s, color 0.2s, border-color 0.2s',
+            backdropFilter: 'blur(6px)',
             boxShadow: open
               ? '0 4px 20px rgba(201,169,110,0.3)'
-              : '0 2px 8px rgba(30,26,20,0.06)',
+              : '0 2px 8px rgba(0,0,0,0.2)',
           }}
         >
           {faq.q}
@@ -101,15 +102,16 @@ function BubbleFAQ({ faq, index, open, onToggle }: {
               </div>
               <div
                 style={{
-                  background: '#ffffff',
-                  border: '1px solid #e0d8cc',
+                  background: 'rgba(255,252,248,0.06)',
+                  border: '1px solid rgba(255,255,255,0.1)',
                   borderRadius: '4px 18px 18px 18px',
                   padding: '12px 18px',
                   fontSize: 14,
-                  color: '#7a6f63',
+                  color: 'rgba(245,240,232,0.65)',
                   lineHeight: 1.7,
                   maxWidth: 480,
-                  boxShadow: '0 2px 8px rgba(30,26,20,0.06)',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                  backdropFilter: 'blur(4px)',
                 }}
               >
                 {faq.a}
@@ -128,8 +130,8 @@ export function FAQSection() {
   const toggle = (i: number) => setOpen(open === i ? null : i)
 
   return (
-    <section id="faq" style={{ padding: '100px 0', background: '#faf7f2' }}>
-      <div className="mx-auto max-w-2xl px-6 lg:px-8">
+    <section id="faq" style={{ padding: '100px 0', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
+      <div className="mx-auto max-w-2xl px-6 lg:px-8" style={{ position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <div className="text-center mb-16">
           <motion.span
@@ -144,7 +146,7 @@ export function FAQSection() {
               padding: '6px 16px',
               fontSize: 11,
               fontWeight: 600,
-              color: '#a07838',
+              color: '#c9a96e',
               letterSpacing: '0.15em',
               textTransform: 'uppercase' as const,
               marginBottom: 16,
@@ -161,7 +163,7 @@ export function FAQSection() {
             style={{
               fontSize: 'clamp(2.2rem, 5vw, 3.2rem)',
               fontWeight: 600,
-              color: '#1e1a14',
+              color: '#f5f0e8',
               lineHeight: 1.1,
               marginBottom: 14,
             }}
@@ -173,7 +175,7 @@ export function FAQSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            style={{ fontSize: 15, color: '#7a6f63' }}
+            style={{ fontSize: 15, color: 'rgba(245,240,232,0.55)' }}
           >
             Clicca su una domanda per leggere la risposta.
           </motion.p>

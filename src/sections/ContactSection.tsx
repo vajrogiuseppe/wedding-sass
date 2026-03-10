@@ -371,27 +371,24 @@ export function ContactSection() {
               onChange={(v) => setForm({ ...form, email: v })}
               error={errors.email}
             />
-            {/* Phone + service row */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              <FloatingInput
-                label="Telefono"
-                id="phone"
-                type="tel"
-                value={form.phone}
-                onChange={(v) => setForm({ ...form, phone: v })}
-              />
-              <FloatingSelect
-                label="Servizio *"
-                id="service"
-                value={form.service}
-                onChange={(v) => setForm({ ...form, service: v })}
-                options={[
-                  { value: 'save-the-date', label: 'Save the Date' },
-                  { value: 'landing-rsvp', label: 'Landing RSVP' },
-                  { value: 'custom', label: 'Servizio Custom su Misura' },
-                ]}
-              />
-            </div>
+            <FloatingInput
+              label="Telefono"
+              id="phone"
+              type="tel"
+              value={form.phone}
+              onChange={(v) => setForm({ ...form, phone: v })}
+            />
+            <FloatingSelect
+              label="Tipologia di servizio *"
+              id="service"
+              value={form.service}
+              onChange={(v) => setForm({ ...form, service: v })}
+              options={[
+                { value: 'save-the-date', label: 'Save the Date' },
+                { value: 'landing-rsvp', label: 'Landing RSVP' },
+                { value: 'custom', label: 'Servizio Custom su Misura' },
+              ]}
+            />
             <FloatingTextarea
               label="Raccontaci del vostro matrimonio *"
               id="message"

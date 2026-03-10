@@ -7,19 +7,19 @@ import Grainient from "@/components/ui/Grainient";
 
 const people = [
   {
-    name: "Sofia",
+    name: "Chiara",
     avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80",
+      "assets/people/chiara.png",
   },
   {
-    name: "Marco",
+    name: "Maria",
     avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80",
+      "assets/people/maria.png",
   },
   {
-    name: "Anna",
+    name: "Pietro",
     avatar:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80",
+      "assets/people/pietro.png",
   },
   {
     name: "Luca",
@@ -71,7 +71,7 @@ export function MarketingHeroSection() {
       {/* Ballpit background */}
       <div style={{ position: "absolute", inset: 0 }}>
         <Ballpit
-          count={150}
+          count={80}
           gravity={0.2}
           friction={0.99}
           wallBounce={0.95}
@@ -189,7 +189,7 @@ export function MarketingHeroSection() {
             fontSize: 18,
             lineHeight: 1.75,
             color: "#fff",
-            maxWidth: "70%",
+            maxWidth: "100%",
             margin: "0 auto 48px",
             fontWeight: 300,
           }}
@@ -316,18 +316,6 @@ export function MarketingHeroSection() {
         </motion.div>
       </div>
 
-      {/* Bottom fade */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 120,
-          pointerEvents: "none",
-          background: "linear-gradient(to bottom, transparent, #0e0c0a)",
-        }}
-      />
     </section>
   );
 }

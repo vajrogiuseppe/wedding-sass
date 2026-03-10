@@ -20,7 +20,33 @@
       "WebFetch(domain:reactbits.dev)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:github.com)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(npx tsc --noEmit 2>&1 | head -40)",
+      "Bash(npx tsc --noEmit 2>&1 | head -30)",
+      "Bash(npx tsc --noEmit 2>&1)",
+      "Bash(git checkout HEAD -- src/sections/MarketingHeroSection.tsx)",
+      "Bash(npx shadcn@latest mcp init --client claude)",
+      "mcp__shadcn__search_items_in_registries",
+      "mcp__shadcn__get_project_registries",
+      "Bash(ls /Users/giuseppevajro/Desktop/inviti-studio/*.json 2>/dev/null || echo \"no json at root\")",
+      "Bash(npx jsrepo@latest add https://reactbits.dev/registry --component ScrollStack 2>&1 | head -50)",
+      "Bash(npx jsrepo@latest add https://reactbits.dev/registry react/scroll-stack 2>&1)",
+      "WebFetch(domain:www.reactbits.dev)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/DavidHDev/react-bits/main/src/components/ScrollStack/ScrollStack.tsx\" 2>&1 | head -20)",
+      "Bash(curl -s \"https://api.github.com/repos/DavidHDev/react-bits/git/trees/main?recursive=1\" | grep -i scroll 2>&1)",
+      "Bash(curl -s \"https://api.github.com/repos/DavidHDev/react-bits/git/trees/main?recursive=1\" | grep -i \"magic\\\\|bento\" 2>&1)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/DavidHDev/react-bits/main/src/demo/Components/ScrollStackDemo.jsx\")",
+      "Bash(npx shadcn@latest add @reactbits-pro/how-it-works-3 2>&1)",
+      "Bash(curl -s \"https://reactbits.dev/registry.json\" | head -20 2>&1)",
+      "Bash(curl -s \"https://reactbits.dev/r/HowItWorks3-TS-CSS.json\" | head -30 2>&1)",
+      "Bash(curl -s \"https://api.github.com/repos/DavidHDev/react-bits/git/trees/main?recursive=1\" | grep -i \"how-it\\\\|howitworks\\\\|how_it\" 2>&1)",
+      "Bash(npx shadcn@latest add @reactbits-pro/how-it-works-3 --registry https://pro.reactbits.dev/r 2>&1)",
+      "WebFetch(domain:pro.reactbits.dev)",
+      "WebFetch(domain:www.shadcnblocks.com)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "shadcn"
+  ]
 }
