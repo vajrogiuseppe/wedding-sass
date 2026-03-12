@@ -33,6 +33,8 @@ export default {
         'shimmer-spin': 'shimmer-spin 3s linear infinite',
         float: 'float 3s ease-in-out infinite',
         'badge-pulse': 'badge-pulse 2s ease-in-out infinite',
+        'star-movement-bottom': 'star-movement-bottom linear infinite alternate',
+        'star-movement-top': 'star-movement-top linear infinite alternate',
       },
       keyframes: {
         'shimmer-spin': { to: { transform: 'rotate(360deg)' } },
@@ -43,6 +45,14 @@ export default {
         'badge-pulse': {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.05)' },
+        },
+        'star-movement-bottom': {
+          '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
+          '100%': { transform: 'translate(-100%, 0%)', opacity: '0' },
+        },
+        'star-movement-top': {
+          '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
+          '100%': { transform: 'translate(100%, 0%)', opacity: '0' },
         },
       },
     },

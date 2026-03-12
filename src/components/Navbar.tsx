@@ -1,8 +1,11 @@
+import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
-import { X, Menu, ArrowRight, Instagram, MessageCircle, Mail } from 'lucide-react'
+import { X, Menu, Instagram, MessageCircle, Mail } from 'lucide-react'
 import GlassSurface from '@/components/ui/GlassSurface'
 import { BackgroundGradient } from '@/components/ui/BackgroundGradient'
+import StarBorder from '@/components/ui/StarBorder'
+import GlareHover from '@/components/ui/GlareHover'
 
 const navLinks = [
   { label: 'Come funziona', href: '#come-funziona' },
@@ -33,6 +36,7 @@ export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const [isOverDark, setIsOverDark] = useState(true)
+  const [ctaHover, setCtaHover] = useState(false)
 
   useEffect(() => {
     const sections = document.querySelectorAll('#hero, footer, #come-funziona, #funzionalita, #dashboard')
@@ -168,22 +172,54 @@ export function Navbar() {
                     {link.label}
                   </motion.button>
                 ))}
-                <motion.button
+                <motion.div
                   initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: navLinks.length * 0.05 + 0.05 }}
-                  whileHover={{ scale: 1.05, background: '#e0c080' } as any}
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => scrollTo('#contatti')}
+                  onMouseEnter={() => setCtaHover(true)}
+                  onMouseLeave={() => setCtaHover(false)}
                   style={{
-                    marginLeft: 8, display: 'inline-flex', alignItems: 'center', gap: 5,
-                    borderRadius: 9999, background: '#c9a96e', color: '#0e0c0a',
-                    padding: '7px 14px', fontSize: 12, fontWeight: 700,
-                    border: 'none', cursor: 'pointer', fontFamily: 'inherit',
-                    flexShrink: 0,
+                    marginLeft: 8, flexShrink: 0, borderRadius: 9999,
+                    boxShadow: ctaHover
+                      ? '0 0 22px rgba(192,132,252,0.9), 0 0 42px rgba(139,92,246,0.55), 0 0 64px rgba(192,132,252,0.25)'
+                      : '0 0 12px rgba(192,132,252,0.55), 0 0 26px rgba(139,92,246,0.3), 0 0 40px rgba(192,132,252,0.14)',
+                    transition: 'box-shadow 0.3s ease',
                   }}
                 >
-                  Inizia ora <ArrowRight size={11} />
-                </motion.button>
+                  <StarBorder
+                    color="#f0abfc"
+                    speed="2.5s"
+                    thickness={1}
+                    style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                  >
+                    <GlareHover
+                      width="auto"
+                      height="auto"
+                      background={ctaHover
+                        ? 'linear-gradient(135deg, #9333ea 0%, #c026d3 45%, #f472b6 100%)'
+                        : 'linear-gradient(135deg, #6d28d9 0%, #9333ea 45%, #c026d3 100%)'}
+                      borderRadius="9999px"
+                      borderColor="transparent"
+                      glareColor="#f79adb"
+                      glareOpacity={0.55}
+                      glareAngle={-45}
+                      glareSize={200}
+                      transitionDuration={550}
+                      onClick={() => scrollTo('#contatti')}
+                      style={{
+                        padding: '6px 16px',
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: '#fff',
+                        whiteSpace: 'nowrap',
+                        letterSpacing: '0.02em',
+                        transition: 'background 0.4s ease',
+                      } as React.CSSProperties}
+                    >
+                      Inizia ora
+                    </GlareHover>
+                  </StarBorder>
+                </motion.div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -222,7 +258,7 @@ export function Navbar() {
               zIndex: 99, maxWidth: 440, margin: '0 auto',
             }}
           >
-            <GlassSurface width="100%" height="auto" borderRadius={20} brightness={90} backgroundOpacity={0.65} mixBlendMode="normal">
+            <GlassSurface width="100%" height="auto" borderRadius={20} brightness={90} backgroundOpacity={0.82} mixBlendMode="normal">
               <div style={{ padding: '8px 8px 0', width: '100%' }}>
                 {navLinks.map((link, i) => (
                   <motion.button
@@ -238,7 +274,7 @@ export function Navbar() {
                       cursor: 'pointer', transition: 'all 0.2s',
                       fontFamily: 'inherit', textAlign: 'left',
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.05)'; e.currentTarget.style.color = '#c9a96e' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(147,51,234,0.08)'; e.currentTarget.style.color = '#9333ea' }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#1a1410' }}
                   >
                     <span>{link.label}</span>
@@ -249,8 +285,8 @@ export function Navbar() {
 
               <div style={{ height: 1, background: 'rgba(0,0,0,0.08)', margin: '8px 16px' }} />
 
-              <div style={{ padding: '12px 16px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', gap: 8 }}>
+              <div style={{ padding: '12px 16px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'nowrap' }}>
+                <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
                   {socialLinks.map(({ href, Icon, label }) => (
                     <a key={href} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
                       style={{
@@ -259,26 +295,52 @@ export function Navbar() {
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         color: 'rgba(26,20,16,0.4)', transition: 'all 0.2s',
                       }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(201,169,110,0.5)'; e.currentTarget.style.color = '#c9a96e' }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(147,51,234,0.4)'; e.currentTarget.style.color = '#9333ea' }}
                       onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.12)'; e.currentTarget.style.color = 'rgba(26,20,16,0.4)' }}
                     >
                       <Icon size={14} />
                     </a>
                   ))}
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.05, background: '#e0c080' } as any}
+                <motion.div
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => scrollTo('#contatti')}
                   style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 6,
-                    borderRadius: 9999, background: '#c9a96e', color: '#0e0c0a',
-                    padding: '9px 20px', fontSize: 13, fontWeight: 700,
-                    border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+                    borderRadius: 9999,
+                    flexShrink: 0,
+                    boxShadow: '0 0 12px rgba(192,132,252,0.55), 0 0 26px rgba(139,92,246,0.3)',
                   }}
                 >
-                  Inizia ora <ArrowRight size={12} />
-                </motion.button>
+                  <StarBorder
+                    color="#f0abfc"
+                    speed="2.5s"
+                    thickness={1}
+                    style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                  >
+                    <GlareHover
+                      width="auto"
+                      height="auto"
+                      background="linear-gradient(135deg, #6d28d9 0%, #9333ea 45%, #c026d3 100%)"
+                      borderRadius="9999px"
+                      borderColor="transparent"
+                      glareColor="#f79adb"
+                      glareOpacity={0.55}
+                      glareAngle={-45}
+                      glareSize={200}
+                      transitionDuration={550}
+                      onClick={() => scrollTo('#contatti')}
+                      style={{
+                        padding: '8px 22px',
+                        fontSize: 13,
+                        fontWeight: 600,
+                        color: '#fff',
+                        whiteSpace: 'nowrap',
+                        letterSpacing: '0.02em',
+                      } as React.CSSProperties}
+                    >
+                      Inizia ora
+                    </GlareHover>
+                  </StarBorder>
+                </motion.div>
               </div>
             </GlassSurface>
           </motion.div>

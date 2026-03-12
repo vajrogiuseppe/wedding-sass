@@ -1,40 +1,36 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import StarBorder from "@/components/ui/StarBorder";
 import Ballpit from "@/components/ui/Ballpit";
 import GradienText from "@/components/ui/GradienText";
 import Grainient from "@/components/ui/Grainient";
+import GlareHover from "@/components/ui/GlareHover";
 
 const people = [
   {
     name: "Chiara",
-    avatar:
-      "assets/people/chiara.png",
+    avatar: "assets/people/chiara.png",
   },
   {
     name: "Maria",
-    avatar:
-      "assets/people/maria.png",
+    avatar: "assets/people/maria.png",
   },
   {
     name: "Pietro",
-    avatar:
-      "assets/people/pietro.png",
+    avatar: "assets/people/pietro.png",
   },
   {
     name: "Luca",
     avatar:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80",
   },
-  {
-    name: "Giulia",
-    avatar:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&q=80",
-  },
+  
 ];
 
 export function MarketingHeroSection() {
   const [ready, setReady] = useState(false);
+  const [iniziaHover, setIniziaHover] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setReady(true), 300);
@@ -125,7 +121,6 @@ export function MarketingHeroSection() {
           height: 240,
 
           pointerEvents: "none",
-         
         }}
       />
 
@@ -150,11 +145,11 @@ export function MarketingHeroSection() {
             fontWeight: 700,
             textTransform: "uppercase",
             color: "#d4aa6e",
-            marginBottom: 28,
+            marginBottom: 8,
           }}
           className="font-mono"
         >
-          La piattaforma per inviti digitali da matrimonio
+          Il servizio di inviti digitali per il vostro matrimonio
         </motion.p>
 
         {/* Title */}
@@ -186,16 +181,15 @@ export function MarketingHeroSection() {
           animate={ready ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.25 }}
           style={{
-            fontSize: 18,
-            lineHeight: 1.75,
-            color: "#fff",
-            maxWidth: "100%",
-            margin: "0 auto 48px",
+            fontSize: 'clamp(14px, 4vw, 17px)',
+            lineHeight: 1.7,
+            color: "rgba(255,255,255,0.85)",
+            maxWidth: 520,
+            margin: "0 auto 40px",
             fontWeight: 300,
           }}
         >
-          Crea in pochi minuti un invito digitale elegante con RSVP integrato,
-          gestione ospiti e un link unico da condividere ovunque.
+          Scegli il layout, inviaci i tuoi materiali e in 48 ore riceverai il vostro invito digitale personalizzato — con RSVP integrato e link unico da condividere ovunque.
         </motion.p>
 
         {/* Social proof */}
@@ -212,6 +206,7 @@ export function MarketingHeroSection() {
             flexWrap: "wrap",
           }}
         >
+          {/* Avatars + +50 */}
           <div style={{ display: "flex", alignItems: "center" }}>
             {people.map((p, i) => (
               <motion.div
@@ -223,11 +218,10 @@ export function MarketingHeroSection() {
                   height: 42,
                   borderRadius: "50%",
                   overflow: "hidden",
-                  border: "2px solid rgba(212,175,115,0.65)",
+                  border: "2px solid #f5f0e8",
                   marginLeft: i > 0 ? -12 : 0,
                   position: "relative",
                   zIndex: people.length - i,
-
                   cursor: "pointer",
                   flexShrink: 0,
                 }}
@@ -235,26 +229,46 @@ export function MarketingHeroSection() {
                 <img
                   src={p.avatar}
                   alt={p.name}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    display: "block",
-                  }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                   loading="lazy"
                 />
               </motion.div>
             ))}
+            {/* +50 badge */}
+            <div style={{
+              width: 42, height: 42, borderRadius: "50%",
+              background: "rgba(255,255,255,0.15)",
+              backdropFilter: "blur(8px)",
+              border: "2px solid rgba(255,255,255,0.4)",
+              marginLeft: -12,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 11, fontWeight: 700, color: "#f5f0e8",
+              flexShrink: 0, zIndex: 0,
+              letterSpacing: "-0.02em",
+            }}>
+              +50
+            </div>
           </div>
 
-          <p style={{ fontSize: 13, color: "#fff", textAlign: "left" }}>
-            <span style={{ color: "#f5f0e8", fontWeight: 600 }}>
-              50+ coppie
-            </span>{" "}
-            hanno già
-            <br />
-            scelto inviti.studio
-          </p>
+          {/* Stars + text */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            {/* 5 stelle */}
+            <div style={{ display: "flex", gap: 2 }}>
+              {[...Array(5)].map((_, i) => (
+                <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill="#f5c842" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              ))}
+            </div>
+            <p style={{ fontSize: 13, color: "#fff", textAlign: "left", margin: 0 }}>
+              <span style={{ color: "#f5f0e8", fontWeight: 600 }}>
+                50+ coppie
+              </span>{" "}
+              hanno già
+              <br />
+              scelto Lovivity
+            </p>
+          </div>
         </motion.div>
 
         {/* CTA */}
@@ -270,52 +284,78 @@ export function MarketingHeroSection() {
             flexWrap: "wrap",
           }}
         >
+          {/* Scopri di più — glass + glow on hover */}
           <button
-            onClick={() =>
-              document
-                .querySelector("#come-funziona")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
+            onClick={() => document.querySelector("#come-funziona")?.scrollIntoView({ behavior: "smooth" })}
             style={{
+              background: 'rgba(255,255,255,0.08)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid rgba(255,255,255,0.35)',
+              color: 'rgba(255,255,255,0.8)',
+              padding: '11px 26px',
+              fontSize: 14,
+              fontWeight: 400,
               borderRadius: 9999,
-              background: "transparent",
-              color: "#f5f0e8",
-              padding: "13px 32px",
-              fontSize: 15,
-              fontWeight: 500,
-              border: "1px solid #f5f0e8",
-              cursor: "pointer",
-              backdropFilter: "blur(10px)",
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.boxShadow = '0 0 18px rgba(255,255,255,0.25), 0 0 36px rgba(255,255,255,0.1)'
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.boxShadow = 'none'
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.35)'
             }}
           >
             Scopri di più
           </button>
 
-          <button
-            onClick={() =>
-              document
-                .querySelector("#contatti")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
+          {/* Inizia subito — glow sempre attivo */}
+          <motion.div
+            onMouseEnter={() => setIniziaHover(true)}
+            onMouseLeave={() => setIniziaHover(false)}
+            whileTap={{ scale: 0.97 }}
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
               borderRadius: 9999,
-              background: "#d1c4ad",
-              color: "#0e0c0a",
-              padding: "13px 32px",
-              fontSize: 15,
-              fontWeight: 700,
-              border: "none",
-              cursor: "pointer",
+              boxShadow: iniziaHover
+                ? '0 0 28px rgba(192,132,252,0.95), 0 0 55px rgba(139,92,246,0.65), 0 0 80px rgba(192,132,252,0.3)'
+                : '0 0 16px rgba(192, 132, 252, 0), 0 0 34px rgba(138, 92, 246, 0), 0 0 52px rgba(192, 132, 252, 0)',
+              transition: 'box-shadow 0.3s ease',
             }}
           >
-            Inizia subito il tuo invito <ArrowRight size={16} />
-          </button>
+           
+              <GlareHover
+                width="auto"
+                height="auto"
+                background={iniziaHover
+                  ? 'linear-gradient(135deg, #9333ea 0%, #c026d3 45%, #f472b6 100%)'
+                  : 'linear-gradient(135deg, #6d28d9 0%, #9333ea 45%, #c026d3 100%)'}
+                borderRadius="9999px"
+                borderColor="transparent"
+                glareColor="#f79adb"
+                glareOpacity={0.55}
+                glareAngle={-45}
+                glareSize={220}
+                transitionDuration={600}
+                onClick={() => document.querySelector("#contatti")?.scrollIntoView({ behavior: "smooth" })}
+                style={{
+                  padding: '11px 26px',
+                  fontSize: 14,
+                  fontWeight: 400,
+                  color: '#fff',
+                  whiteSpace: 'nowrap',
+                  letterSpacing: '0.01em',
+                  transition: 'background 0.4s ease',
+                } as React.CSSProperties}
+              >
+                Richiedi il tuo invito
+              </GlareHover>
+          </motion.div>
         </motion.div>
       </div>
-
     </section>
   );
 }

@@ -1,30 +1,31 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { FadeContent } from '@/components/ui/FadeContent'
 
 const faqs = [
   {
-    q: 'Quanto ci vuole per avere il mio invito pronto?',
-    a: "Di solito tra le 24 e le 48 ore dall'invio dei vostri contenuti. Vi teniamo aggiornati in ogni fase e non pubblichiamo nulla senza la vostra approvazione finale.",
+    q: 'Come funziona esattamente il servizio?',
+    a: 'Semplice: scegli il layout che preferisci, ci invii i materiali (nomi, date, foto, testi) e noi personalizziamo tutto — colori, font, contenuti. In 48 ore ricevi il link del vostro invito pronto da condividere.',
+  },
+  {
+    q: 'Cosa devo inviarvi per iniziare?',
+    a: 'Basta un messaggio con: nomi degli sposi, data e luogo del matrimonio, testi che vuoi inserire e, se ce li hai, qualche foto. Per il resto ti guidiamo noi passo dopo passo.',
   },
   {
     q: 'Gli ospiti devono installare un\'app?',
-    a: 'No! Il link si apre direttamente nel browser di qualsiasi smartphone, tablet o computer. Nessuna registrazione, nessun download.',
+    a: 'No! Il link si apre direttamente nel browser di qualsiasi dispositivo. Nessuna registrazione, nessun download. Basta un tap sul link o inquadrare il QR code.',
   },
   {
-    q: 'Posso modificare l\'invito dopo averlo condiviso?',
-    a: 'Sì, potete aggiornare testi, date e contenuti in qualsiasi momento senza dover ri-condividere il link. Tutto si aggiorna in tempo reale.',
+    q: 'Posso richiedere modifiche dopo la consegna?',
+    a: 'Certo. Ogni pacchetto include revisioni per aggiornare testi, date e contenuti. Le modifiche si riflettono in tempo reale senza dover ri-condividere il link.',
   },
   {
     q: 'Come funziona il sistema RSVP?',
-    a: "Gli ospiti aprono il link, compilano il form con il numero di accompagnatori e le preferenze alimentari. Voi vedete tutto in tempo reale nella dashboard e ricevete una notifica ad ogni risposta.",
+    a: 'Gli ospiti aprono il link e compilano il form con numero di accompagnatori e preferenze alimentari. Voi vedete tutto in tempo reale nella dashboard e ricevete una notifica ad ogni risposta.',
   },
   {
-    q: 'Quanto rimane online il mio invito?',
-    a: "L'invito rimane online fino a 6 mesi dopo la data del matrimonio, così anche i dettagli dell'evento restano accessibili agli ospiti.",
-  },
-  {
-    q: 'Posso avere un dominio personalizzato?',
-    a: 'Sì, con il pacchetto Premium Plus potete avere un dominio come sofiaemarco.it. Vi aiutiamo noi nella configurazione, senza costi extra.',
+    q: 'Quanto tempo ci vuole per avere l\'invito?',
+    a: 'Di solito 24-48 ore dall\'invio dei vostri materiali. Non pubblichiamo nulla senza la vostra approvazione finale, quindi siete sempre in controllo.',
   },
 ]
 
@@ -45,22 +46,22 @@ function BubbleFAQ({ faq, index, open, onToggle }: {
           viewport={{ once: true }}
           transition={{ delay: index * 0.05 }}
           style={{
-            background: open ? '#c9a96e' : 'rgba(255,252,248,0.08)',
-            border: `1.5px solid ${open ? '#c9a96e' : 'rgba(255,255,255,0.14)'}`,
+            background: open ? 'linear-gradient(135deg, #6d28d9 0%, #9333ea 45%, #c026d3 100%)' : 'rgba(255,252,248,0.08)',
+            border: `1.5px solid ${open ? 'transparent' : 'rgba(255,255,255,0.14)'}`,
             borderRadius: '18px 18px 4px 18px',
             padding: '12px 18px',
             fontSize: 14,
             fontWeight: 600,
-            color: open ? '#0e0c0a' : '#f5f0e8',
+            color: '#f5f0e8',
             cursor: 'pointer',
             textAlign: 'left',
             maxWidth: 480,
             lineHeight: 1.5,
             fontFamily: 'inherit',
-            transition: 'background 0.2s, color 0.2s, border-color 0.2s',
+            transition: 'background 0.25s, border-color 0.25s, box-shadow 0.25s',
             backdropFilter: 'blur(6px)',
             boxShadow: open
-              ? '0 4px 20px rgba(201,169,110,0.3)'
+              ? '0 4px 22px rgba(147,51,234,0.45)'
               : '0 2px 8px rgba(0,0,0,0.2)',
           }}
         >
@@ -95,9 +96,9 @@ function BubbleFAQ({ faq, index, open, onToggle }: {
               >
                 <span
                   className="font-display"
-                  style={{ fontSize: 12, color: '#c9a96e', fontStyle: 'italic', fontWeight: 600 }}
+                  style={{ fontSize: 12, color: '#c9a96e', fontStyle: 'normal', fontWeight: 700 }}
                 >
-                  i
+                  L
                 </span>
               </div>
               <div
@@ -131,7 +132,7 @@ export function FAQSection() {
 
   return (
     <section id="faq" style={{ padding: '100px 0', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
-      <div className="mx-auto max-w-2xl px-6 lg:px-8" style={{ position: 'relative', zIndex: 1 }}>
+      <FadeContent blur duration={800} className="mx-auto max-w-2xl px-6 lg:px-8" style={{ position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <div className="text-center mb-16">
           <motion.span
@@ -198,7 +199,7 @@ export function FAQSection() {
             />
           ))}
         </motion.div>
-      </div>
+      </FadeContent>
     </section>
   )
 }

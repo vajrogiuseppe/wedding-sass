@@ -43,6 +43,9 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
 
+/* ─── Mobile gallery snap ───────────────────────────── */
+.mobile-gallery-scroll::-webkit-scrollbar { display: none; }
+
 /* ─── ScrollVelocity ─────────────────────────────────── */
 .parallax {
   overflow: hidden;
@@ -62,12 +65,12 @@ body {
 .spotlight-card::before {
   content: '';
   position: absolute;
-  width: 280px;
-  height: 280px;
+  width: 320px;
+  height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,169,110,0.18) 0%, transparent 70%);
-  left: var(--mouse-x, -140px);
-  top: var(--mouse-y, -140px);
+  background: radial-gradient(circle, rgba(201,169,110,0.22) 0%, transparent 70%);
+  left: var(--mouse-x, -160px);
+  top: var(--mouse-y, -160px);
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: opacity 0.35s ease;
@@ -76,6 +79,35 @@ body {
 }
 .spotlight-card:hover::before { opacity: 1; }
 .spotlight-card > * { position: relative; z-index: 1; }
+
+/* Dark variant — purple glow for dark backgrounds */
+.spotlight-card-dark::before {
+  background: radial-gradient(circle, rgba(147,51,234,0.22) 0%, rgba(201,169,110,0.08) 55%, transparent 70%);
+}
+
+/* ─── Bento card spotlight (soft, gradient-aligned) ──── */
+.bento-card {
+  position: relative;
+  overflow: hidden;
+}
+.bento-card::before {
+  content: '';
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow-color, rgba(147,51,234,0.12)) 0%, transparent 65%);
+  left: var(--mouse-x, -210px);
+  top: var(--mouse-y, -210px);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(20px);
+}
+.bento-card:hover::before { opacity: 1; }
+.bento-card > * { position: relative; z-index: 1; }
 
 /* ─── Video loop carousel ───────────────────────────── */
 @keyframes video-scroll {
@@ -105,6 +137,11 @@ body {
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23a07838' opacity='0.95'/%3E%3Ccircle cx='20' cy='20' r='4' fill='white'/%3E%3C/svg%3E") 20 20, grabbing;
 }
 
+/* ─── Gallery carousel drag ──────────────────────────── */
+.is-dragging .pc-card-wrapper {
+  pointer-events: none;
+}
+
 /* ─── Hide scrollbar ─────────────────────────────────── */
 .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
 .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -112,6 +149,15 @@ body {
 /* ─── Mobile ─────────────────────────────────────────── */
 @media (max-width: 640px) {
   .hide-mobile { display: none !important; }
+
+  /* Reduce section vertical padding on mobile */
+  section { padding-top: clamp(64px, 14vw, 100px) !important; padding-bottom: clamp(64px, 14vw, 100px) !important; }
+
+  /* Pricing: remove scale on featured card */
+  .pricing-card-featured { transform: none !important; }
+
+  /* Tighter headings */
+  h1, h2 { word-break: break-word; }
 }
 @media (min-width: 641px) {
   .show-mobile-only { display: none !important; }

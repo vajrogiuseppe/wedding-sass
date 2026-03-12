@@ -42,7 +42,13 @@
       "Bash(curl -s \"https://api.github.com/repos/DavidHDev/react-bits/git/trees/main?recursive=1\" | grep -i \"how-it\\\\|howitworks\\\\|how_it\" 2>&1)",
       "Bash(npx shadcn@latest add @reactbits-pro/how-it-works-3 --registry https://pro.reactbits.dev/r 2>&1)",
       "WebFetch(domain:pro.reactbits.dev)",
-      "WebFetch(domain:www.shadcnblocks.com)"
+      "WebFetch(domain:www.shadcnblocks.com)",
+      "mcp__shadcn__get_add_command_for_items",
+      "Bash(cd \"C:\\\\Users\\\\Web\\\\Desktop\\\\Siti\\\\wedding-sass\" && npx shadcn@latest add @reactbits-pro/star-border 2>&1)",
+      "Bash(cd \"C:\\\\Users\\\\Web\\\\Desktop\\\\Siti\\\\wedding-sass\" && npx shadcn@latest add \"https://reactbits.dev/r/star-border\" 2>&1)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(cd \"C:\\\\Users\\\\Web\\\\Desktop\\\\Siti\\\\wedding-sass\" && npx tsc --noEmit 2>&1 | head -60)",
+      "mcp__shadcn__view_items_in_registries"
     ]
   },
   "enableAllProjectMcpServers": true,

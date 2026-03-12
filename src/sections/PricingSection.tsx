@@ -1,55 +1,61 @@
+import React from 'react'
 import { motion } from 'framer-motion'
-import { Check, Sparkles } from 'lucide-react'
+import { Check } from 'lucide-react'
+import GradienText from '@/components/ui/GradienText'
+import GlareHover from '@/components/ui/GlareHover'
+import { FadeContent } from '@/components/ui/FadeContent'
 
 const plans = [
   {
     badge: 'Save the Date',
-    price: '50',
+    price: '35',
     period: 'una tantum',
-    description: 'Perfetto per annunciare il grande giorno con stile e semplicità.',
+    description: 'Annuncia la data con eleganza. Perfetto per chi vuole un tocco digitale semplice e raffinato.',
     features: [
-      'Pagina intro animata',
-      'Salva la data (countdown)',
+      'Scegli tra i template Save the Date',
+      'Personalizzazione testi e colori',
+      'Countdown al grande giorno',
       'Info location con mappa',
-      'Link personalizzato',
+      'Link unico + QR Code',
       'Mobile ottimizzato',
     ],
-    cta: 'Inizia con Save the Date',
+    cta: 'Scegli Save the Date',
     featured: false,
+    tip: null,
   },
   {
-    badge: 'Landing RSVP',
-    price: '120',
+    badge: 'Invito + RSVP',
+    price: '60',
     period: 'una tantum',
-    description: 'La scelta completa: invito elegante, raccolta conferme e dashboard live.',
+    description: 'Invito digitale completo con raccolta conferme integrata e gestione ospiti in tempo reale.',
     features: [
       'Tutto di "Save the Date"',
       'Form RSVP personalizzato',
-      'Preferenze alimentari',
+      'Preferenze alimentari ospiti',
       'Dashboard ospiti live',
-      'Notifiche WhatsApp & email',
-      'Export CSV ospiti',
-      'Supporto prioritario',
+      'Notifiche automatiche',
     ],
-    cta: 'Scegli Landing RSVP',
-    featured: true,
+    cta: 'Scegli Invito + RSVP',
+    featured: false,
+    tip: null,
   },
   {
-    badge: 'Premium Plus',
-    price: '220',
+    badge: 'Landing Completa',
+    price: '120',
     period: 'una tantum',
-    description: 'Tutto incluso con revisioni illimitate e dominio personalizzato.',
+    description: 'La soluzione più completa: tutto incluso, revisioni, gallery e supporto dedicato.',
     features: [
-      'Tutto di "Landing RSVP"',
-      'Dominio personalizzato',
-      'Revisioni illimitate',
+      'Tutto di "Invito + RSVP"',
       'Gallery fotografica',
-      'Programma evento',
-      'Playlist Spotify integrata',
-      'Supporto dedicato 7/7',
+      'Programma completo evento',
+      'Dominio personalizzato',
+      'Revisioni incluse',
+      'Export CSV lista ospiti',
+      'Supporto prioritario 7/7',
     ],
-    cta: 'Scegli Premium Plus',
-    featured: false,
+    cta: 'Scegli Landing Completa',
+    featured: true,
+    tip: '⭐ Il più scelto',
   },
 ]
 
@@ -58,8 +64,33 @@ export function PricingSection() {
     document.querySelector('#contatti')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <section id="prezzi" style={{ padding: '100px 0', background: '#0e0c0a', position: 'relative' }}>
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+    <section id="prezzi" style={{ padding: '120px 0 100px', position: 'relative' }}>
+      {/* Floating glow shapes */}
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+        {[
+          { top: '-5%', left: '2%', w: 560, c: 'rgba(147,51,234,0.38)', dur: 8 },
+          { top: '48%', right: '1%', w: 500, c: 'rgba(207,131,0,0.35)', dur: 10 },
+          { top: '10%', left: '38%', w: 440, c: 'rgba(247,154,219,0.32)', dur: 12 },
+        ].map((g, i) => (
+          <motion.div
+            key={i}
+            animate={{ y: [0, -24, 0], scale: [1, 1.08, 1] }}
+            transition={{ duration: g.dur, repeat: Infinity, ease: 'easeInOut', delay: i * 2.5 }}
+            style={{
+              position: 'absolute',
+              top: g.top,
+              left: (g as any).left,
+              right: (g as any).right,
+              width: g.w,
+              height: g.w,
+              borderRadius: '50%',
+              background: `radial-gradient(circle, ${g.c} 0%, transparent 68%)`,
+              filter: 'blur(60px)',
+            }}
+          />
+        ))}
+      </div>
+      <FadeContent blur duration={800} style={{ position: 'relative', zIndex: 1 }} className="mx-auto max-w-6xl px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
           <motion.span
@@ -96,9 +127,11 @@ export function PricingSection() {
               marginBottom: 16,
             }}
           >
-            Semplice, trasparente,
+            Prezzi chiari,
             <br />
-            <span className="text-gradient-gold">senza sorprese</span>
+            <GradienText colors={['#faf6f0', '#f79adb', '#cf8300']}>
+              <span style={{ fontStyle: 'italic' }}>zero sorprese.</span>
+            </GradienText>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -107,167 +140,170 @@ export function PricingSection() {
             transition={{ delay: 0.2 }}
             style={{ fontSize: 15, color: 'rgba(245,240,232,0.5)', maxWidth: 420, margin: '0 auto' }}
           >
-            Pagamento una tantum, nessun abbonamento. Il vostro invito resta online fino al
-            giorno del matrimonio.
+            Pagamento una tantum, nessun abbonamento. Scegliete il pacchetto, inviaci i materiali — il resto lo facciamo noi.
           </motion.p>
         </div>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 20, alignItems: 'start' }}>
           {plans.map((plan, i) => (
-            <motion.div
-              key={plan.badge}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              style={{
-                position: 'relative',
-                borderRadius: 24,
-                padding: plan.featured ? '36px 32px' : '32px 28px',
-                background: plan.featured ? 'rgba(255,252,248,0.06)' : 'rgba(255,255,255,0.03)',
-                border: plan.featured
-                  ? '1.5px solid rgba(201,169,110,0.5)'
-                  : '1px solid rgba(255,255,255,0.08)',
-                boxShadow: plan.featured
-                  ? '0 12px 40px rgba(201,169,110,0.12)'
-                  : 'none',
-                transform: plan.featured ? 'scale(1.03)' : 'scale(1)',
-              }}
-            >
-              {/* "Più scelto" badge */}
+            /* Outer wrapper — no overflow:hidden so badge is visible */
+            <div key={plan.badge} style={{ position: 'relative', paddingTop: plan.featured ? 14 : 0 }}>
+              {/* "Più scelto" badge — outside the spotlight-card overflow */}
               {plan.featured && (
                 <div
                   style={{
                     position: 'absolute',
-                    top: -12,
+                    top: 0,
                     left: '50%',
-                    transform: 'translateX(-50%)',
-                    background: '#c9a96e',
-                    color: '#0e0c0a',
+                    transform: 'translateX(-50%) translateY(-50%)',
+                    background: 'rgba(255,255,255,0.12)',
+                    backdropFilter: 'blur(14px)',
+                    WebkitBackdropFilter: 'blur(14px)',
+                    border: '1px solid rgba(255,255,255,0.28)',
                     borderRadius: 9999,
-                    padding: '4px 14px',
+                    padding: '5px 14px',
                     fontSize: 11,
                     fontWeight: 700,
+                    color: '#fff',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 5,
                     whiteSpace: 'nowrap',
+                    zIndex: 2,
+                    boxShadow: '0 2px 12px rgba(147,51,234,0.3)',
                   }}
                 >
-                  <Sparkles size={10} />
-                  Più scelto
+                  Il più scelto
                 </div>
               )}
 
-              {/* Badge */}
-              <div style={{ marginBottom: 20 }}>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    borderRadius: 9999,
-                    padding: '4px 12px',
-                    fontSize: 11,
-                    fontWeight: 600,
-                    background: plan.featured
-                      ? 'rgba(201,169,110,0.15)'
-                      : 'rgba(255,255,255,0.04)',
-                    color: plan.featured ? '#c9a96e' : 'rgba(245,240,232,0.35)',
-                    border: `1px solid ${plan.featured ? 'rgba(201,169,110,0.3)' : 'rgba(255,255,255,0.1)'}`,
-                  }}
-                >
-                  {plan.badge}
-                </span>
-              </div>
-
-              {/* Price */}
-              <div style={{ marginBottom: 4 }}>
-                <span
-                  className="font-display"
-                  style={{
-                    fontSize: 52,
-                    fontWeight: 600,
-                    color: plan.featured ? '#f5f0e8' : 'rgba(245,240,232,0.35)',
-                    lineHeight: 1,
-                  }}
-                >
-                  €{plan.price}
-                </span>
-              </div>
-              <div style={{ fontSize: 12, color: 'rgba(245,240,232,0.35)', marginBottom: 14 }}>{plan.period}</div>
-              <p style={{ fontSize: 13, color: 'rgba(245,240,232,0.5)', marginBottom: 24, lineHeight: 1.6 }}>
-                {plan.description}
-              </p>
-
-              {/* Features */}
-              <ul
+              <motion.div
+                className={`spotlight-card spotlight-card-dark${plan.featured ? ' pricing-card-featured' : ''}`}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect()
+                  e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`)
+                  e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`)
+                }}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
                 style={{
-                  listStyle: 'none',
-                  padding: 0,
-                  margin: '0 0 28px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 10,
+                  position: 'relative',
+                  borderRadius: 24,
+                  padding: plan.featured ? '36px 32px' : '32px 28px',
+                  background: plan.featured
+                    ? 'linear-gradient(145deg, rgba(124,111,255,0.14) 0%, rgba(192,38,211,0.08) 50%, rgba(247,154,219,0.06) 100%)'
+                    : 'rgba(255,255,255,0.04)',
+                  border: plan.featured
+                    ? '1.5px solid rgba(255,255,255,0.18)'
+                    : '1px solid rgba(255,255,255,0.1)',
+                  boxShadow: plan.featured
+                    ? '0 12px 40px rgba(124,111,255,0.18), inset 0 1px 0 rgba(255,255,255,0.1)'
+                    : 'inset 0 1px 0 rgba(255,255,255,0.06)',
+                  transform: plan.featured ? 'scale(1.03)' : 'scale(1)',
+                  backdropFilter: 'blur(4px)',
                 }}
               >
-                {plan.features.map((feat) => (
-                  <li key={feat} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                    <Check
-                      size={14}
-                      color={plan.featured ? '#c9a96e' : '#5a5248'}
-                      style={{ marginTop: 2, flexShrink: 0 }}
-                    />
-                    <span
-                      style={{
-                        fontSize: 13,
-                        color: plan.featured ? 'rgba(245,240,232,0.65)' : 'rgba(245,240,232,0.35)',
-                      }}
-                    >
-                      {feat}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+                {/* Plan type badge */}
+                <div style={{ marginBottom: 20 }}>
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      borderRadius: 9999,
+                      padding: '4px 12px',
+                      fontSize: 11,
+                      fontWeight: 600,
+                      background: 'rgba(255,255,255,0.08)',
+                      color: 'rgba(255,255,255,0.7)',
+                      border: '1px solid rgba(255,255,255,0.16)',
+                      backdropFilter: 'blur(8px)',
+                    }}
+                  >
+                    {plan.badge}
+                  </span>
+                  {plan.tip && (
+                    <p style={{ fontSize: 10, color: 'rgba(245,240,232,0.5)', margin: '4px 0 0', letterSpacing: '0.05em' }}>
+                      {plan.tip}
+                    </p>
+                  )}
+                </div>
 
-              {/* CTA */}
-              <button
-                onClick={scrollToContact}
-                style={{
-                  width: '100%',
-                  borderRadius: 9999,
-                  padding: '12px 0',
-                  fontSize: 14,
-                  fontWeight: 600,
-                  border: plan.featured ? 'none' : '1px solid rgba(255,255,255,0.12)',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  background: plan.featured ? '#c9a96e' : 'transparent',
-                  color: plan.featured ? '#0e0c0a' : 'rgba(245,240,232,0.45)',
-                  fontFamily: 'inherit',
-                }}
-                onMouseEnter={(e) => {
-                  if (plan.featured) {
-                    e.currentTarget.style.background = '#e8d5b0'
-                  } else {
-                    e.currentTarget.style.borderColor = '#c9a96e'
-                    e.currentTarget.style.color = '#a07838'
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (plan.featured) {
-                    e.currentTarget.style.background = '#c9a96e'
-                  } else {
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'
-                    e.currentTarget.style.color = 'rgba(245,240,232,0.45)'
-                  }
-                }}
-              >
-                {plan.cta}
-              </button>
-            </motion.div>
+                {/* Price */}
+                <div style={{ marginBottom: 4 }}>
+                  <span
+                    className="font-display"
+                    style={{
+                      fontSize: 52,
+                      fontWeight: 600,
+                      color: plan.featured ? '#f5f0e8' : 'rgba(245,240,232,0.85)',
+                      lineHeight: 1,
+                    }}
+                  >
+                    €{plan.price}
+                  </span>
+                </div>
+                <div style={{ fontSize: 12, color: 'rgba(245,240,232,0.5)', marginBottom: 14 }}>{plan.period}</div>
+                <p style={{ fontSize: 13, color: 'rgba(245,240,232,0.65)', marginBottom: 24, lineHeight: 1.6 }}>
+                  {plan.description}
+                </p>
+
+                {/* Features */}
+                <ul
+                  style={{
+                    listStyle: 'none',
+                    padding: 0,
+                    margin: '0 0 28px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 10,
+                  }}
+                >
+                  {plan.features.map((feat) => (
+                    <li key={feat} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                      <Check
+                        size={14}
+                        color={plan.featured ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.4)'}
+                        style={{ marginTop: 2, flexShrink: 0 }}
+                      />
+                      <span style={{ fontSize: 13, color: 'rgba(245,240,232,0.65)' }}>
+                        {feat}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA */}
+                <GlareHover
+                  width="100%"
+                  height="auto"
+                  background={plan.featured
+                    ? 'linear-gradient(135deg, #6d28d9 0%, #9333ea 45%, #c026d3 100%)'
+                    : 'rgba(255,255,255,0.07)'}
+                  borderRadius="9999px"
+                  borderColor={plan.featured ? 'transparent' : 'rgba(255,255,255,0.18)'}
+                  glareColor={plan.featured ? '#f79adb' : '#ffffff'}
+                  glareOpacity={plan.featured ? 0.55 : 0.2}
+                  glareAngle={-45}
+                  glareSize={220}
+                  transitionDuration={600}
+                  onClick={scrollToContact}
+                  style={{
+                    padding: '12px 0',
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: '#fff',
+                    backdropFilter: plan.featured ? 'none' : 'blur(8px)',
+                  } as React.CSSProperties}
+                >
+                  {plan.cta}
+                </GlareHover>
+              </motion.div>
+            </div>
           ))}
         </div>
-      </div>
+      </FadeContent>
     </section>
   )
 }

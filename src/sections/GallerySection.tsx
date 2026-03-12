@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import GradienText from "@/components/ui/GradienText";
+import { FadeContent } from '@/components/ui/FadeContent'
 
 interface Testimonial {
   name: string
@@ -178,7 +179,7 @@ export function GallerySection() {
   return (
     <section id="testimonianze" style={{ padding: '100px 0', background: '#f5f0e8', overflow: 'hidden', position: 'relative' }}>
       {/* Header */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-16 text-center">
+      <FadeContent blur duration={800} className="mx-auto max-w-7xl px-6 lg:px-8 mb-16 text-center">
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -228,7 +229,7 @@ export function GallerySection() {
         >
           Più di 500 matrimoni realizzati con inviti digitali che hanno emozionato.
         </motion.p>
-      </div>
+      </FadeContent>
 
       {/* Desktop: 3-column vertical marquee */}
       <div

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowDown } from 'lucide-react'
 import NoiseMaskHeroNew from '@/components/NoiseMaskHeroNew'
+import StarBorder from '@/components/ui/StarBorder'
 
 export function HeroSection() {
   const [show, setShow] = useState(false)
@@ -27,22 +28,21 @@ export function HeroSection() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         style={{ position: 'absolute', top: '71%', left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}
       >
-        <button
+        <StarBorder
+          color="#c9a96e"
+          speed="4s"
+          thickness={1}
           onClick={() => document.querySelector('#contatti')?.scrollIntoView({ behavior: 'smooth' })}
-          style={{
-            background: '#292929',
-            color: '#f5f0e8',
-            borderRadius: 9999,
-            padding: '12px 32px',
-            fontSize: 14,
-            fontWeight: 500,
-            border: 'none',
-            cursor: 'pointer',
-            letterSpacing: '0.01em',
-          }}
+          style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
         >
-          Crea il tuo invito
-        </button>
+          <span style={{
+            display: 'block', background: '#292929', color: '#f5f0e8',
+            padding: '11px 32px', fontSize: 14, fontWeight: 500,
+            letterSpacing: '0.01em', borderRadius: 9999,
+          }}>
+            Crea il tuo invito
+          </span>
+        </StarBorder>
       </motion.div>
 
       {/* Scroll indicator */}

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { FadeContent } from '@/components/ui/FadeContent'
 import {
   Search, Plus, Edit2, Trash2, CheckCircle2, Clock, XCircle, Users,
 } from 'lucide-react'
@@ -500,7 +501,7 @@ export function DashboardPreviewSection() {
           position: 'relative',
         }}
       >
-<div style={{ position: 'relative', zIndex: 1, padding: '0 16px', maxWidth: 600, margin: '0 auto' }}>
+<FadeContent blur duration={800} style={{ position: 'relative', zIndex: 1, padding: '0 16px', maxWidth: 600, margin: '0 auto' }}>
           {sectionHeader}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -535,7 +536,7 @@ export function DashboardPreviewSection() {
             <DashboardUI />
           </motion.div>
           {featurePills}
-        </div>
+        </FadeContent>
       </section>
     )
   }
@@ -551,7 +552,7 @@ export function DashboardPreviewSection() {
         position: 'relative',
       }}
     >
-      <div style={{ position: 'relative', zIndex: 1 }}>
+      <FadeContent blur duration={800} style={{ position: 'relative', zIndex: 1 }}>
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         {sectionHeader}
 
@@ -621,7 +622,7 @@ export function DashboardPreviewSection() {
 
         {featurePills}
       </div>
-      </div>
+      </FadeContent>
     </section>
   )
 }

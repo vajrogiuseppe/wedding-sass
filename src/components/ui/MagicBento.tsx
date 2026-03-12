@@ -7,6 +7,7 @@ export interface BentoCardData {
   title?: string;
   description?: string;
   label?: string;
+  media?: string; // URL immagine, gif o video
 }
 
 export interface BentoProps {
@@ -478,7 +479,7 @@ const MagicBento: React.FC<BentoProps> = ({
           const cardProps = {
             className: baseClassName,
             style: {
-              backgroundColor: card.color,
+              background: card.color,
               '--glow-color': glowColor
             } as React.CSSProperties
           };
@@ -495,6 +496,18 @@ const MagicBento: React.FC<BentoProps> = ({
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}
               >
+                {card.media && (
+                  <div style={{
+                    position: 'absolute', inset: 0, zIndex: 0, borderRadius: 'inherit', overflow: 'hidden',
+                  }}>
+                    {/\.(mp4|webm|ogg)$/i.test(card.media) ? (
+                      <video src={card.media} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    ) : (
+                      <img src={card.media} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    )}
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)' }} />
+                  </div>
+                )}
                 <div className="magic-bento-card__header">
                   <div className="magic-bento-card__label">{card.label}</div>
                 </div>
@@ -508,6 +521,18 @@ const MagicBento: React.FC<BentoProps> = ({
 
           return (
             <div key={index} {...cardProps}>
+              {card.media && (
+                <div style={{
+                  position: 'absolute', inset: 0, zIndex: 0, borderRadius: 'inherit', overflow: 'hidden',
+                }}>
+                  {/\.(mp4|webm|ogg)$/i.test(card.media) ? (
+                    <video src={card.media} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  ) : (
+                    <img src={card.media} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  )}
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)' }} />
+                </div>
+              )}
               <div className="magic-bento-card__header">
                 <div className="magic-bento-card__label">{card.label}</div>
               </div>
