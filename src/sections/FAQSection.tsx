@@ -1,36 +1,10 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { FadeContent } from '@/components/ui/FadeContent'
 
-const faqs = [
-  {
-    q: 'Come funziona esattamente il servizio?',
-    a: 'Semplice: scegli il layout che preferisci, ci invii i materiali (nomi, date, foto, testi) e noi personalizziamo tutto — colori, font, contenuti. In 48 ore ricevi il link del vostro invito pronto da condividere.',
-  },
-  {
-    q: 'Cosa devo inviarvi per iniziare?',
-    a: 'Basta un messaggio con: nomi degli sposi, data e luogo del matrimonio, testi che vuoi inserire e, se ce li hai, qualche foto. Per il resto ti guidiamo noi passo dopo passo.',
-  },
-  {
-    q: 'Gli ospiti devono installare un\'app?',
-    a: 'No! Il link si apre direttamente nel browser di qualsiasi dispositivo. Nessuna registrazione, nessun download. Basta un tap sul link o inquadrare il QR code.',
-  },
-  {
-    q: 'Posso richiedere modifiche dopo la consegna?',
-    a: 'Certo. Ogni pacchetto include revisioni per aggiornare testi, date e contenuti. Le modifiche si riflettono in tempo reale senza dover ri-condividere il link.',
-  },
-  {
-    q: 'Come funziona il sistema RSVP?',
-    a: 'Gli ospiti aprono il link e compilano il form con numero di accompagnatori e preferenze alimentari. Voi vedete tutto in tempo reale nella dashboard e ricevete una notifica ad ogni risposta.',
-  },
-  {
-    q: 'Quanto tempo ci vuole per avere l\'invito?',
-    a: 'Di solito 24-48 ore dall\'invio dei vostri materiali. Non pubblichiamo nulla senza la vostra approvazione finale, quindi siete sempre in controllo.',
-  },
-]
-
 function BubbleFAQ({ faq, index, open, onToggle }: {
-  faq: typeof faqs[0]
+  faq: { q: string; a: string }
   index: number
   open: boolean
   onToggle: () => void
@@ -126,12 +100,25 @@ function BubbleFAQ({ faq, index, open, onToggle }: {
 }
 
 export function FAQSection() {
+  const { t } = useTranslation()
   const [open, setOpen] = useState<number | null>(0)
+  const faqs = t('faq.items', { returnObjects: true }) as Array<{ q: string; a: string }>
 
   const toggle = (i: number) => setOpen(open === i ? null : i)
 
   return (
-    <section id="faq" style={{ padding: '100px 0', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
+    <section id="faq" style={{ padding: '0 0 100px 0', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
+      {/* Glow viola — spostato da PricingSection */}
+      <motion.div
+        animate={{ y: [0, -20, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          position: 'absolute', top: '-8%', left: '2%',
+          width: 520, height: 520, borderRadius: '50%', pointerEvents: 'none',
+          background: 'radial-gradient(circle, rgba(147,51,234,0.32) 0%, transparent 68%)',
+          filter: 'blur(60px)', zIndex: 0,
+        }}
+      />
       <FadeContent blur duration={800} className="mx-auto max-w-2xl px-6 lg:px-8" style={{ position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <div className="text-center mb-16">
@@ -153,7 +140,7 @@ export function FAQSection() {
               marginBottom: 16,
             }}
           >
-            FAQ
+            {t('faq.badge')}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -169,7 +156,7 @@ export function FAQSection() {
               marginBottom: 14,
             }}
           >
-            Domande frequenti
+            {t('faq.title')}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -178,7 +165,7 @@ export function FAQSection() {
             transition={{ delay: 0.2 }}
             style={{ fontSize: 15, color: 'rgba(245,240,232,0.55)' }}
           >
-            Clicca su una domanda per leggere la risposta.
+            {t('faq.subtitle')}
           </motion.p>
         </div>
 

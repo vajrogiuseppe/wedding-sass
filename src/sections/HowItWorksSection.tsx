@@ -1,68 +1,54 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { LayoutTemplate, Palette, Rocket } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import Lottie from 'lottie-react'
 import GradienText from '@/components/ui/GradienText'
 import { FadeContent } from '@/components/ui/FadeContent'
 
-/* ─── Steps ──────────────────────────────────────────────────── */
-const steps = [
-  {
-    icon: LayoutTemplate,
-    title: 'Scegli il layout',
-    description: 'Sfoglia i nostri template esclusivi e scegli lo stile che racconta al meglio la vostra storia.',
-    media: 'assets/Gif/Screen1.gif ',
-  },
-  {
-    icon: Palette,
-    title: 'Inviaci i materiali',
-    description: 'Condividici nomi, date, foto e preferenze. Ci occupiamo noi di personalizzare ogni dettaglio.',
-    media: undefined as string | undefined,
-  },
-  {
-    icon: Rocket,
-    title: 'Ricevi e condividi',
-    description: 'In 48 ore il vostro invito è pronto: link unico, QR code stampabile e dashboard ospiti inclusi.',
-    media: undefined as string | undefined,
-  },
-]
+const STEP_ICONS = [LayoutTemplate, Palette, Rocket]
+const STEP_MEDIA = ['/assets/lottie/screen1.json', '/assets/video/scree2.mp4', '/assets/lottie/Notification-remix.json']
 
-/* ─── Fallback screens (usati se media è undefined) ─────────── */
+/* ─── Fallback screens ───────────────────────────────────────── */
 function FallbackScreen0() {
+  const { t } = useTranslation()
+  const s0 = t('howItWorks.screen0', { returnObjects: true }) as { greeting: string; question: string; styles: string[]; cta: string }
   return (
     <div style={{ padding: '24px 16px', height: '100%', background: '#fff5f7', display: 'flex', flexDirection: 'column', gap: 12, boxSizing: 'border-box' }}>
       <p style={{ fontSize: 11, color: '#bbb', margin: 0 }}>21:41</p>
-      <p style={{ fontSize: 13, color: '#888', margin: 0 }}>Ciao Sofia,</p>
+      <p style={{ fontSize: 13, color: '#888', margin: 0 }}>{s0.greeting}</p>
       <p style={{ fontSize: 20, fontWeight: 800, color: '#1a0a2e', margin: '4px 0 14px', lineHeight: 1.15 }}>
-        Quale stile<br />preferisci?
+        {s0.question.split(' ').slice(0, -1).join(' ')}<br />{s0.question.split(' ').slice(-1)}
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1 }}>
-        {[['🌿', 'Botanica'], ['◻', 'Minimal'], ['🌸', 'Romantico'], ['✦', 'Moderno']].map(([e, t], i) => (
+        {s0.styles.map((label, i) => (
           <div key={i} style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            background: i === 0 ? '#f0ebff' : '#fff', borderRadius: 14,
-            padding: '11px 16px',
+            background: i === 0 ? '#f0ebff' : '#fff', borderRadius: 14, padding: '11px 16px',
             border: i === 0 ? '1.5px solid #c4b5fd' : '1.5px solid #f2f2f2',
             boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
           }}>
-            <span style={{ fontSize: 13, fontWeight: i === 0 ? 700 : 400, color: i === 0 ? '#7c6fff' : '#555' }}>{e}  {t}</span>
+            <span style={{ fontSize: 13, fontWeight: i === 0 ? 700 : 400, color: i === 0 ? '#7c6fff' : '#555' }}>{label}</span>
             {i === 0 && <span style={{ fontSize: 11, color: '#7c6fff', fontWeight: 700 }}>✓</span>}
           </div>
         ))}
       </div>
       <div style={{ borderRadius: 40, background: 'linear-gradient(90deg,#7c6fff,#f79adb)', padding: '11px', textAlign: 'center' }}>
-        <span style={{ color: '#fff', fontSize: 12, fontWeight: 700 }}>Usa questo template</span>
+        <span style={{ color: '#fff', fontSize: 12, fontWeight: 700 }}>{s0.cta}</span>
       </div>
     </div>
   )
 }
 
 function FallbackScreen1() {
+  const { t } = useTranslation()
+  const s1 = t('howItWorks.screen1', { returnObjects: true }) as { title: string; colorLabel: string; fontLabel: string; namesLabel: string }
   return (
     <div style={{ padding: '24px 16px', height: '100%', background: '#fff5fb', display: 'flex', flexDirection: 'column', gap: 14, boxSizing: 'border-box' }}>
       <p style={{ fontSize: 11, color: '#bbb', margin: 0 }}>21:41</p>
-      <p style={{ fontSize: 20, fontWeight: 800, color: '#1a0a2e', lineHeight: 1.15, margin: '0 0 4px' }}>I tuoi<br />materiali</p>
+      <p style={{ fontSize: 20, fontWeight: 800, color: '#1a0a2e', lineHeight: 1.15, margin: '0 0 4px' }}>{s1.title}</p>
       <div style={{ borderRadius: 16, background: '#fff', padding: '14px', boxShadow: '0 2px 10px rgba(0,0,0,0.06)' }}>
-        <p style={{ fontSize: 10, color: '#bbb', margin: '0 0 10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Colore principale</p>
+        <p style={{ fontSize: 10, color: '#bbb', margin: '0 0 10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s1.colorLabel}</p>
         <div style={{ display: 'flex', gap: 10 }}>
           {['#f79adb', '#7c6fff', '#c9a96e', '#4cc9f0', '#ff8fab'].map((c, i) => (
             <div key={i} style={{ width: 28, height: 28, borderRadius: '50%', background: c, boxShadow: i === 0 ? `0 0 0 2.5px #fff, 0 0 0 4.5px ${c}` : 'none', flexShrink: 0 }} />
@@ -70,13 +56,13 @@ function FallbackScreen1() {
         </div>
       </div>
       <div style={{ borderRadius: 16, background: '#fff', padding: '14px', boxShadow: '0 2px 10px rgba(0,0,0,0.06)' }}>
-        <p style={{ fontSize: 10, color: '#bbb', margin: '0 0 10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Font</p>
+        <p style={{ fontSize: 10, color: '#bbb', margin: '0 0 10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s1.fontLabel}</p>
         <div style={{ padding: '8px 12px', background: '#f5f0ff', borderRadius: 10, fontSize: 13, fontFamily: 'Georgia,serif', fontStyle: 'italic', color: '#7c6fff' }}>
           Cormorant Garamond ✓
         </div>
       </div>
       <div style={{ borderRadius: 16, background: '#fff', padding: '14px', boxShadow: '0 2px 10px rgba(0,0,0,0.06)', flex: 1 }}>
-        <p style={{ fontSize: 10, color: '#bbb', margin: '0 0 8px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Nomi sposi</p>
+        <p style={{ fontSize: 10, color: '#bbb', margin: '0 0 8px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s1.namesLabel}</p>
         <div style={{ background: '#f9f9f9', borderRadius: 8, padding: '8px 10px', fontSize: 14, fontFamily: 'Georgia,serif', fontStyle: 'italic', color: '#333' }}>
           Sofia &amp; Marco
         </div>
@@ -86,20 +72,24 @@ function FallbackScreen1() {
 }
 
 function FallbackScreen2() {
+  const { t } = useTranslation()
+  const s2 = t('howItWorks.screen2', { returnObjects: true }) as { title: string; stats: string[]; rsvpLabel: string }
+  const statColors = ['#7c6fff', '#4ade80', '#fbbf24', '#f87171']
+  const statValues = ['128', '94', '28', '6']
   return (
     <div style={{ padding: '24px 16px', height: '100%', background: '#f0f8ff', display: 'flex', flexDirection: 'column', gap: 12, boxSizing: 'border-box' }}>
       <p style={{ fontSize: 11, color: '#bbb', margin: 0 }}>21:41</p>
-      <p style={{ fontSize: 20, fontWeight: 800, color: '#1a0a2e', lineHeight: 1.15, margin: '0 0 4px' }}>Il tuo invito<br />è pronto</p>
+      <p style={{ fontSize: 20, fontWeight: 800, color: '#1a0a2e', lineHeight: 1.15, margin: '0 0 4px' }}>{s2.title}</p>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-        {[{ l: 'Invitati', v: '128', c: '#7c6fff' }, { l: 'Confermati', v: '94', c: '#4ade80' }, { l: 'In attesa', v: '28', c: '#fbbf24' }, { l: 'Declinati', v: '6', c: '#f87171' }].map((s, i) => (
+        {s2.stats.map((label, i) => (
           <div key={i} style={{ borderRadius: 14, background: '#fff', padding: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-            <p style={{ margin: 0, fontSize: 24, fontWeight: 800, color: s.c }}>{s.v}</p>
-            <p style={{ margin: 0, fontSize: 10, color: '#aaa' }}>{s.l}</p>
+            <p style={{ margin: 0, fontSize: 24, fontWeight: 800, color: statColors[i] }}>{statValues[i]}</p>
+            <p style={{ margin: 0, fontSize: 10, color: '#aaa' }}>{label}</p>
           </div>
         ))}
       </div>
       <div style={{ borderRadius: 14, background: '#fff', padding: '14px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', flex: 1 }}>
-        <p style={{ fontSize: 10, color: '#bbb', margin: '0 0 10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ultimi RSVP</p>
+        <p style={{ fontSize: 10, color: '#bbb', margin: '0 0 10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s2.rsvpLabel}</p>
         {[{ n: 'Giulia M.', s: '✓', c: '#4ade80' }, { n: 'Luca B.', s: '✓', c: '#4ade80' }, { n: 'Sara C.', s: '?', c: '#fbbf24' }].map((g, i) => (
           <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', borderBottom: i < 2 ? '1px solid #f5f5f5' : 'none' }}>
             <span style={{ fontSize: 12, color: '#555' }}>{g.n}</span>
@@ -111,16 +101,36 @@ function FallbackScreen2() {
   )
 }
 
-const FALLBACKS = [<FallbackScreen0 />, <FallbackScreen1 />, <FallbackScreen2 />]
+const FALLBACK_COMPONENTS = [FallbackScreen0, FallbackScreen1, FallbackScreen2]
+
+function LottieFromUrl({ src }: { src: string }) {
+  const [data, setData] = useState<object | null>(null)
+  useEffect(() => {
+    fetch(src).then(r => r.json()).then(setData).catch(() => null)
+  }, [src])
+  if (!data) return null
+  return (
+    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'stretch' }}>
+      <Lottie
+        animationData={data}
+        loop
+        autoplay
+        style={{ width: '100%', height: '100%', flex: 1 }}
+        rendererSettings={{ preserveAspectRatio: 'xMidYMid slice' }}
+      />
+    </div>
+  )
+}
 
 /* ─── MediaContent ───────────────────────────────────────────── */
 function MediaContent({ src, fallback }: { src?: string; fallback: React.ReactNode }) {
   if (!src) return <>{fallback}</>
 
-  const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(src) || src.includes('.mp4') || src.includes('.webm')
-  const isGif = /\.gif$/i.test(src)
+  if (/\.json$/i.test(src)) {
+    return <LottieFromUrl src={src} />
+  }
 
-  if (isVideo) {
+  if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
     return (
       <video
         src={src}
@@ -128,7 +138,7 @@ function MediaContent({ src, fallback }: { src?: string; fallback: React.ReactNo
         loop
         muted
         playsInline
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        style={{ width: '100%', height: '100%', objectFit: 'none', display: 'block' }}
       />
     )
   }
@@ -292,13 +302,14 @@ function PhoneInCascade({
   stepIndex,
   posIndex,
   active,
+  media,
 }: {
   stepIndex: number
   posIndex: number
   active: boolean
+  media?: string
 }) {
   const pos = CASCADE[posIndex]
-  const step = steps[stepIndex]
 
   return (
     <motion.div
@@ -314,8 +325,8 @@ function PhoneInCascade({
       style={{ position: 'absolute', top: 0, left: 0, transformOrigin: 'bottom center' }}
     >
       <IPhoneMockup
-        media={step.media}
-        fallback={FALLBACKS[stepIndex]}
+        media={media}
+        fallback={FALLBACK_COMPONENTS.map(C => <C />)[stepIndex]}
         active={active}
       />
     </motion.div>
@@ -325,7 +336,13 @@ function PhoneInCascade({
 /* ─── Section ────────────────────────────────────────────────── */
 export function HowItWorksSection() {
   const [active, setActive] = useState(0)
+  const { t } = useTranslation()
   const order = [active, ...([0, 1, 2].filter(i => i !== active))]
+  const steps = (t('howItWorks.steps', { returnObjects: true }) as Array<{ title: string; description: string }>).map((s, i) => ({
+    ...s,
+    icon: STEP_ICONS[i],
+    media: STEP_MEDIA[i] as string | undefined,
+  }))
 
   return (
     <section
@@ -370,7 +387,7 @@ export function HowItWorksSection() {
           <div style={{ position: 'relative', width: PHONE_W, height: PHONE_H + 40 }}>
             <IPhoneMockup
               media={steps[active].media}
-              fallback={FALLBACKS[active]}
+              fallback={FALLBACK_COMPONENTS.map(C => <C />)[active]}
               active={true}
             />
           </div>
@@ -383,12 +400,11 @@ export function HowItWorksSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="font-display"
-            style={{ fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', fontWeight: 600, color: '#1a0a12', lineHeight: 1.08, marginBottom: 16 }}
+            style={{ textAlign: 'center', fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', fontWeight: 600, color: '#1a0a12', lineHeight: 1.08, marginBottom: 16 }}
           >
-            Tre passi verso
-            <br />
-            <GradienText colors={['#1a0a12', '#f79adb', '#cf8300']}>
-              <span style={{ fontStyle: 'italic' }}>l'invito perfetto.</span>
+            {t('howItWorks.title')}
+            <GradienText colors={['#0a0868', '#99096e', '#cf8300']}>
+              <span style={{ fontStyle: 'italic' }}>{t('howItWorks.titleItalic')}</span>
             </GradienText>
           </motion.h2>
           <motion.p
@@ -398,7 +414,7 @@ export function HowItWorksSection() {
             transition={{ delay: 0.1 }}
             style={{ fontSize: 15.5, color: 'rgba(26,10,18,0.48)', lineHeight: 1.65, marginBottom: 52, maxWidth: 380 }}
           >
-            Pochi minuti separano la vostra storia da un invito che i vostri ospiti non dimenticheranno.
+            {t('howItWorks.subtitle')}
           </motion.p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -472,6 +488,7 @@ export function HowItWorksSection() {
                 stepIndex={phoneIndex}
                 posIndex={posIndex}
                 active={posIndex === 0}
+                media={steps[phoneIndex].media}
               />
             ))}
           </div>

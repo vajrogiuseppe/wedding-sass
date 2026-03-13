@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import StarBorder from "@/components/ui/StarBorder";
 import Ballpit from "@/components/ui/Ballpit";
 import GradienText from "@/components/ui/GradienText";
@@ -31,6 +32,7 @@ const people = [
 export function MarketingHeroSection() {
   const [ready, setReady] = useState(false);
   const [iniziaHover, setIniziaHover] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const t = setTimeout(() => setReady(true), 300);
@@ -42,7 +44,7 @@ export function MarketingHeroSection() {
       id="hero"
       style={{
         position: "relative",
-        minHeight: "100vh",
+        minHeight: "100svh",
         overflow: "hidden",
         background: "#0e0c0a",
         display: "flex",
@@ -51,7 +53,7 @@ export function MarketingHeroSection() {
       }}
     >
       {/* Grainient background */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+      <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
         <Grainient
           color1="#444b4d"
           color2="#2b1a6e"
@@ -65,7 +67,7 @@ export function MarketingHeroSection() {
       </div>
 
       {/* Ballpit background */}
-      <div style={{ position: "absolute", inset: 0 }}>
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
         <Ballpit
           count={80}
           gravity={0.2}
@@ -85,7 +87,7 @@ export function MarketingHeroSection() {
           top: "35%",
           left: "50%",
           transform: "translate(-50%,-50%)",
-          width: 900,
+          width: "min(900px, 100vw)",
           height: 500,
           pointerEvents: "none",
           background:
@@ -149,7 +151,7 @@ export function MarketingHeroSection() {
           }}
           className="font-mono"
         >
-          Il servizio di inviti digitali per il vostro matrimonio
+          {t('hero.badge')}
         </motion.p>
 
         {/* Title */}
@@ -166,12 +168,10 @@ export function MarketingHeroSection() {
             marginBottom: 24,
           }}
         >
-          Il giorno più bello
+          {t('hero.title1')}
           <br />
           <GradienText colors={["#faf6f0", "#f79adb", "#cf8300"]}>
-            <span style={{ fontStyle: "italic" }}>
-              merita un invito perfetto.
-            </span>
+            <span style={{ fontStyle: "italic" }}>{t('hero.title2')}</span>
           </GradienText>
         </motion.h1>
 
@@ -189,7 +189,7 @@ export function MarketingHeroSection() {
             fontWeight: 300,
           }}
         >
-          Scegli il layout, inviaci i tuoi materiali e in 48 ore riceverai il vostro invito digitale personalizzato — con RSVP integrato e link unico da condividere ovunque.
+          {t('hero.subtitle')}
         </motion.p>
 
         {/* Social proof */}
@@ -262,11 +262,11 @@ export function MarketingHeroSection() {
             </div>
             <p style={{ fontSize: 13, color: "#fff", textAlign: "left", margin: 0 }}>
               <span style={{ color: "#f5f0e8", fontWeight: 600 }}>
-                50+ coppie
+                {t('hero.couples')}
               </span>{" "}
-              hanno già
+              {t('hero.couplesText').split('\n')[0]}
               <br />
-              scelto Lovivity
+              {t('hero.couplesText').split('\n')[1]}
             </p>
           </div>
         </motion.div>
@@ -310,7 +310,7 @@ export function MarketingHeroSection() {
               e.currentTarget.style.borderColor = 'rgba(255,255,255,0.35)'
             }}
           >
-            Scopri di più
+            {t('hero.discoverMore')}
           </button>
 
           {/* Inizia subito — glow sempre attivo */}
@@ -351,7 +351,7 @@ export function MarketingHeroSection() {
                   transition: 'background 0.4s ease',
                 } as React.CSSProperties}
               >
-                Richiedi il tuo invito
+                {t('hero.ctaPrimary')}
               </GlareHover>
           </motion.div>
         </motion.div>

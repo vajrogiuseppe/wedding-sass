@@ -1,0 +1,206 @@
+{
+  "nav": {
+    "links": {
+      "howItWorks": "Come funziona",
+      "features": "Funzionalità",
+      "pricing": "Prezzi",
+      "contact": "Contatti"
+    },
+    "cta": "Inizia ora"
+  },
+  "hero": {
+    "badge": "Il servizio di inviti digitali per il vostro matrimonio",
+    "title1": "Il giorno più bello",
+    "title2": "merita un invito perfetto.",
+    "subtitle": "Scegli il layout, inviaci i tuoi materiali e in 48 ore riceverai il vostro invito digitale personalizzato — con RSVP integrato e link unico da condividere ovunque.",
+    "couples": "50+ coppie",
+    "couplesText": "hanno già\nscelto Lovivity",
+    "discoverMore": "Scopri di più",
+    "ctaPrimary": "Richiedi il tuo invito"
+  },
+  "howItWorks": {
+    "title": "Tre passi verso",
+    "titleItalic": "l'invito perfetto.",
+    "subtitle": "Pochi minuti separano la vostra storia da un invito che i vostri ospiti non dimenticheranno.",
+    "steps": [
+      {
+        "title": "Scegli il layout",
+        "description": "Sfoglia i nostri template esclusivi e scegli lo stile che racconta al meglio la vostra storia."
+      },
+      {
+        "title": "Inviaci i materiali",
+        "description": "Condividici nomi, date, foto e preferenze. Ci occupiamo noi di personalizzare ogni dettaglio."
+      },
+      {
+        "title": "Ricevi e condividi",
+        "description": "In 48 ore il vostro invito è pronto: link unico, QR code stampabile e dashboard ospiti inclusi."
+      }
+    ],
+    "screen0": {
+      "greeting": "Ciao Sofia,",
+      "question": "Quale stile preferisci?",
+      "styles": ["🌿  Botanica", "◻  Minimal", "🌸  Romantico", "✦  Moderno"],
+      "cta": "Usa questo template"
+    },
+    "screen1": {
+      "title": "I tuoi materiali",
+      "colorLabel": "Colore principale",
+      "fontLabel": "Font",
+      "namesLabel": "Nomi sposi"
+    },
+    "screen2": {
+      "title": "Il tuo invito è pronto",
+      "stats": ["Invitati", "Confermati", "In attesa", "Declinati"],
+      "rsvpLabel": "Ultimi RSVP"
+    }
+  },
+  "showcase": {
+    "badge": "Showcase",
+    "title": "Inviti che lasciano",
+    "titleItalic": "il segno.",
+    "subtitle": "Trascina per esplorare. Ogni template è completamente personalizzabile.",
+    "viewDemo": "Guarda Demo"
+  },
+  "comparison": {
+    "badge": "Digitale vs Cartaceo",
+    "title": "Perché scegliere",
+    "titleItalic": "il digitale.",
+    "subtitle": "Un invito digitale non è solo moderno — è più pratico, più economico e più sostenibile di quello cartaceo.",
+    "colAspect": "Aspetto",
+    "colDigital": "Invito Digitale",
+    "colPaper": "Invito Cartaceo",
+    "footNote": "Ogni anno in Italia vengono stampati milioni di inviti cartacei. Il tuo matrimonio può fare la differenza.",
+    "rows": [
+      { "label": "Costo medio", "digital": "Da €35 una tantum", "paper": "€3–8 per invito (×100 = €300–800+)" },
+      { "label": "Modifiche last-minute", "digital": "Istantanee, senza costi extra", "paper": "Ristampa completa a pagamento" },
+      { "label": "RSVP e conferme", "digital": "Automatico con dashboard live", "paper": "Telefonate e raccolta manuale" },
+      { "label": "Condivisione", "digital": "Link + QR code ovunque", "paper": "Spedizione postale (tempi e costi)" },
+      { "label": "Impatto ambientale", "digital": "Zero carta, zero sprechi", "paper": "Carta, stampa, imballaggi, trasporto" },
+      { "label": "Tempi di consegna", "digital": "Pronto in 48 ore", "paper": "2–4 settimane tra stampa e spedizione" },
+      { "label": "Informazioni extra", "digital": "Mappa, countdown, gallery, info hotel…", "paper": "Spazio limitato, inserti aggiuntivi a parte" }
+    ]
+  },
+  "pricing": {
+    "badge": "Prezzi",
+    "title": "Prezzi chiari,",
+    "titleItalic": "zero sorprese.",
+    "subtitle": "Pagamento una tantum, nessun abbonamento. Scegliete il pacchetto, inviaci i materiali — il resto lo facciamo noi.",
+    "period": "una tantum",
+    "addRsvp": "Aggiungi RSVP form",
+    "saveDate": {
+      "badge": "Save the Date",
+      "description": "Annuncia la data con eleganza. Perfetto per chi vuole un tocco digitale semplice e raffinato.",
+      "descriptionRsvp": "Save the Date con raccolta conferme integrata e gestione ospiti in tempo reale.",
+      "cta": "Scegli Save the Date",
+      "ctaRsvp": "Scegli Save the Date + RSVP",
+      "features": [
+        "Scegli tra i template Save the Date",
+        "Personalizzazione testi e colori",
+        "Countdown al grande giorno",
+        "Info location con mappa",
+        "Link unico + QR Code",
+        "Mobile ottimizzato"
+      ],
+      "rsvpFeatures": [
+        "Form RSVP personalizzato",
+        "Preferenze alimentari ospiti",
+        "Dashboard ospiti live",
+        "Notifiche automatiche"
+      ]
+    },
+    "landing": {
+      "badge": "Landing Completa",
+      "mostChosen": "Il più scelto",
+      "description": "La soluzione più completa: tutto incluso, revisioni, gallery e supporto dedicato.",
+      "cta": "Scegli Landing Completa",
+      "features": [
+        "Tutto di \"Save the Date + RSVP\"",
+        "Gallery fotografica",
+        "Programma completo evento",
+        "Dominio personalizzato",
+        "Revisioni incluse",
+        "Export CSV lista ospiti",
+        "Supporto prioritario 7/7"
+      ]
+    },
+    "custom": {
+      "badge": "Custom",
+      "description": "Per chi vuole qualcosa di unico e irripetibile. Design esclusivo, animazioni custom e supporto dedicato dall'inizio alla fine.",
+      "cta": "Richiedi un preventivo",
+      "features": [
+        "Progetto completamente su misura",
+        "Design esclusivo da zero",
+        "Animazioni e interazioni custom",
+        "Integrazioni esterne (music, video)",
+        "Supporto dedicato pre/post evento",
+        "Revisioni illimitate",
+        "Consegna prioritaria"
+      ]
+    }
+  },
+  "faq": {
+    "badge": "FAQ",
+    "title": "Domande frequenti",
+    "subtitle": "Clicca su una domanda per leggere la risposta.",
+    "items": [
+      {
+        "q": "Come funziona esattamente il servizio?",
+        "a": "Semplice: scegli il layout che preferisci, ci invii i materiali (nomi, date, foto, testi) e noi personalizziamo tutto — colori, font, contenuti. In 48 ore ricevi il link del vostro invito pronto da condividere."
+      },
+      {
+        "q": "Cosa devo inviarvi per iniziare?",
+        "a": "Basta un messaggio con: nomi degli sposi, data e luogo del matrimonio, testi che vuoi inserire e, se ce li hai, qualche foto. Per il resto ti guidiamo noi passo dopo passo."
+      },
+      {
+        "q": "Gli ospiti devono installare un'app?",
+        "a": "No! Il link si apre direttamente nel browser di qualsiasi dispositivo. Nessuna registrazione, nessun download. Basta un tap sul link o inquadrare il QR code."
+      },
+      {
+        "q": "Posso richiedere modifiche dopo la consegna?",
+        "a": "Certo. Ogni pacchetto include revisioni per aggiornare testi, date e contenuti. Le modifiche si riflettono in tempo reale senza dover ri-condividere il link."
+      },
+      {
+        "q": "Come funziona il sistema RSVP?",
+        "a": "Gli ospiti aprono il link e compilano il form con numero di accompagnatori e preferenze alimentari. Voi vedete tutto in tempo reale nella dashboard e ricevete una notifica ad ogni risposta."
+      },
+      {
+        "q": "Quanto tempo ci vuole per avere l'invito?",
+        "a": "Di solito 24-48 ore dall'invio dei vostri materiali. Non pubblichiamo nulla senza la vostra approvazione finale, quindi siete sempre in controllo."
+      }
+    ]
+  },
+  "contact": {
+    "badge": "Contatti",
+    "title": "Iniziamo il vostro",
+    "titleItalic": "Progetto insieme.",
+    "subtitle": "Scegli il pacchetto, raccontaci del vostro matrimonio e ti risponderemo entro 24 ore.",
+    "form": {
+      "name": "Nome e cognome *",
+      "email": "Email *",
+      "phone": "Telefono",
+      "service": "Tipologia di servizio *",
+      "message": "Raccontaci del vostro matrimonio *",
+      "submit": "Invia richiesta",
+      "submitting": "Invio in corso...",
+      "submitted": "Richiesta inviata!",
+      "successTitle": "Richiesta inviata!",
+      "successDesc": "Ti risponderemo entro 24 ore.",
+      "services": [
+        { "value": "save-the-date", "label": "Save the Date — €35" },
+        { "value": "save-the-date-rsvp", "label": "Save the Date + RSVP — €60" },
+        { "value": "landing-completa", "label": "Landing Completa — €120" },
+        { "value": "premium", "label": "Premium su Misura — €220" }
+      ]
+    },
+    "validation": {
+      "nameRequired": "Il nome è obbligatorio",
+      "emailRequired": "L'email è obbligatoria",
+      "emailInvalid": "Email non valida",
+      "messageRequired": "Il messaggio è obbligatorio"
+    }
+  },
+  "footer": {
+    "tagline": "Il modo più elegante per condividere il vostro giorno speciale.",
+    "rights": "Tutti i diritti riservati"
+  }
+}

@@ -1,26 +1,16 @@
 import { motion } from 'framer-motion'
 import { Check, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import GradienText from '@/components/ui/GradienText'
 import { FadeContent } from '@/components/ui/FadeContent'
 
-const rows = [
-  { label: 'Costo medio', digital: 'Da €35 una tantum', paper: '€3–8 per invito (×100 = €300–800+)' },
-  { label: 'Modifiche last-minute', digital: 'Istantanee, senza costi extra', paper: 'Ristampa completa a pagamento' },
-  { label: 'RSVP e conferme', digital: 'Automatico con dashboard live', paper: 'Telefonate e raccolta manuale' },
-  { label: 'Condivisione', digital: 'Link + QR code ovunque', paper: 'Spedizione postale (tempi e costi)' },
-  { label: 'Impatto ambientale', digital: 'Zero carta, zero sprechi', paper: 'Carta, stampa, imballaggi, trasporto' },
-  { label: 'Tempi di consegna', digital: 'Pronto in 48 ore', paper: '2–4 settimane tra stampa e spedizione' },
-  { label: 'Informazioni extra', digital: 'Mappa, countdown, gallery, info hotel…', paper: 'Spazio limitato, inserti aggiuntivi a parte' },
-]
-
-const digitalYes = [true, true, true, true, true, true, true]
-const paperNo = [false, false, false, false, false, false, false]
-
 export function ComparisonSection() {
+  const { t } = useTranslation()
+  const rows = t('comparison.rows', { returnObjects: true }) as Array<{ label: string; digital: string; paper: string }>
   return (
     <section
       id="confronto"
-      style={{ padding: '100px 0 120px', position: 'relative' }}
+      style={{ padding: '120px 0 0px', position: 'relative' }}
     >
       {/* Background glows */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
@@ -59,7 +49,7 @@ export function ComparisonSection() {
               marginBottom: 16,
             }}
           >
-            Digitale vs Cartaceo
+            {t('comparison.badge')}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -75,10 +65,10 @@ export function ComparisonSection() {
               marginBottom: 16,
             }}
           >
-            Perché scegliere
+            {t('comparison.title')}
             <br />
             <GradienText colors={['#faf6f0', '#f79adb', '#cf8300']}>
-              <span style={{ fontStyle: 'italic' }}>il digitale.</span>
+              <span style={{ fontStyle: 'italic' }}>{t('comparison.titleItalic')}</span>
             </GradienText>
           </motion.h2>
           <motion.p
@@ -88,11 +78,12 @@ export function ComparisonSection() {
             transition={{ delay: 0.2 }}
             style={{ fontSize: 15, color: 'rgba(245,240,232,0.5)', maxWidth: 460, margin: '0 auto' }}
           >
-            Un invito digitale non è solo moderno — è più pratico, più economico e più sostenibile di quello cartaceo.
+            {t('comparison.subtitle')}
           </motion.p>
         </div>
 
         {/* Table */}
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', borderRadius: 24, border: '1px solid rgba(255,255,255,0.08)' }}>
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -101,7 +92,7 @@ export function ComparisonSection() {
           style={{
             borderRadius: 24,
             overflow: 'hidden',
-            border: '1px solid rgba(255,255,255,0.08)',
+            minWidth: 520,
           }}
         >
           {/* Header row */}
@@ -114,7 +105,7 @@ export function ComparisonSection() {
             }}
           >
             <div style={{ padding: '16px 24px', fontSize: 11, fontWeight: 700, color: 'rgba(245,240,232,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-              Aspetto
+              {t('comparison.colAspect')}
             </div>
             <div style={{
               padding: '16px 24px',
@@ -134,11 +125,11 @@ export function ComparisonSection() {
                 width: 8, height: 8, borderRadius: '50%',
                 background: 'linear-gradient(135deg, #9333ea, #c026d3)',
               }} />
-              Invito Digitale
+              {t('comparison.colDigital')}
             </div>
             <div style={{ padding: '16px 24px', fontSize: 12, fontWeight: 700, color: 'rgba(245,240,232,0.4)', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: 'rgba(245,240,232,0.25)' }} />
-              Invito Cartaceo
+              {t('comparison.colPaper')}
             </div>
           </div>
 
@@ -200,6 +191,7 @@ export function ComparisonSection() {
             </motion.div>
           ))}
         </motion.div>
+        </div>
 
         {/* Bottom callout */}
         <motion.p
@@ -214,7 +206,7 @@ export function ComparisonSection() {
             color: 'rgba(245,240,232,0.3)',
           }}
         >
-          Ogni anno in Italia vengono stampati milioni di inviti cartacei. Il tuo matrimonio può fare la differenza.
+          {t('comparison.footNote')}
         </motion.p>
       </FadeContent>
     </section>

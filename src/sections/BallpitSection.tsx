@@ -23,7 +23,7 @@ export function BallpitSection() {
     gravity={0.6}
     friction={0.998}
     wallBounce={1}
-    followCursor={false}
+    followCursor={true}
     colors={[0xeccd04, 0xdddfdd, 0x858585]}
   />
 </div>

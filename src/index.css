@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes marquee-up   { from { transform: translateY(0) }    to { transform: translateY(-50%) } }
+@keyframes marquee-down { from { transform: translateY(-50%) } to { transform: translateY(0) } }
+@keyframes marquee-left { from { transform: translateX(0) }    to { transform: translateX(-50%) } }
+
 
 /* ─── Design tokens ─────────────────────────────────── */
 :root {
@@ -21,12 +25,18 @@
 
 /* ─── Reset ─────────────────────────────────────────── */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
+}
 body {
   font-family: 'Lato', sans-serif;
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 .font-display { font-family: 'Fraunces', serif; }
 
@@ -150,8 +160,7 @@ body {
 @media (max-width: 640px) {
   .hide-mobile { display: none !important; }
 
-  /* Reduce section vertical padding on mobile */
-  section { padding-top: clamp(64px, 14vw, 100px) !important; padding-bottom: clamp(64px, 14vw, 100px) !important; }
+  /* Reduce section vertical padding on mobile — exclude Sonner toast container */
 
   /* Pricing: remove scale on featured card */
   .pricing-card-featured { transform: none !important; }

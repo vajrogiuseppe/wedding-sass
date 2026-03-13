@@ -48,7 +48,8 @@
       "Bash(cd \"C:\\\\Users\\\\Web\\\\Desktop\\\\Siti\\\\wedding-sass\" && npx shadcn@latest add \"https://reactbits.dev/r/star-border\" 2>&1)",
       "WebFetch(domain:api.github.com)",
       "Bash(cd \"C:\\\\Users\\\\Web\\\\Desktop\\\\Siti\\\\wedding-sass\" && npx tsc --noEmit 2>&1 | head -60)",
-      "mcp__shadcn__view_items_in_registries"
+      "mcp__shadcn__view_items_in_registries",
+      "Bash(netsh advfirewall:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

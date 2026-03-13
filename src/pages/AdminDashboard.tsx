@@ -37,7 +37,7 @@ function PasswordGate({ onAuth }: { onAuth: () => void }) {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="font-display text-3xl italic font-semibold text-warm-dark mb-2">
-            inviti<span className="text-gold">.</span>studio
+            Lovivity<span className="text-gold">.</span>
           </div>
           <p className="text-sm text-muted">Area amministrativa</p>
         </div>
@@ -182,7 +182,7 @@ export default function AdminDashboard() {
       <div className="bg-white border-b border-gray-100 px-6 py-4">
         <div className="mx-auto max-w-7xl flex items-center justify-between">
           <div className="font-display text-2xl italic font-semibold text-warm-dark">
-            inviti<span className="text-gold">.</span>studio
+            Lovivity<span className="text-gold">.</span>
             <span className="text-sm font-sans font-normal text-muted ml-2 not-italic">/ Admin</span>
           </div>
           <button onClick={handleLogout} className="flex items-center gap-2 text-sm text-muted hover:text-warm-dark transition-colors">

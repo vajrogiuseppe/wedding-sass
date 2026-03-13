@@ -1,7 +1,9 @@
 import { lazy, Suspense, useRef } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
-import { useScroll, useTransform, motion } from 'framer-motion'
+import { useScroll, useTransform, motion, MotionConfig } from 'framer-motion'
+
+const isMobileDevice = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { MarketingHeroSection } from '@/sections/MarketingHeroSection'
@@ -56,6 +58,7 @@ function ShowcaseDashboardBg({ children }: { children: React.ReactNode }) {
 
 function LandingPage() {
   return (
+    <MotionConfig reducedMotion={isMobileDevice ? 'always' : 'never'}>
     <div style={{ background: '#0e0c0a' }}>
       {/* Fixed base bg */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', background: '#0e0c0a' }} />
@@ -81,7 +84,7 @@ function LandingPage() {
             velocity={90}
             numCopies={12}
             className="custom-scroll-text"
-            parallaxStyle={{ padding: '0px 0', background: '#1e1a14' }}
+            parallaxStyle={{ padding: '0px 0', background: 'rgb(21 15 46)' }}
             scrollerStyle={{ fontSize: 54, fontWeight: 600 }}
           />
 
@@ -90,9 +93,9 @@ function LandingPage() {
           <GallerySection />
 
           {/* Comparison + Pricing — stesso sfondo scuro sfumato blu/viola */}
-          <div style={{ position: 'relative', background: 'linear-gradient(180deg, #0e0c0a 0%, #0d0b1c 30%, #100d20 55%, #0e0b1a 80%, #0e0c0a 100%)' }}>
+          <div style={{ position: 'relative', background: 'linear-gradient(180deg, #0e0c0a 0%, #0d0b1c 30%, #100d20 55%, #0e0b1a 80%, #0e0c0a 100%)', overflow: 'hidden' }}>
             {/* Glow shapes in cima a tutto, pointer-events none */}
-            <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
+            <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
               {/* Nebulosa centrale tra le due sezioni */}
               <div style={{
                 position: 'absolute', left: '50%', top: '50%',
@@ -134,6 +137,7 @@ function LandingPage() {
       </LinkColorProvider>
       </div>
     </div>
+    </MotionConfig>
   )
 }
 

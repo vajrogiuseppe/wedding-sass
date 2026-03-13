@@ -100,7 +100,7 @@ function SaveTheDateOverlay({ step }: { step: number }) {
         <p style={{ fontSize: 12, color: '#7a6f63', marginBottom: 12 }}>14 Giugno 2025 · Villa Carminati, Toscana</p>
         <div style={{ height: 1, background: '#e0d8cc', marginBottom: 12 }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: 11, color: '#b5a898' }}>sofiaemarco.inviti.studio</span>
+          <span style={{ fontSize: 11, color: '#b5a898' }}>sofiaemarco.lovivity</span>
           <div style={{
             borderRadius: 9999, background: '#c9a96e', color: '#ffffff',
             padding: '5px 14px', fontSize: 11, fontWeight: 700,
@@ -144,7 +144,7 @@ function SaveTheDateOverlay({ step }: { step: number }) {
     }}>
       <p style={{ fontSize: 12, color: '#7a6f63', marginBottom: 10 }}>Condividi il link con i tuoi ospiti:</p>
       <div style={{ borderRadius: 9, border: '1px solid #e0d8cc', background: '#faf7f2', padding: '9px 12px', fontSize: 12, color: '#1e1a14', fontWeight: 600, marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        sofiaemarco.inviti.studio
+        sofiaemarco.lovivity
         <span style={{ fontSize: 10, color: '#a07838', fontWeight: 700 }}>Copia</span>
       </div>
       <div style={{ display: 'flex', gap: 6 }}>
@@ -344,7 +344,7 @@ function DashboardMock() {
         padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <span className="font-display" style={{ fontSize: 14, fontStyle: 'italic', color: '#f5f0e8' }}>
-          inviti<span style={{ color: '#c9a96e' }}>.</span>studio
+          Lovivity<span style={{ color: '#c9a96e' }}>.</span>
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <Lock size={10} color="#c9a96e" />

@@ -596,7 +596,7 @@ export function DashboardPreviewSection() {
                   }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#34d399' }} />
                     <span style={{ fontSize: 9.5, color: '#6b7280', fontFamily: 'monospace' }}>
-                      inviti.studio/dashboard/giuseppe-maria
+                      lovivity/dashboard/giuseppe-maria
                     </span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>

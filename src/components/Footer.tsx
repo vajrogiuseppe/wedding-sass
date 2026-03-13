@@ -1,12 +1,6 @@
 import { motion } from 'framer-motion'
 import { Instagram, MessageCircle, Mail, ArrowUp } from 'lucide-react'
-
-const navLinks = [
-  ['Come funziona', '#come-funziona'],
-  ['Showcase', '#showcase'],
-  ['Prezzi', '#prezzi'],
-  ['Contatti', '#contatti'],
-]
+import { useTranslation } from 'react-i18next'
 
 const socialLinks = [
   { href: 'https://instagram.com/inviti.studio', Icon: Instagram, label: 'Instagram' },
@@ -15,7 +9,14 @@ const socialLinks = [
 ]
 
 export function Footer() {
+  const { t } = useTranslation()
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
+  const navLinks = [
+    [t('nav.links.howItWorks'), '#come-funziona'],
+    [t('nav.links.features'), '#showcase'],
+    [t('nav.links.pricing'), '#prezzi'],
+    [t('nav.links.contact'), '#contatti'],
+  ]
 
   return (
     <footer style={{ position: 'relative', background: '#0e0c0a', overflow: 'hidden' }}>
@@ -45,7 +46,7 @@ export function Footer() {
             display: 'block',
           }}
         >
-          inviti.studio
+         Lovivity
         </span>
       </div>
 
@@ -84,7 +85,7 @@ export function Footer() {
                 letterSpacing: '-0.02em',
               }}
             >
-              inviti<span style={{ color: '#c9a96e' }}>.</span>studio
+              Lovivity<span style={{ color: '#c9a96e' }}>.</span>
             </span>
           </motion.div>
 
@@ -102,7 +103,7 @@ export function Footer() {
               margin: '0 auto 32px',
             }}
           >
-            Il modo più elegante per condividere il vostro giorno speciale.
+            {t('footer.tagline')}
           </motion.p>
 
           {/* Nav links */}
@@ -203,7 +204,7 @@ export function Footer() {
             }}
           >
             <p style={{ fontSize: 12, color: '#3a3028' }}>
-              © {new Date().getFullYear()} inviti.studio — Tutti i diritti riservati
+              © {new Date().getFullYear()} Lovivity — {t('footer.rights')}
             </p>
             <button
               onClick={scrollToTop}

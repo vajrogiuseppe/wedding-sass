@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import GradienText from "@/components/ui/GradienText";
 import { FadeContent } from '@/components/ui/FadeContent'
 
@@ -56,7 +55,7 @@ const testimonials: Testimonial[] = [
   {
     name: 'Roberto Vitale',
     role: 'Sposo · Marzo 2025',
-    text: "Cercavo qualcosa di moderno e non il solito PDF. inviti.studio ha superato ogni aspettativa. L'interfaccia ospiti è bellissima.",
+    text: "Cercavo qualcosa di moderno e non il solito PDF. Lovivity ha superato ogni aspettativa. L'interfaccia ospiti è bellissima.",
     rating: 5,
     initials: 'RV',
   },
@@ -139,15 +138,14 @@ function MarqueeColumn({ items, reverse = false }: { items: Testimonial[]; rever
   const doubled = [...items, ...items]
   return (
     <div style={{ overflow: 'hidden', flex: 1 }}>
-      <motion.div
-        animate={{ y: reverse ? ['0%', '-50%'] : ['-50%', '0%'] }}
-        transition={{ duration: 32, repeat: Infinity, ease: 'linear' }}
-        style={{ display: 'flex', flexDirection: 'column' }}
-      >
+      <div style={{
+        display: 'flex', flexDirection: 'column',
+        animation: `${reverse ? 'marquee-down' : 'marquee-up'} 32s linear infinite`,
+      }}>
         {doubled.map((t, i) => (
           <TestimonialCard key={i} t={t} />
         ))}
-      </motion.div>
+      </div>
     </div>
   )
 }
@@ -156,17 +154,16 @@ function MarqueeRow({ items }: { items: Testimonial[] }) {
   const doubled = [...items, ...items]
   return (
     <div style={{ overflow: 'hidden', width: '100%' }}>
-      <motion.div
-        animate={{ x: ['0%', '-50%'] }}
-        transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-        style={{ display: 'flex', gap: 12, width: 'max-content', paddingLeft: 20 }}
-      >
+      <div style={{
+        display: 'flex', gap: 12, width: 'max-content', paddingLeft: 20,
+        animation: 'marquee-left 40s linear infinite',
+      }}>
         {doubled.map((t, i) => (
           <div key={i} style={{ width: 280, flexShrink: 0 }}>
             <TestimonialCard t={t} />
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   )
 }
@@ -180,11 +177,7 @@ export function GallerySection() {
     <section id="testimonianze" style={{ padding: '100px 0', background: '#f5f0e8', overflow: 'hidden', position: 'relative' }}>
       {/* Header */}
       <FadeContent blur duration={800} className="mx-auto max-w-7xl px-6 lg:px-8 mb-16 text-center">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{
+        <span style={{
             display: 'inline-block',
             borderRadius: 9999,
             border: '1px solid rgba(201,169,110,0.4)',
@@ -199,12 +192,8 @@ export function GallerySection() {
           }}
         >
           Testimonianze
-        </motion.span>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
+        </span>
+        <h2
           className="font-display"
           style={{
             fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
@@ -214,21 +203,15 @@ export function GallerySection() {
             marginBottom: 16,
           }}
         >
-         <GradienText colors={["#faf6f0", "#f79adb", "#cf8300"]}>
+          <GradienText colors={["#faf6f0", "#f79adb", "#cf8300"]}>
             <span style={{ fontStyle: "italic" }}>
               merita un invito perfetto.
             </span>
           </GradienText>
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          style={{ fontSize: 15, color: '#7a6e65', maxWidth: 400, margin: '0 auto' }}
-        >
+        </h2>
+        <p style={{ fontSize: 15, color: '#7a6e65', maxWidth: 400, margin: '0 auto' }}>
           Più di 500 matrimoni realizzati con inviti digitali che hanno emozionato.
-        </motion.p>
+        </p>
       </FadeContent>
 
       {/* Desktop: 3-column vertical marquee */}

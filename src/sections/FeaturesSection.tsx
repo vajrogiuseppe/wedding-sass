@@ -1,5 +1,7 @@
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
+import useEmblaCarousel from 'embla-carousel-react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import ProfileCard from '@/components/ui/ProfileCard'
 import GradienText from '@/components/ui/GradienText'
 import { FadeContent } from '@/components/ui/FadeContent'
@@ -73,17 +75,107 @@ const ITEM_W = CARD_W + CARD_GAP
 const AUTO_SPEED = 0.5 // px per frame
 const SCROLL_EASE = 0.08
 
+const isMobileDevice = () => window.matchMedia('(pointer: coarse)').matches
+
 // Duplicate for seamless loop
 const allItems = [...showcaseItems, ...showcaseItems, ...showcaseItems]
 
+function MobileCarousel({ t }: { t: (key: string) => string }) {
+  return (
+    <div style={{
+      overflowX: 'scroll',
+      overflowY: 'hidden',
+      WebkitOverflowScrolling: 'touch',
+      scrollSnapType: 'x mandatory',
+      display: 'flex',
+      gap: CARD_GAP,
+      padding: '40px 24px 56px',
+      scrollbarWidth: 'none',
+    } as React.CSSProperties}>
+      {showcaseItems.map((item, i) => (
+        <div
+          key={i}
+          style={{
+            flexShrink: 0,
+            scrollSnapAlign: 'center',
+            width: CARD_W,
+            height: 440,
+            borderRadius: 24,
+            position: 'relative',
+            overflow: 'hidden',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.45)',
+          }}
+        >
+          <img
+            src={item.image}
+            alt={item.name}
+            loading="lazy"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          {/* gradient overlay top+bottom — no blur */}
+          <div style={{
+            position: 'absolute', inset: 0, pointerEvents: 'none',
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, transparent 40%, transparent 55%, rgba(0,0,0,0.72) 100%)',
+          }} />
+          {/* Name top */}
+          <div style={{ position: 'absolute', top: 22, left: 0, right: 0, textAlign: 'center' }}>
+            <p style={{ margin: 0, fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontWeight: 600, fontSize: 22, color: '#fff' }}>
+              {item.name}
+            </p>
+            <p style={{ margin: '4px 0 0', fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: 'rgba(201,169,110,0.9)' }}>
+              {item.title}
+            </p>
+          </div>
+          {/* Bottom info — no backdrop-filter */}
+          <div style={{
+            position: 'absolute', bottom: 16, left: 16, right: 16,
+            background: 'rgba(0,0,0,0.72)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 14,
+            padding: '10px 12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 8,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+              <img src={item.image} alt="" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+              <div>
+                <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.9)', lineHeight: 1 }}>{item.name}</p>
+                <p style={{ margin: '3px 0 0', fontSize: 10, color: 'rgba(255,255,255,0.5)', lineHeight: 1 }}>{item.status}</p>
+              </div>
+            </div>
+            {item.demoUrl && (
+              <button
+                onClick={() => window.open(item.demoUrl, '_blank')}
+                style={{
+                  background: 'linear-gradient(135deg, #6d28d9 0%, #9333ea 45%, #c026d3 100%)',
+                  border: 'none', borderRadius: 8, padding: '8px 10px',
+                  fontSize: 11, fontWeight: 700, color: '#fff',
+                  cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
+                }}
+              >
+                {t('showcase.viewDemo')}
+              </button>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export function FeaturesSection() {
+  const isMobile = typeof window !== 'undefined' && isMobileDevice()
+  const { t } = useTranslation()
   const wrapRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
-  const stateRef = useRef({ x: 0, targetX: 0, dragging: false, startX: 0, startScroll: 0, velocity: 0, lastX: 0 })
+  const stateRef = useRef({ x: 0, targetX: 0, dragging: false, startX: 0, startY: 0, startScroll: 0, velocity: 0, lastX: 0, directionLocked: false })
   const rafRef = useRef(0)
 
   // RAF animation loop
   useEffect(() => {
+    if (isMobile) return
     const singleW = showcaseItems.length * ITEM_W
     stateRef.current.x = singleW
     stateRef.current.targetX = singleW
@@ -113,6 +205,7 @@ export function FeaturesSection() {
 
   // Pointer-based drag with capture — prevents conflict with ProfileCard tilt
   useEffect(() => {
+    if (isMobile) return
     const wrap = wrapRef.current
     const track = trackRef.current
     if (!wrap || !track) return
@@ -120,20 +213,42 @@ export function FeaturesSection() {
 
     const onPointerDown = (e: PointerEvent) => {
       if (e.button !== 0 && e.pointerType === 'mouse') return
-      e.preventDefault()
-      wrap.setPointerCapture(e.pointerId)
+      if (e.pointerType === 'mouse') e.preventDefault()
       s.dragging = true
       s.startX = e.clientX
+      s.startY = e.clientY
       s.lastX = e.clientX
       s.startScroll = s.targetX
       s.velocity = 0
-      track.style.cursor = 'grabbing'
-      // Block ProfileCard tilt while dragging
+      // Mouse: capture immediately. Touch: wait for direction detection.
+      s.directionLocked = e.pointerType !== 'touch'
+      if (e.pointerType !== 'touch') {
+        wrap.setPointerCapture(e.pointerId)
+        track.style.cursor = 'grabbing'
+      }
       track.classList.add('is-dragging')
     }
 
     const onPointerMove = (e: PointerEvent) => {
       if (!s.dragging) return
+      if (!s.directionLocked) {
+        const dx = Math.abs(e.clientX - s.startX)
+        const dy = Math.abs(e.clientY - s.startY)
+        // Vertical scroll wins → abort drag
+        if (dy > dx + 3) {
+          s.dragging = false
+          track.classList.remove('is-dragging')
+          return
+        }
+        // Horizontal swipe confirmed → capture and lock
+        if (dx > 5) {
+          s.directionLocked = true
+          wrap.setPointerCapture(e.pointerId)
+          track.style.cursor = 'grabbing'
+        } else {
+          return
+        }
+      }
       s.velocity = e.clientX - s.lastX
       s.lastX = e.clientX
       s.targetX = s.startScroll - (e.clientX - s.startX)
@@ -142,6 +257,7 @@ export function FeaturesSection() {
     const onPointerUp = () => {
       if (!s.dragging) return
       s.dragging = false
+      s.directionLocked = false
       // Apply momentum
       s.targetX -= s.velocity * 4
       track.style.cursor = 'grab'
@@ -195,7 +311,7 @@ export function FeaturesSection() {
       </div>
 
       {/* Header */}
-      <FadeContent blur duration={800} style={{ textAlign: 'center', padding: '0 24px', marginBottom: 48 }}>
+      <FadeContent duration={800} style={{ textAlign: 'center', padding: '0 24px', marginBottom: 48 }}>
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -207,7 +323,7 @@ export function FeaturesSection() {
             letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: 20,
           }}
         >
-          Showcase
+          {t('showcase.badge')}
         </motion.span>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -217,10 +333,10 @@ export function FeaturesSection() {
           className="font-display"
           style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', fontWeight: 600, color: '#f5f0e8', lineHeight: 1.1, marginBottom: 12 }}
         >
-          Inviti che lasciano
+          {t('showcase.title')}
           <br />
           <GradienText colors={['#faf6f0', '#f79adb', '#cf8300']}>
-            <span style={{ fontStyle: 'italic' }}>il segno.</span>
+            <span style={{ fontStyle: 'italic' }}>{t('showcase.titleItalic')}</span>
           </GradienText>
         </motion.h2>
         <motion.p
@@ -230,48 +346,54 @@ export function FeaturesSection() {
           transition={{ delay: 0.2 }}
           style={{ fontSize: 15, color: 'rgba(245,240,232,0.45)' }}
         >
-          Trascina per esplorare. Ogni template è completamente personalizzabile.
+          {t('showcase.subtitle')}
         </motion.p>
       </FadeContent>
 
-      {/* Carousel — clip only horizontally so the behind-glow is not cut */}
-      <div
-        ref={wrapRef}
-        style={{ overflowX: 'clip', overflowY: 'visible', padding: '40px 0 56px', touchAction: 'pan-y' }}
-      >
+      {/* Mobile: Embla carousel */}
+      {isMobile ? (
+        <MobileCarousel t={t as (key: string) => string} />
+      ) : (
+        /* Desktop: RAF infinite carousel */
         <div
-          ref={trackRef}
-          style={{
-            display: 'flex',
-            gap: CARD_GAP,
-            width: 'max-content',
-            cursor: 'grab',
-            userSelect: 'none',
-            WebkitUserSelect: 'none',
-            willChange: 'transform',
-          }}
+          ref={wrapRef}
+          style={{ overflowX: 'clip', overflowY: 'visible', padding: '40px 0 56px', touchAction: 'pan-y' }}
         >
-          {allItems.map((item, i) => (
-            <div key={i} style={{ flexShrink: 0 }}>
-              <ProfileCard
-                avatarUrl={item.image}
-                name={item.name}
-                title={item.title}
-                status={item.status}
-                handle={item.name}
-                contactText={item.demoUrl ? 'Guarda Demo' : ''}
-                showUserInfo={true}
-                enableTilt={true}
-                enableMobileTilt={false}
-                behindGlowEnabled={true}
-                behindGlowColor={item.behindGlowColor}
-                innerGradient={item.innerGradient}
-                onContactClick={item.demoUrl ? () => window.open(item.demoUrl, '_blank') : undefined}
-              />
-            </div>
-          ))}
+          <div
+            ref={trackRef}
+            style={{
+              display: 'flex',
+              gap: CARD_GAP,
+              width: 'max-content',
+              cursor: 'grab',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              willChange: 'transform',
+              WebkitTransform: 'translateZ(0)',
+            }}
+          >
+            {allItems.map((item, i) => (
+              <div key={i} style={{ flexShrink: 0 }}>
+                <ProfileCard
+                  avatarUrl={item.image}
+                  name={item.name}
+                  title={item.title}
+                  status={item.status}
+                  handle={item.name}
+                  contactText={item.demoUrl ? t('showcase.viewDemo') : ''}
+                  showUserInfo={true}
+                  enableTilt={true}
+                  enableMobileTilt={false}
+                  behindGlowEnabled={true}
+                  behindGlowColor={item.behindGlowColor}
+                  innerGradient={item.innerGradient}
+                  onContactClick={item.demoUrl ? () => window.open(item.demoUrl, '_blank') : undefined}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div style={{ paddingBottom: 40 }} />
     </section>

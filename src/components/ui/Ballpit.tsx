@@ -192,10 +192,10 @@ function createPointerTracker(opts: any) {
       document.body.addEventListener('pointermove', _onMove)
       document.body.addEventListener('pointerleave', _onLeave)
       document.body.addEventListener('click', _onClick)
-      document.body.addEventListener('touchstart', _onTouchStart, { passive: false })
-      document.body.addEventListener('touchmove', _onTouchMove, { passive: false })
-      document.body.addEventListener('touchend', _onTouchEnd, { passive: false })
-      document.body.addEventListener('touchcancel', _onTouchEnd, { passive: false })
+      document.body.addEventListener('touchstart', _onTouchStart, { passive: true })
+      document.body.addEventListener('touchmove', _onTouchMove, { passive: true })
+      document.body.addEventListener('touchend', _onTouchEnd, { passive: true })
+      document.body.addEventListener('touchcancel', _onTouchEnd, { passive: true })
       _listening = true
     }
   }
@@ -236,12 +236,15 @@ function _onClick(e: MouseEvent) {
 }
 function _onLeave() { for (const t of _trackers.values()) { if (t.hover) { t.hover = false; t.onLeave(t) } } }
 function _onTouchStart(e: TouchEvent) {
-  if (!e.touches.length) return; e.preventDefault()
+  if (!e.touches.length) return
   _pointer.set(e.touches[0].clientX, e.touches[0].clientY)
-  for (const [el, t] of _trackers) { const rect = el.getBoundingClientRect(); if (_inRect(rect)) { t.touching = true; _setPointerPos(t, rect); if (!t.hover) { t.hover = true; t.onEnter(t) } t.onMove(t) } }
+  for (const [el, t] of _trackers) {
+    const rect = el.getBoundingClientRect()
+    if (_inRect(rect)) { t.touching = true; _setPointerPos(t, rect); if (!t.hover) { t.hover = true; t.onEnter(t) } t.onMove(t) }
+  }
 }
 function _onTouchMove(e: TouchEvent) {
-  if (!e.touches.length) return; e.preventDefault()
+  if (!e.touches.length) return
   _pointer.set(e.touches[0].clientX, e.touches[0].clientY)
   for (const [el, t] of _trackers) {
     const rect = el.getBoundingClientRect(); _setPointerPos(t, rect)
@@ -482,10 +485,12 @@ function createBallpit(canvas: HTMLCanvasElement, opts: any = {}) {
   const hit = new Vector3()
   let paused = false
 
-  canvas.style.touchAction = 'none'
+  canvas.style.touchAction = 'pan-y'
   canvas.style.userSelect = 'none'
   ;(canvas.style as any).webkitUserSelect = 'none'
 
+  // Il tracker viene sempre creato: followCursor controlla solo la visibilità
+  // di sphere 0, non l'interattività (luce + fisica seguono sempre il cursore)
   const tracker = createPointerTracker({
     domElement: canvas,
     onMove() {
@@ -512,7 +517,7 @@ function createBallpit(canvas: HTMLCanvasElement, opts: any = {}) {
     get spheres() { return spheres },
     setCount(n: number) { init({ ...spheres.config, count: n }) },
     togglePause() { paused = !paused },
-    dispose() { tracker.dispose(); app.dispose() },
+    dispose() { tracker?.dispose(); app.dispose() },
   }
 }
 
