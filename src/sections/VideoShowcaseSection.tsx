@@ -79,13 +79,13 @@ function ReelCard({ item, onOpen }: { item: Reel; onOpen: () => void }) {
         flexShrink: 0,
         borderRadius: 18,
         overflow: 'hidden',
-        border: '1px solid rgba(201,169,110,0.25)',
+        border: '1px solid rgba(255,255,255,0.15)',
         background: '#1a1510',
         cursor: 'inherit',
         transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${hovered ? 1.03 : 1})`,
         transition: 'transform 0.15s ease-out, box-shadow 0.2s',
         boxShadow: hovered
-          ? '0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,169,110,0.35)'
+          ? '0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.2)'
           : '0 4px 16px rgba(0,0,0,0.3)',
         transformStyle: 'preserve-3d',
       }}
@@ -115,7 +115,7 @@ function ReelCard({ item, onOpen }: { item: Reel; onOpen: () => void }) {
             position: 'absolute', top: '50%', left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 44, height: 44, borderRadius: '50%',
-            background: 'rgba(201,169,110,0.9)',
+            background: 'linear-gradient(135deg, #6d28d9, #9333ea)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
           }}
@@ -125,7 +125,7 @@ function ReelCard({ item, onOpen }: { item: Reel; onOpen: () => void }) {
 
         {/* Caption */}
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 12px 14px' }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: '#c9a96e', marginBottom: 3 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(245,240,232,0.7)', marginBottom: 3 }}>
             {item.username}
           </div>
           <p style={{
@@ -168,13 +168,13 @@ function ReelModal({ item, onClose, onPrev, onNext, hasPrev, hasNext }: {
         disabled={!hasPrev}
         style={{
           width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-          border: '1px solid rgba(201,169,110,0.3)', background: 'rgba(201,169,110,0.08)',
+          border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.06)',
           cursor: hasPrev ? 'pointer' : 'default', opacity: hasPrev ? 1 : 0.3,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: '#c9a96e', transition: 'all 0.2s',
+          color: 'rgba(245,240,232,0.7)', transition: 'all 0.2s',
         }}
-        onMouseEnter={e => { if (hasPrev) e.currentTarget.style.background = 'rgba(201,169,110,0.18)' }}
-        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(201,169,110,0.08)' }}
+        onMouseEnter={e => { if (hasPrev) e.currentTarget.style.background = 'rgba(255,255,255,0.12)' }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
       >
         <ChevronLeft size={20} />
       </button>
@@ -192,7 +192,7 @@ function ReelModal({ item, onClose, onPrev, onNext, hasPrev, hasNext }: {
           borderRadius: 22,
           overflow: 'hidden',
           boxShadow: '0 40px 100px rgba(0,0,0,0.8)',
-          border: '1px solid rgba(201,169,110,0.3)',
+          border: '1px solid rgba(255,255,255,0.15)',
           background: '#0e0c0a',
           aspectRatio: '9/16',
         }}
@@ -225,13 +225,13 @@ function ReelModal({ item, onClose, onPrev, onNext, hasPrev, hasNext }: {
         disabled={!hasNext}
         style={{
           width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-          border: 'none', background: hasNext ? '#c9a96e' : 'rgba(201,169,110,0.15)',
+          border: 'none', background: hasNext ? 'linear-gradient(135deg, #6d28d9, #9333ea)' : 'rgba(109,40,217,0.15)',
           cursor: hasNext ? 'pointer' : 'default', opacity: hasNext ? 1 : 0.3,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           color: '#ffffff', transition: 'background 0.2s',
         }}
-        onMouseEnter={e => { if (hasNext) e.currentTarget.style.background = '#a07838' }}
-        onMouseLeave={e => { e.currentTarget.style.background = hasNext ? '#c9a96e' : 'rgba(201,169,110,0.15)' }}
+        onMouseEnter={e => { if (hasNext) e.currentTarget.style.background = 'linear-gradient(135deg, #5b21b6, #7c3aed)' }}
+        onMouseLeave={e => { e.currentTarget.style.background = hasNext ? 'linear-gradient(135deg, #6d28d9, #9333ea)' : 'rgba(109,40,217,0.15)' }}
       >
         <ChevronRight size={20} />
       </button>
@@ -267,8 +267,8 @@ export function VideoShowcaseSection() {
           viewport={{ once: true }}
           style={{
             display: 'inline-block', borderRadius: 9999,
-            border: '1px solid rgba(201,169,110,0.3)', background: 'rgba(201,169,110,0.08)',
-            padding: '6px 16px', fontSize: 11, fontWeight: 600, color: '#c9a96e',
+            border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.06)',
+            padding: '6px 16px', fontSize: 11, fontWeight: 600, color: 'rgba(245,240,232,0.65)',
             letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: 16,
           }}
         >
@@ -340,12 +340,12 @@ export function VideoShowcaseSection() {
           onClick={scrollPrev}
           style={{
             width: 44, height: 44, borderRadius: '50%',
-            border: '1px solid rgba(201,169,110,0.3)', background: 'rgba(201,169,110,0.08)',
+            border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.06)',
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#c9a96e', transition: 'all 0.2s',
+            color: 'rgba(245,240,232,0.7)', transition: 'all 0.2s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(201,169,110,0.18)' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(201,169,110,0.08)' }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
         >
           <ChevronLeft size={20} />
         </button>
@@ -353,12 +353,12 @@ export function VideoShowcaseSection() {
           onClick={scrollNext}
           style={{
             width: 44, height: 44, borderRadius: '50%',
-            border: 'none', background: '#c9a96e',
+            border: 'none', background: 'linear-gradient(135deg, #6d28d9, #9333ea)',
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
             color: '#ffffff', transition: 'background 0.2s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = '#a07838' }}
-          onMouseLeave={e => { e.currentTarget.style.background = '#c9a96e' }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'linear-gradient(135deg, #5b21b6, #7c3aed)' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'linear-gradient(135deg, #6d28d9, #9333ea)' }}
         >
           <ChevronRight size={20} />
         </button>

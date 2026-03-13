@@ -59,7 +59,7 @@ export function TiltedCard({
           overflow: 'hidden',
           /* Hero palette: deep indigo border */
           border: isHovered
-            ? '1px solid rgba(201,169,110,0.40)'
+            ? '1px solid rgba(255,255,255,0.25)'
             : '1px solid rgba(43,95,236,0.22)',
           boxShadow: isHovered
             ? '0 24px 60px rgba(0,0,0,0.6), 0 0 32px rgba(66,16,202,0.18)'
@@ -99,7 +99,7 @@ export function TiltedCard({
           {subtitle && (
             <span style={{
               fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
-              textTransform: 'uppercase', color: '#c9a96e', fontFamily: 'monospace',
+              textTransform: 'uppercase', color: 'rgba(245,240,232,0.7)', fontFamily: 'inherit',
               display: 'block', marginBottom: 8,
             }}>
               {subtitle}
@@ -134,15 +134,15 @@ export function TiltedCard({
               rel="noopener noreferrer"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                borderRadius: 9999, background: '#c9a96e',
+                borderRadius: 9999, background: 'linear-gradient(135deg, #6d28d9, #9333ea)',
                 padding: '9px 20px', fontSize: 12, fontWeight: 700,
-                color: '#0e0c0a', textDecoration: 'none',
+                color: '#fff', textDecoration: 'none',
                 transition: 'background 0.2s',
                 alignSelf: 'flex-start',
                 marginTop: 16,
               }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#e8d5b0')}
-              onMouseLeave={e => (e.currentTarget.style.background = '#c9a96e')}
+              onMouseEnter={e => (e.currentTarget.style.background = 'linear-gradient(135deg, #5b21b6, #7c3aed)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'linear-gradient(135deg, #6d28d9, #9333ea)')}
             >
               Guarda Demo
               <svg width="11" height="11" viewBox="0 0 11 11" fill="none">

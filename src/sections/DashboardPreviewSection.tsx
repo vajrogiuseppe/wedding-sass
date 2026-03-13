@@ -595,7 +595,7 @@ export function DashboardPreviewSection() {
                     display: 'flex', alignItems: 'center', gap: 6,
                   }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#34d399' }} />
-                    <span style={{ fontSize: 9.5, color: '#6b7280', fontFamily: 'monospace' }}>
+                    <span style={{ fontSize: 9.5, color: '#6b7280', fontFamily: 'inherit' }}>
                       lovivity/dashboard/giuseppe-maria
                     </span>
                   </div>

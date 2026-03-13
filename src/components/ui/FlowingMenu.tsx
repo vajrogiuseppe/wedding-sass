@@ -60,7 +60,7 @@ export function FlowingMenu({ items, className }: FlowingMenuProps) {
             >
               <div className="flex items-baseline gap-4">
                 {/* Number */}
-                <span className="text-xs text-zinc-600 font-mono w-6">
+                <span className="text-xs text-zinc-600 w-6">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 {/* Label */}

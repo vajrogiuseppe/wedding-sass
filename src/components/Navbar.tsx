@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { X, Menu, Instagram, MessageCircle, Mail } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import GlassSurface from '@/components/ui/GlassSurface'
@@ -8,10 +8,19 @@ import { BackgroundGradient } from '@/components/ui/BackgroundGradient'
 import StarBorder from '@/components/ui/StarBorder'
 import GlareHover from '@/components/ui/GlareHover'
 
+function TikTokIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.75a8.16 8.16 0 004.77 1.52V6.82a4.85 4.85 0 01-1-.13z"/>
+    </svg>
+  )
+}
+
 const socialLinks = [
-  { href: 'https://instagram.com/inviti.studio', Icon: Instagram, label: 'Instagram' },
+  { href: 'https://www.instagram.com/lovivity?igsh=MXAwc2J3MzFmOTk3ag%3D%3D&utm_source=qr', Icon: Instagram, label: 'Instagram' },
+  { href: 'https://tiktok.com/lovivity', Icon: TikTokIcon, label: 'TikTok' },
   { href: 'https://wa.me/393401234567', Icon: MessageCircle, label: 'WhatsApp' },
-  { href: 'mailto:ciao@inviti.studio', Icon: Mail, label: 'Email' },
+  { href: 'mailto:info@lovivity.com', Icon: Mail, label: 'Email' },
 ]
 
 function useIsMobile() {
@@ -24,22 +33,8 @@ function useIsMobile() {
   return isMobile
 }
 
-export function Navbar() {
-  const isMobile = useIsMobile()
-  const [expanded, setExpanded] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [isOverDark, setIsOverDark] = useState(true)
-  const [ctaHover, setCtaHover] = useState(false)
-  const { t, i18n } = useTranslation()
-
-  const navLinks = [
-    { label: t('nav.links.howItWorks'), href: '#come-funziona' },
-    { label: t('nav.links.features'), href: '#funzionalita' },
-    { label: t('nav.links.pricing'), href: '#prezzi' },
-    { label: t('nav.links.contact'), href: '#contatti' },
-  ]
-
-  const LangSwitch = ({ dark }: { dark: boolean }) => (
+function LangSwitch({ dark, currentLang, onChange }: { dark: boolean; currentLang: string; onChange: (lang: 'it' | 'en') => void }) {
+  return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
       {(['it', 'en'] as const).map((lang, idx) => (
         <React.Fragment key={lang}>
@@ -47,11 +42,11 @@ export function Navbar() {
             <span style={{ fontSize: 10, color: dark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)', padding: '0 1px' }}>|</span>
           )}
           <button
-            onClick={() => i18n.changeLanguage(lang)}
+            onClick={() => onChange(lang)}
             style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 11, fontWeight: i18n.language === lang ? 700 : 400,
-              color: i18n.language === lang
+              fontSize: 11, fontWeight: currentLang === lang ? 700 : 400,
+              color: currentLang === lang
                 ? (dark ? '#fff' : '#1a1410')
                 : (dark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.35)'),
               padding: '2px 4px', fontFamily: 'inherit',
@@ -65,11 +60,27 @@ export function Navbar() {
       ))}
     </div>
   )
+}
+
+export function Navbar() {
+  const isMobile = useIsMobile()
+  const [expanded, setExpanded] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [isOverDark, setIsOverDark] = useState(true)
+  const [ctaHover, setCtaHover] = useState(false)
+  const { t, i18n } = useTranslation()
+
+  const navLinks = [
+    { label: t('nav.links.howItWorks'), href: '#come-funziona' },
+    { label: t('nav.links.features'), href: '#showcase' },
+    { label: t('nav.links.advantages'), href: '#vantaggi' },
+    { label: t('nav.links.faq'), href: '#faq' },
+  ]
 
   useEffect(() => {
     // Light sections = navbar text dark. Everything else = navbar text white.
     const lightIds = new Set(['come-funziona', 'testimonianze', 'contatti'])
-    const allIds = ['hero', 'come-funziona', 'funzionalita', 'showcase', 'dashboard', 'testimonianze', 'confronto', 'prezzi', 'faq', 'contatti']
+    const allIds = ['hero', 'come-funziona', 'funzionalita', 'showcase', 'dashboard', 'testimonianze', 'vantaggi', 'prezzi', 'faq', 'contatti']
     const elements: Element[] = [
       ...allIds.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[],
       document.querySelector('footer'),
@@ -129,7 +140,7 @@ export function Navbar() {
         letterSpacing: '0.01em', textShadow: isOverDark ? '0 1px 4px rgba(0,0,0,0.4)' : 'none',
         transition: 'color 0.35s ease',
       }}>
-        Lovivity<span style={{ color: '#c9a96e' }}></span>
+        Lovivity<span style={{ color: 'inherit' }}></span>
       </a>
       <button
         onClick={() => setMenuOpen(!menuOpen)}
@@ -173,7 +184,7 @@ export function Navbar() {
             letterSpacing: '0.01em', textShadow: isOverDark ? '0 1px 4px rgba(0,0,0,0.4)' : 'none',
             transition: 'color 0.35s ease',
           }}>
-            Lovivity<span style={{ color: '#c9a96e' }}>.</span>
+            Lovivity<span style={{ color: 'inherit' }}>.</span>
           </a>
 
           <AnimatePresence mode="wait">
@@ -221,7 +232,7 @@ export function Navbar() {
                   transition={{ delay: navLinks.length * 0.05 + 0.02, duration: 0.2 }}
                   style={{ marginLeft: 8, flexShrink: 0, overflow: 'hidden' }}
                 >
-                  <LangSwitch dark={isOverDark} />
+                  <LangSwitch dark={isOverDark} currentLang={i18n.language} onChange={i18n.changeLanguage} />
                 </motion.div>
 
                 <motion.div
@@ -232,10 +243,7 @@ export function Navbar() {
                   onMouseLeave={() => setCtaHover(false)}
                   style={{
                     marginLeft: 8, flexShrink: 0, borderRadius: 9999,
-                    boxShadow: ctaHover
-                      ? '0 0 22px rgba(192,132,252,0.9), 0 0 42px rgba(139,92,246,0.55), 0 0 64px rgba(192,132,252,0.25)'
-                      : '0 0 12px rgba(192,132,252,0.55), 0 0 26px rgba(139,92,246,0.3), 0 0 40px rgba(192,132,252,0.14)',
-                    transition: 'box-shadow 0.3s ease',
+                    
                   }}
                 >
                   <StarBorder
@@ -257,7 +265,7 @@ export function Navbar() {
                       glareAngle={-45}
                       glareSize={200}
                       transitionDuration={550}
-                      onClick={() => scrollTo('#contatti')}
+                      onClick={() => scrollTo('#prezzi')}
                       style={{
                         padding: '6px 16px',
                         fontSize: 12,
@@ -370,7 +378,7 @@ export function Navbar() {
                     glareAngle={-45}
                     glareSize={200}
                     transitionDuration={550}
-                    onClick={() => scrollTo('#contatti')}
+                    onClick={() => scrollTo('#prezzi')}
                     style={{
                       padding: '12px 22px',
                       fontSize: 14,
@@ -390,7 +398,7 @@ export function Navbar() {
 
             {/* Lang switch */}
             <div style={{ padding: '0 16px 12px', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <LangSwitch dark={false} />
+              <LangSwitch dark={false} currentLang={i18n.language} onChange={i18n.changeLanguage} />
             </div>
 
             {/* Social links */}

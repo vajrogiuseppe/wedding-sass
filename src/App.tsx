@@ -14,14 +14,17 @@ import { GallerySection } from '@/sections/GallerySection'
 import { ComparisonSection } from '@/sections/ComparisonSection'
 import { PricingSection } from '@/sections/PricingSection'
 import { FAQSection } from '@/sections/FAQSection'
-import { ContactSection } from '@/sections/ContactSection'
 import { ScrollVelocity } from '@/components/ui/ScrollVelocity'
 import { FeaturesSection } from '@/sections/FeaturesSection'
 import { LinkColorProvider } from './components/LinkColorContext'
+import { CookieBanner } from '@/components/CookieBanner'
 
 const AdminDashboard  = lazy(() => import('@/pages/AdminDashboard'))
 const JourneyPage     = lazy(() => import('@/pages/JourneyPage'))
 const EnvelopePage    = lazy(() => import('@/pages/EnvelopePage'))
+const GraziePage      = lazy(() => import('@/pages/GraziePage'))
+const AssistenzaPage  = lazy(() => import('@/pages/AssistenzaPage'))
+const PrivacyPage     = lazy(() => import('@/pages/PrivacyPage'))
 
 function ShowcaseDashboardBg({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -67,7 +70,7 @@ function LandingPage() {
       <div style={{ position: 'relative', zIndex: 1 }}>
       <Navbar />
       <LinkColorProvider isLight={true}>
-        <main style={{ paddingBottom: 80 }}>
+        <main>
           <LinkColorProvider isLight={false}>
             <MarketingHeroSection />
           </LinkColorProvider>
@@ -128,13 +131,13 @@ function LandingPage() {
             <PricingSection />
           </div>
           <FAQSection />
-          <ContactSection />
         </main>
 
         <LinkColorProvider isLight={false}>
           <Footer />
         </LinkColorProvider>
       </LinkColorProvider>
+      <CookieBanner />
       </div>
     </div>
     </MotionConfig>
@@ -164,6 +167,30 @@ export default function App() {
           }
         />
     
+        <Route
+          path="/grazie"
+          element={
+            <Suspense fallback={<div style={{ minHeight: '100vh', background: '#0e0c0a' }} />}>
+              <GraziePage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/assistenza"
+          element={
+            <Suspense fallback={<div style={{ minHeight: '100vh', background: '#0e0c0a' }} />}>
+              <AssistenzaPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/privacy"
+          element={
+            <Suspense fallback={<div style={{ minHeight: '100vh', background: '#0e0c0a' }} />}>
+              <PrivacyPage />
+            </Suspense>
+          }
+        />
         <Route
           path="/admin"
           element={

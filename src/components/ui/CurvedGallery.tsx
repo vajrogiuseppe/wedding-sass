@@ -173,7 +173,7 @@ function MobileGallery({ items }: { items: CurvedGalleryItem[] }) {
               width: i === active ? 20 : 6,
               height: 6,
               borderRadius: 9999,
-              background: i === active ? '#c9a96e' : 'rgba(201,169,110,0.3)',
+              background: i === active ? 'rgba(245,240,232,0.85)' : 'rgba(255,255,255,0.2)',
               transition: 'all 0.3s ease',
             }}
           />

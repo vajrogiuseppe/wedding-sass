@@ -9,7 +9,7 @@ export function ComparisonSection() {
   const rows = t('comparison.rows', { returnObjects: true }) as Array<{ label: string; digital: string; paper: string }>
   return (
     <section
-      id="confronto"
+      id="vantaggi"
       style={{ padding: '120px 0 0px', position: 'relative' }}
     >
       {/* Background glows */}
@@ -38,12 +38,12 @@ export function ComparisonSection() {
             style={{
               display: 'inline-block',
               borderRadius: 9999,
-              border: '1px solid rgba(201,169,110,0.3)',
-              background: 'rgba(201,169,110,0.08)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              background: 'rgba(255,255,255,0.06)',
               padding: '6px 16px',
               fontSize: 11,
               fontWeight: 600,
-              color: '#c9a96e',
+              color: 'rgba(245,240,232,0.65)',
               letterSpacing: '0.15em',
               textTransform: 'uppercase' as const,
               marginBottom: 16,

@@ -257,13 +257,9 @@ function GoldDivider({ delay = 0 }: { delay?: number }) {
 // ─── Desktop section block ──────────────────────────────────────────────────────
 const CONTENT_H = 460
 
-function DesktopSection({ data, index }: { data: Section; index: number }) {
-  const isLeft = data.dir === 'left'
-  const topY = HERO_H + index * SEC_H + (SEC_H - CONTENT_H) / 2
-
-  const IconComp = data.icon === 'clock' ? Clock : data.icon === 'map' ? MapPin : Heart
-
-  const TextCol = () => (
+interface TextColProps { data: Section; isLeft: boolean; IconComp: React.ElementType }
+function TextCol({ data, isLeft, IconComp }: TextColProps) {
+  return (
     <motion.div
       initial={{ opacity: 0, x: isLeft ? 30 : -30 }}
       whileInView={{ opacity: 1, x: 0 }}
@@ -320,8 +316,11 @@ function DesktopSection({ data, index }: { data: Section; index: number }) {
       )}
     </motion.div>
   )
+}
 
-  const PhotoCol = () => (
+interface PhotoColProps { data: Section }
+function PhotoCol({ data }: PhotoColProps) {
+  return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -353,6 +352,13 @@ function DesktopSection({ data, index }: { data: Section; index: number }) {
       )}
     </motion.div>
   )
+}
+
+function DesktopSection({ data, index }: { data: Section; index: number }) {
+  const isLeft = data.dir === 'left'
+  const topY = HERO_H + index * SEC_H + (SEC_H - CONTENT_H) / 2
+
+  const IconComp = data.icon === 'clock' ? Clock : data.icon === 'map' ? MapPin : Heart
 
   return (
     <div style={{
@@ -363,7 +369,10 @@ function DesktopSection({ data, index }: { data: Section; index: number }) {
       display: 'grid', gridTemplateColumns: '1fr 1fr',
       gap: 56, alignItems: 'center', zIndex: 2,
     }}>
-      {isLeft ? <><PhotoCol /><TextCol /></> : <><TextCol /><PhotoCol /></>}
+      {isLeft
+        ? <><PhotoCol data={data} /><TextCol data={data} isLeft={isLeft} IconComp={IconComp} /></>
+        : <><TextCol data={data} isLeft={isLeft} IconComp={IconComp} /><PhotoCol data={data} /></>
+      }
     </div>
   )
 }

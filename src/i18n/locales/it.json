@@ -2,21 +2,22 @@
   "nav": {
     "links": {
       "howItWorks": "Come funziona",
-      "features": "Funzionalità",
-      "pricing": "Prezzi",
-      "contact": "Contatti"
+      "features": "Esempi",
+      "advantages": "Vantaggi",
+      "faq": "FAQ",
+      "contact": "Supporto"
     },
     "cta": "Inizia ora"
   },
   "hero": {
-    "badge": "Il servizio di inviti digitali per il vostro matrimonio",
-    "title1": "Il giorno più bello",
-    "title2": "merita un invito perfetto.",
-    "subtitle": "Scegli il layout, inviaci i tuoi materiali e in 48 ore riceverai il vostro invito digitale personalizzato — con RSVP integrato e link unico da condividere ovunque.",
+    "badge": "Da €35 · Pronto in 48 ore",
+    "title1": "L'invito digitale",
+    "title2": "che i vostri ospiti ricorderanno.",
+    "subtitle": "Scegli il template, mandaci i dettagli — in 48 ore il vostro invito è live con RSVP integrato, countdown e link unico da condividere ovunque.",
     "couples": "50+ coppie",
     "couplesText": "hanno già\nscelto Lovivity",
-    "discoverMore": "Scopri di più",
-    "ctaPrimary": "Richiedi il tuo invito"
+    "discoverMore": "Come funziona",
+    "ctaPrimary": "Scegli il tuo piano"
   },
   "howItWorks": {
     "title": "Tre passi verso",

@@ -2,21 +2,22 @@
   "nav": {
     "links": {
       "howItWorks": "How it works",
-      "features": "Features",
-      "pricing": "Pricing",
-      "contact": "Contact"
+      "features": "Examples",
+      "advantages": "Benefits",
+      "faq": "FAQ",
+      "contact": "Support"
     },
     "cta": "Get started"
   },
   "hero": {
-    "badge": "The digital invitation service for your wedding",
-    "title1": "Your most beautiful day",
-    "title2": "deserves a perfect invitation.",
-    "subtitle": "Choose your layout, send us your materials and within 48 hours you'll receive your personalised digital invitation — with built-in RSVP and a unique link to share anywhere.",
+    "badge": "From €35 · Ready in 48 hours",
+    "title1": "The digital invitation",
+    "title2": "your guests will remember.",
+    "subtitle": "Pick a template, send us the details — in 48 hours your invitation is live with RSVP, countdown and a unique shareable link.",
     "couples": "50+ couples",
     "couplesText": "have already\nchosen Lovivity",
-    "discoverMore": "Learn more",
-    "ctaPrimary": "Request your invitation"
+    "discoverMore": "How it works",
+    "ctaPrimary": "Choose your plan"
   },
   "howItWorks": {
     "title": "Three steps to",

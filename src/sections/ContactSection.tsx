@@ -1,343 +1,118 @@
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FadeContent } from "@/components/ui/FadeContent";
 import { useState } from "react";
-import { Loader2, Send } from "lucide-react";
-import { toast } from "sonner";
-import { saveLead } from "@/lib/firebase";
-import GlareHover from "@/components/ui/GlareHover";
+import { motion } from "framer-motion";
+import { Send, CheckCircle } from "lucide-react";
 import GradienText from "@/components/ui/GradienText";
-import { useTranslation } from "react-i18next";
+import GlareHover from "@/components/ui/GlareHover";
+import { FadeContent } from "@/components/ui/FadeContent";
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  service: string;
-  message: string;
-}
-interface FormErrors {
-  name?: string;
-  email?: string;
-  message?: string;
-}
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 
-function FloatingInput({
-  label,
-  id,
-  type = "text",
-  value,
-  onChange,
-  error,
-}: {
-  label: string;
-  id: string;
-  type?: string;
-  value: string;
-  onChange: (v: string) => void;
-  error?: string;
-}) {
-  const [focused, setFocused] = useState(false);
-  const floated = focused || value.length > 0;
+type Tab = "feature" | "support";
+type Status = "idle" | "sending" | "success" | "error";
 
-  return (
-    <div style={{ position: "relative" }}>
-      <input
-        id={id}
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        style={{
-          width: "100%",
-          borderRadius: 10,
-          border: `1px solid ${error ? "#c0736a" : focused ? "#c9a96e" : "#e0d8cc"}`,
-          background: "#faf7f2",
-          padding: "22px 14px 8px",
-          fontSize: 14,
-          color: "#1e1a14",
-          outline: "none",
-          transition: "border-color 0.2s",
-          fontFamily: "inherit",
-        }}
-      />
-      <label
-        htmlFor={id}
-        style={{
-          pointerEvents: "none",
-          position: "absolute",
-          left: 14,
-          transition: "all 0.2s",
-          top: floated ? 7 : 15,
-          fontSize: floated ? 10 : 14,
-          color: floated ? "#a07838" : "#b5a898",
-          fontWeight: floated ? 600 : 400,
-          letterSpacing: floated ? "0.06em" : 0,
-        }}
-      >
-        {label}
-      </label>
-      <AnimatePresence>
-        {error && (
-          <motion.p
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            style={{
-              overflow: "hidden",
-              fontSize: 11,
-              color: "#c0736a",
-              marginTop: 4,
-              marginLeft: 4,
-            }}
-          >
-            {error}
-          </motion.p>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  background: "rgba(255,255,255,0.05)",
+  border: "1px solid rgba(255,255,255,0.1)",
+  borderRadius: 10,
+  padding: "11px 14px",
+  fontSize: 14,
+  color: "#f5f0e8",
+  outline: "none",
+  boxSizing: "border-box",
+  fontFamily: "inherit",
+  transition: "border-color 0.2s",
+};
 
-function FloatingTextarea({
-  label,
-  id,
-  value,
-  onChange,
-  error,
-}: {
-  label: string;
-  id: string;
-  value: string;
-  onChange: (v: string) => void;
-  error?: string;
-}) {
-  const [focused, setFocused] = useState(false);
-  const floated = focused || value.length > 0;
-
-  return (
-    <div style={{ position: "relative" }}>
-      <textarea
-        id={id}
-        value={value}
-        rows={4}
-        onChange={(e) => onChange(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        style={{
-          width: "100%",
-          borderRadius: 10,
-          border: `1px solid ${error ? "#c0736a" : focused ? "#c9a96e" : "#e0d8cc"}`,
-          background: "#faf7f2",
-          padding: "22px 14px 8px",
-          fontSize: 14,
-          color: "#1e1a14",
-          outline: "none",
-          transition: "border-color 0.2s",
-          fontFamily: "inherit",
-          resize: "none",
-        }}
-      />
-      <label
-        htmlFor={id}
-        style={{
-          pointerEvents: "none",
-          position: "absolute",
-          left: 14,
-          transition: "all 0.2s",
-          top: floated ? 7 : 15,
-          fontSize: floated ? 10 : 14,
-          color: floated ? "#a07838" : "#b5a898",
-          fontWeight: floated ? 600 : 400,
-          letterSpacing: floated ? "0.06em" : 0,
-        }}
-      >
-        {label}
-      </label>
-      <AnimatePresence>
-        {error && (
-          <motion.p
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            style={{
-              overflow: "hidden",
-              fontSize: 11,
-              color: "#c0736a",
-              marginTop: 4,
-              marginLeft: 4,
-            }}
-          >
-            {error}
-          </motion.p>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-function FloatingSelect({
-  label,
-  id,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  id: string;
-  value: string;
-  onChange: (v: string) => void;
-  options: { value: string; label: string }[];
-}) {
-  const [focused, setFocused] = useState(false);
-  const floated = focused || value.length > 0;
-
-  return (
-    <div style={{ position: "relative" }}>
-      <select
-        id={id}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        style={{
-          width: "100%",
-          borderRadius: 10,
-          border: `1px solid ${focused ? "#c9a96e" : "#e0d8cc"}`,
-          background: "#faf7f2",
-          padding: "22px 14px 8px",
-          fontSize: 14,
-          color: value ? "#1e1a14" : "transparent",
-          outline: "none",
-          transition: "border-color 0.2s",
-          fontFamily: "inherit",
-          appearance: "none",
-          cursor: "pointer",
-        }}
-      >
-        <option value="" disabled />
-        {options.map((o) => (
-          <option key={o.value} value={o.value} style={{ color: "#1e1a14" }}>
-            {o.label}
-          </option>
-        ))}
-      </select>
-      <label
-        htmlFor={id}
-        style={{
-          pointerEvents: "none",
-          position: "absolute",
-          left: 14,
-          transition: "all 0.2s",
-          top: floated ? 7 : 15,
-          fontSize: floated ? 10 : 14,
-          color: floated ? "#a07838" : "#b5a898",
-          fontWeight: floated ? 600 : 400,
-          letterSpacing: floated ? "0.06em" : 0,
-        }}
-      >
-        {label}
-      </label>
-      {/* Chevron */}
-      <div
-        style={{
-          position: "absolute",
-          right: 12,
-          top: "50%",
-          transform: "translateY(-50%)",
-          pointerEvents: "none",
-          color: "#b5a898",
-        }}
-      >
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-          <path
-            d="M2 4l4 4 4-4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
-    </div>
-  );
-}
+const labelStyle: React.CSSProperties = {
+  fontSize: 11,
+  fontWeight: 600,
+  color: "rgba(245,240,232,0.4)",
+  letterSpacing: "0.1em",
+  textTransform: "uppercase",
+  marginBottom: 6,
+  display: "block",
+};
 
 export function ContactSection() {
-  const { t } = useTranslation();
-  const services = t('contact.form.services', { returnObjects: true }) as Array<{ value: string; label: string }>;
-  const [form, setForm] = useState<FormData>({
-    name: "",
-    email: "",
-    phone: "",
-    service: "",
-    message: "",
-  });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-
-  const validate = (): boolean => {
-    const e: FormErrors = {};
-    if (!form.name.trim()) e.name = t('contact.validation.nameRequired');
-    if (!form.email.trim()) e.email = t('contact.validation.emailRequired');
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-      e.email = t('contact.validation.emailInvalid');
-    if (!form.message.trim()) e.message = t('contact.validation.messageRequired');
-    setErrors(e);
-    return Object.keys(e).length === 0;
-  };
+  const [tab, setTab] = useState<Tab>("feature");
+  const [nome, setNome] = useState("");
+  const [cognome, setCognome] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [isCliente, setIsCliente] = useState<"si" | "no" | "">("");
+  const [messaggio, setMessaggio] = useState("");
+  const [privacy, setPrivacy] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    saveLead({
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
-      message: form.message,
-    });
-    setLoading(false);
-    setSubmitted(true);
-    toast.success(t('contact.form.successTitle'), {
-      description: t('contact.form.successDesc'),
-    });
-    setForm({ name: "", email: "", phone: "", service: "", message: "" });
-    setTimeout(() => setSubmitted(false), 4000);
+    if (!privacy) {
+      setErrorMsg("Devi accettare la privacy policy.");
+      return;
+    }
+    setErrorMsg("");
+    setStatus("sending");
+    try {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/send-contact-email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tipo: tab === "feature" ? "Richiesta funzionalità" : "Assistenza",
+          nome, cognome, email, telefono, isCliente, messaggio,
+        }),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setErrorMsg("Qualcosa è andato storto. Riprova o scrivici su WhatsApp.");
+    }
   };
 
   return (
-    <section
-      id="contatti"
-      style={{ padding: "100px 0", background: "#f5f0e8" }}
-    >
-      <FadeContent blur duration={800} className="mx-auto max-w-xl px-6">
+    <section id="contatti" style={{ padding: "120px 0 100px", position: "relative", overflow: "clip" }}>
+
+      {/* Glow shapes */}
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
+        {[
+          { top: "15%", left: "70%", w: 400, c: "rgba(201,169,110,0.22)", dur: 11 },
+          { top: "55%", left: "5%",  w: 380, c: "rgba(124,111,255,0.18)", dur: 13 },
+          { top: "30%", left: "40%", w: 320, c: "rgba(247,154,219,0.14)", dur: 9  },
+        ].map((g, i) => (
+          <motion.div
+            key={i}
+            animate={{ y: [0, -22, 0] }}
+            transition={{ duration: g.dur, repeat: Infinity, ease: "easeInOut", delay: i * 2 }}
+            style={{
+              position: "absolute", top: g.top, left: g.left,
+              width: g.w, height: g.w, borderRadius: "50%",
+              background: `radial-gradient(circle, ${g.c} 0%, transparent 68%)`,
+              filter: "blur(60px)",
+            }}
+          />
+        ))}
+      </div>
+
+      <FadeContent blur duration={800} style={{ position: "relative", zIndex: 1 }} className="mx-auto max-w-2xl px-6 lg:px-8">
+
         {/* Header */}
-        <div className="text-center mb-12">
+        <div style={{ textAlign: "center", marginBottom: 48 }}>
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             style={{
-              display: "inline-block",
-              borderRadius: 9999,
-              background: "linear-gradient(135deg, #6d28d9 0%, #9333ea 45%, #c026d3 100%)",
-              backdropFilter: "blur(14px)",
-              WebkitBackdropFilter: "blur(14px)",
-              border: "1px solid rgba(219, 216, 228, 0.23)",
-              padding: "5px 14px",
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#e4e1e9",
-              letterSpacing: "0.15em",
-              textTransform: "uppercase" as const,
-              marginBottom: 16,
+              display: "inline-block", borderRadius: 9999,
+              border: "1px solid rgba(201,169,110,0.3)",
+              background: "rgba(201,169,110,0.08)",
+              padding: "6px 16px", fontSize: 11, fontWeight: 600,
+              color: "#c9a96e", letterSpacing: "0.15em",
+              textTransform: "uppercase", marginBottom: 16,
             }}
           >
-            {t('contact.badge')}
+            Contatti
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -345,157 +120,222 @@ export function ContactSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="font-display"
-            style={{
-              fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-              fontWeight: 600,
-              color: "#1e1a14",
-              lineHeight: 1.1,
-              marginBottom: 14,
-            }}
+            style={{ fontSize: "clamp(2rem, 4.5vw, 3rem)", fontWeight: 600, color: "#f5f0e8", lineHeight: 1.1, marginBottom: 16 }}
           >
-            {t('contact.title')}
-            <span className="text-gradient-gold">
-              <GradienText colors={["#a400b3", "#4810af", "#d1890c"]}>
-                <span style={{ fontStyle: "italic" }}>{t('contact.titleItalic')}</span>
-              </GradienText>
-            </span>
+            Come possiamo
+            <br />
+            <GradienText colors={["#faf6f0", "#f79adb", "#cf8300"]}>
+              <span style={{ fontStyle: "italic" }}>aiutarti?</span>
+            </GradienText>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            style={{ fontSize: 15, color: "#7a6e65" }}
+            style={{ fontSize: 15, color: "rgba(245,240,232,0.5)", maxWidth: 380, margin: "0 auto" }}
           >
-            {t('contact.subtitle')}
+            Scegli il tipo di richiesta — ti risponderemo entro 24 ore.
           </motion.p>
         </div>
 
-        {/* Form */}
-        <motion.div
-          className="spotlight-card"
-          onMouseMove={(e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            e.currentTarget.style.setProperty(
-              "--mouse-x",
-              `${e.clientX - rect.left}px`,
-            );
-            e.currentTarget.style.setProperty(
-              "--mouse-y",
-              `${e.clientY - rect.top}px`,
-            );
-          }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.15 }}
-          style={{
-            borderRadius: 20,
-            border: "1px solid #e0d8cc",
-            background: "#ffffff",
-            padding: 32,
-            boxShadow: "0 4px 24px rgba(30,26,20,0.08)",
-          }}
-        >
-          <form
-            onSubmit={handleSubmit}
-            style={{ display: "flex", flexDirection: "column", gap: 14 }}
+        {status === "success" ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="spotlight-card spotlight-card-dark"
+            style={{
+              borderRadius: 24, padding: "56px 40px", textAlign: "center",
+              background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)", backdropFilter: "blur(4px)",
+            }}
           >
-            <FloatingInput
-              label={t('contact.form.name')}
-              id="name"
-              value={form.name}
-              onChange={(v) => setForm({ ...form, name: v })}
-              error={errors.name}
-            />
-            <FloatingInput
-              label={t('contact.form.email')}
-              id="email"
-              type="email"
-              value={form.email}
-              onChange={(v) => setForm({ ...form, email: v })}
-              error={errors.email}
-            />
-            <FloatingInput
-              label={t('contact.form.phone')}
-              id="phone"
-              type="tel"
-              value={form.phone}
-              onChange={(v) => setForm({ ...form, phone: v })}
-            />
-            <FloatingSelect
-              label={t('contact.form.service')}
-              id="service"
-              value={form.service}
-              onChange={(v) => setForm({ ...form, service: v })}
-              options={services}
-            />
-            <FloatingTextarea
-              label={t('contact.form.message')}
-              id="message"
-              value={form.message}
-              onChange={(v) => setForm({ ...form, message: v })}
-              error={errors.message}
-            />
+            <div style={{
+              width: 64, height: 64, borderRadius: "50%",
+              background: "linear-gradient(135deg, #6d28d9, #c026d3)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              margin: "0 auto 24px",
+              boxShadow: "0 0 40px rgba(192,38,211,0.3)",
+            }}>
+              <CheckCircle size={28} color="#fff" />
+            </div>
+            <h3 className="font-display" style={{ fontSize: "1.6rem", fontWeight: 600, color: "#f5f0e8", marginBottom: 10 }}>
+              Messaggio inviato!
+            </h3>
+            <p style={{ fontSize: 15, color: "rgba(245,240,232,0.55)", lineHeight: 1.7 }}>
+              Ti risponderemo a <strong style={{ color: "#f5f0e8" }}>{email}</strong> entro 24 ore.
+            </p>
+          </motion.div>
+        ) : (
+          <motion.div
+            className="spotlight-card spotlight-card-dark"
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+              e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+            }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            style={{
+              borderRadius: 24, padding: "36px 32px",
+              background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)", backdropFilter: "blur(4px)",
+            }}
+          >
+            {/* Tab switcher */}
+            <div style={{
+              display: "flex", gap: 0,
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 12, padding: 4, marginBottom: 28,
+            }}>
+              {(["feature", "support"] as Tab[]).map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setTab(t)}
+                  style={{
+                    flex: 1, padding: "9px 14px", borderRadius: 9,
+                    border: tab === t ? "1px solid rgba(201,169,110,0.3)" : "1px solid transparent",
+                    cursor: "pointer", fontSize: 13, fontWeight: 600,
+                    transition: "all 0.2s", fontFamily: "inherit",
+                    background: tab === t ? "rgba(201,169,110,0.12)" : "transparent",
+                    color: tab === t ? "#c9a96e" : "rgba(245,240,232,0.35)",
+                  }}
+                >
+                  {t === "feature" ? "✦  Richiesta funzionalità" : "◎  Assistenza"}
+                </button>
+              ))}
+            </div>
 
-            <GlareHover
-              width="100%"
-              height="auto"
-              background={
-                submitted
-                  ? "#e0d8cc"
-                  : "linear-gradient(135deg, #6d28d9 0%, #9333ea 45%, #c026d3 100%)"
-              }
-              borderRadius="9999px"
-              borderColor="transparent"
-              glareColor="#f79adb"
-              glareOpacity={0.5}
-              glareAngle={-45}
-              glareSize={220}
-              transitionDuration={600}
-              style={
-                {
-                  marginTop: 4,
-                  opacity: loading || submitted ? 0.7 : 1,
-                } as React.CSSProperties
-              }
-            >
-              <button
-                type="submit"
-                disabled={loading || submitted}
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+
+              {/* Nome + Cognome */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div>
+                  <label style={labelStyle}>Nome *</label>
+                  <input required value={nome} onChange={e => setNome(e.target.value)}
+                    placeholder="Sofia" style={inputStyle}
+                    onFocus={e => e.currentTarget.style.borderColor = "rgba(201,169,110,0.45)"}
+                    onBlur={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Cognome *</label>
+                  <input required value={cognome} onChange={e => setCognome(e.target.value)}
+                    placeholder="Rossi" style={inputStyle}
+                    onFocus={e => e.currentTarget.style.borderColor = "rgba(201,169,110,0.45)"}
+                    onBlur={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
+                  />
+                </div>
+              </div>
+
+              {/* Email + Telefono */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div>
+                  <label style={labelStyle}>Email *</label>
+                  <input required type="email" value={email} onChange={e => setEmail(e.target.value)}
+                    placeholder="sofia@email.com" style={inputStyle}
+                    onFocus={e => e.currentTarget.style.borderColor = "rgba(201,169,110,0.45)"}
+                    onBlur={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Telefono</label>
+                  <input type="tel" value={telefono} onChange={e => setTelefono(e.target.value)}
+                    placeholder="+39 340 1234567" style={inputStyle}
+                    onFocus={e => e.currentTarget.style.borderColor = "rgba(201,169,110,0.45)"}
+                    onBlur={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
+                  />
+                </div>
+              </div>
+
+              {/* Sei già cliente? */}
+              <div>
+                <label style={labelStyle}>Sei già nostro cliente?</label>
+                <div style={{ display: "flex", gap: 10 }}>
+                  {[{ val: "si", label: "Sì, ho già acquistato" }, { val: "no", label: "No, sono nuovo" }].map(({ val, label }) => (
+                    <button
+                      key={val}
+                      type="button"
+                      onClick={() => setIsCliente(val as "si" | "no")}
+                      style={{
+                        flex: 1, padding: "10px 14px", borderRadius: 9, fontFamily: "inherit",
+                        border: isCliente === val ? "1px solid rgba(201,169,110,0.4)" : "1px solid rgba(255,255,255,0.1)",
+                        background: isCliente === val ? "rgba(201,169,110,0.1)" : "rgba(255,255,255,0.04)",
+                        color: isCliente === val ? "#c9a96e" : "rgba(245,240,232,0.4)",
+                        fontSize: 13, fontWeight: 500, cursor: "pointer", transition: "all 0.2s",
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Messaggio */}
+              <div>
+                <label style={labelStyle}>Messaggio *</label>
+                <textarea
+                  required value={messaggio} onChange={e => setMessaggio(e.target.value)}
+                  placeholder={tab === "feature" ? "Descrivici la funzionalità che vorresti..." : "Raccontaci il problema o la tua domanda..."}
+                  rows={4}
+                  style={{ ...inputStyle, resize: "vertical" }}
+                  onFocus={e => e.currentTarget.style.borderColor = "rgba(201,169,110,0.45)"}
+                  onBlur={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
+                />
+              </div>
+
+              {/* Privacy */}
+              <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
+                <input
+                  type="checkbox" checked={privacy} onChange={e => setPrivacy(e.target.checked)}
+                  style={{ marginTop: 3, accentColor: "#c9a96e", width: 14, height: 14, flexShrink: 0 }}
+                />
+                <span style={{ fontSize: 12, color: "rgba(245,240,232,0.35)", lineHeight: 1.6 }}>
+                  Ho letto e accetto la{" "}
+                  <a href="/privacy" style={{ color: "#c9a96e", textDecoration: "underline" }}>Privacy Policy</a>.
+                  Consenso al trattamento dei dati personali.
+                </span>
+              </label>
+
+              {errorMsg && (
+                <p style={{ fontSize: 13, color: "#f87171", margin: 0 }}>{errorMsg}</p>
+              )}
+
+              {/* Submit */}
+              <GlareHover
+                width="100%" height="auto"
+                background={status === "sending" ? "rgba(255,255,255,0.06)" : "linear-gradient(135deg, #6d28d9 0%, #9333ea 45%, #c026d3 100%)"}
+                borderRadius="9999px" borderColor="transparent"
+                glareColor="#f79adb" glareOpacity={0.45} glareAngle={-45} glareSize={220} transitionDuration={600}
+                onClick={() => {}}
                 style={{
-                  width: "100%",
-                  background: "transparent",
-                  border: "none",
-                  color: submitted ? "#b5a898" : "#fff",
-                  padding: "14px 0",
-                  fontSize: 14,
-                  fontWeight: 700,
-                  cursor: loading || submitted ? "not-allowed" : "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                  fontFamily: "inherit",
-                }}
+                  padding: "13px 0", fontSize: 14, fontWeight: 600, color: "#fff",
+                  textAlign: "center", cursor: status === "sending" ? "wait" : "pointer",
+                  opacity: status === "sending" ? 0.6 : 1, display: "flex",
+                  alignItems: "center", justifyContent: "center", gap: 8,
+                } as React.CSSProperties}
               >
-                {loading ? (
-                  <>
-                    <Loader2 size={16} className="animate-spin" />
-                    <span>{t('contact.form.submitting')}</span>
-                  </>
-                ) : submitted ? (
-                  <span>{t('contact.form.submitted')}</span>
-                ) : (
-                  <>
-                    <span>{t('contact.form.submit')}</span>
-                    <Send size={14} />
-                  </>
-                )}
-              </button>
-            </GlareHover>
-          </form>
-        </motion.div>
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  style={{
+                    background: "none", border: "none", color: "inherit",
+                    fontSize: "inherit", fontWeight: "inherit", fontFamily: "inherit",
+                    cursor: "inherit", display: "flex", alignItems: "center", gap: 8, padding: 0,
+                  }}
+                >
+                  {status === "sending" ? "Invio in corso..." : <><Send size={14} /> Invia messaggio</>}
+                </button>
+              </GlareHover>
+
+            </form>
+          </motion.div>
+        )}
       </FadeContent>
     </section>
   );

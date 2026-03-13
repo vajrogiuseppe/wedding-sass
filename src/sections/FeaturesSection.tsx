@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-import useEmblaCarousel from 'embla-carousel-react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import ProfileCard from '@/components/ui/ProfileCard'
@@ -17,7 +16,7 @@ const showcaseItems = [
     image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',
     name: 'Giuseppe & Maria',
     title: 'Moderno Premium',
-    status: '28 Giu 2027 · 124 ospiti',
+    status: '28 Giu 2027 · 250 ospiti',
     demoUrl: 'https://giuseppevajro.it/invito/',
     behindGlowColor: 'hsla(280, 80%, 65%, 0.55)',
     innerGradient: 'linear-gradient(145deg, hsla(280, 60%, 30%, 0.6) 0%, hsla(320, 70%, 60%, 0.25) 100%)',
@@ -213,6 +212,7 @@ export function FeaturesSection() {
 
     const onPointerDown = (e: PointerEvent) => {
       if (e.button !== 0 && e.pointerType === 'mouse') return
+      if ((e.target as Element).closest('button, a')) return
       if (e.pointerType === 'mouse') e.preventDefault()
       s.dragging = true
       s.startX = e.clientX
@@ -318,8 +318,8 @@ export function FeaturesSection() {
           viewport={{ once: true }}
           style={{
             display: 'inline-block', borderRadius: 9999,
-            border: '1px solid rgba(201,169,110,0.3)', background: 'rgba(201,169,110,0.08)',
-            padding: '6px 16px', fontSize: 11, fontWeight: 600, color: '#c9a96e',
+            border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.06)',
+            padding: '6px 16px', fontSize: 11, fontWeight: 600, color: 'rgba(245,240,232,0.65)',
             letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: 20,
           }}
         >

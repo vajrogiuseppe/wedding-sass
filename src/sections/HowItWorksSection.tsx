@@ -50,7 +50,7 @@ function FallbackScreen1() {
       <div style={{ borderRadius: 16, background: '#fff', padding: '14px', boxShadow: '0 2px 10px rgba(0,0,0,0.06)' }}>
         <p style={{ fontSize: 10, color: '#bbb', margin: '0 0 10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s1.colorLabel}</p>
         <div style={{ display: 'flex', gap: 10 }}>
-          {['#f79adb', '#7c6fff', '#c9a96e', '#4cc9f0', '#ff8fab'].map((c, i) => (
+          {['#f79adb', '#7c6fff', '#a78bfa', '#4cc9f0', '#ff8fab'].map((c, i) => (
             <div key={i} style={{ width: 28, height: 28, borderRadius: '50%', background: c, boxShadow: i === 0 ? `0 0 0 2.5px #fff, 0 0 0 4.5px ${c}` : 'none', flexShrink: 0 }} />
           ))}
         </div>
@@ -167,8 +167,6 @@ function IPhoneMockup({
   active: boolean
 }) {
   const frameThickness = 11
-  const screenW = PHONE_W - frameThickness * 2
-  const screenH = PHONE_H - frameThickness * 2
 
   return (
     <div
@@ -382,17 +380,6 @@ export function HowItWorksSection() {
         className="mx-auto grid grid-cols-1 lg:grid-cols-2"
         style={{ maxWidth: 1100, gap: 'clamp(40px,6vw,80px)', alignItems: 'center' }}
       >
-        {/* Mobile: solo il telefono attivo, centrato */}
-        <div className="flex lg:hidden justify-center" style={{ marginTop: 32, marginBottom: 8 }}>
-          <div style={{ position: 'relative', width: PHONE_W, height: PHONE_H + 40 }}>
-            <IPhoneMockup
-              media={steps[active].media}
-              fallback={FALLBACK_COMPONENTS.map(C => <C />)[active]}
-              active={true}
-            />
-          </div>
-        </div>
-
         {/* LEFT */}
         <div>
           <motion.h2
@@ -421,6 +408,7 @@ export function HowItWorksSection() {
             {steps.map((step, i) => {
               const Icon = step.icon
               const isActive = active === i
+              const FallbackComp = FALLBACK_COMPONENTS[i]
               return (
                 <motion.div
                   key={i}
@@ -445,31 +433,61 @@ export function HowItWorksSection() {
                     gap: 16,
                   }}
                 >
-                  <div style={{
-                    width: 42, height: 42, borderRadius: 13, flexShrink: 0,
-                    background: isActive ? 'rgba(124,111,255,0.1)' : 'rgba(0,0,0,0.04)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    transition: 'all 0.22s',
+                  {/* Icon + text */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      width: 42, height: 42, borderRadius: 13, flexShrink: 0,
+                      background: isActive ? 'rgba(124,111,255,0.1)' : 'rgba(0,0,0,0.04)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      transition: 'all 0.22s',
+                    }}>
+                      <Icon size={18} color={isActive ? '#7c6fff' : '#ccc'} />
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{
+                        margin: 0, fontSize: 14.5, fontWeight: 700,
+                        color: isActive ? '#1a0a12' : 'rgba(26,10,18,0.45)',
+                        transition: 'color 0.22s',
+                      }}>
+                        {step.title}
+                      </p>
+                      <p style={{
+                        margin: '4px 0 0', fontSize: 13, lineHeight: 1.55,
+                        color: isActive ? 'rgba(26,10,18,0.52)' : 'rgba(26,10,18,0.28)',
+                        transition: 'color 0.22s',
+                      }}>
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Mobile: mini screen preview inline */}
+                  <div className="flex lg:hidden" style={{
+                    width: 90, height: 130, flexShrink: 0,
+                    borderRadius: 14, overflow: 'hidden',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+                    border: '1px solid rgba(0,0,0,0.06)',
+                    opacity: isActive ? 1 : 0.45,
+                    transition: 'opacity 0.22s',
+                    position: 'relative',
                   }}>
-                    <Icon size={18} color={isActive ? '#7c6fff' : '#ccc'} />
+                    {step.media ? (
+                      <MediaContent src={step.media} fallback={<FallbackComp />} />
+                    ) : (
+                      <div style={{
+                        width: 258, height: 480,
+                        transform: 'scale(0.348)',
+                        transformOrigin: 'top left',
+                        pointerEvents: 'none',
+                      }}>
+                        <FallbackComp />
+                      </div>
+                    )}
                   </div>
-                  <div style={{ flex: 1 }}>
-                    <p style={{
-                      margin: 0, fontSize: 14.5, fontWeight: 700,
-                      color: isActive ? '#1a0a12' : 'rgba(26,10,18,0.45)',
-                      transition: 'color 0.22s',
-                    }}>
-                      {step.title}
-                    </p>
-                    <p style={{
-                      margin: '4px 0 0', fontSize: 13, lineHeight: 1.55,
-                      color: isActive ? 'rgba(26,10,18,0.52)' : 'rgba(26,10,18,0.28)',
-                      transition: 'color 0.22s',
-                    }}>
-                      {step.description}
-                    </p>
-                  </div>
+
+                  {/* Desktop: dot indicator */}
                   <motion.div
+                    className="hidden lg:block"
                     animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : 4 }}
                     style={{ width: 7, height: 7, borderRadius: '50%', background: '#7c6fff', flexShrink: 0 }}
                   />
@@ -479,7 +497,7 @@ export function HowItWorksSection() {
           </div>
         </div>
 
-        {/* RIGHT — phone cascade */}
+        {/* RIGHT — phone cascade (desktop only) */}
         <div className="hidden lg:flex" style={{ alignItems: 'center', justifyContent: 'center', paddingRight: 60 }}>
           <div style={{ position: 'relative', width: PHONE_W + 260, height: PHONE_H + 80 }}>
             {order.map((phoneIndex, posIndex) => (

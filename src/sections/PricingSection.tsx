@@ -6,44 +6,30 @@ import GradienText from '@/components/ui/GradienText'
 import GlareHover from '@/components/ui/GlareHover'
 import { FadeContent } from '@/components/ui/FadeContent'
 
-const saveDateFeatures = [
-  'Scegli tra i template Save the Date',
-  'Personalizzazione testi e colori',
-  'Countdown al grande giorno',
-  'Info location con mappa',
-  'Link unico + QR Code',
-  'Mobile ottimizzato',
-]
-const rsvpAddOnFeatures = [
-  'Form RSVP personalizzato',
-  'Preferenze alimentari ospiti',
-  'Dashboard ospiti live',
-  'Notifiche automatiche',
-]
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string
 
-const landingFeatures = [
-  'Tutto di "Save the Date + RSVP"',
-  'Gallery fotografica',
-  'Programma completo evento',
-  'Dominio personalizzato',
-  'Revisioni incluse',
-  'Export CSV lista ospiti',
-  'Supporto prioritario 7/7',
-]
-
-const customFeatures = [
-  'Progetto completamente su misura',
-  'Design esclusivo da zero',
-  'Animazioni e interazioni custom',
-  'Integrazioni esterne (music, video)',
-  'Supporto dedicato pre/post evento',
-  'Revisioni illimitate',
-  'Consegna prioritaria',
-]
+async function redirectToCheckout(plan: string) {
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/create-checkout`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ plan }),
+  })
+  const data = await res.json()
+  if (data.url) window.location.href = data.url
+  else alert('Errore nel pagamento, riprova.')
+}
 
 export function PricingSection() {
   const [rsvpAddon, setRsvpAddon] = useState(false)
+  const [loading, setLoading] = useState<string | null>(null)
   const { t } = useTranslation()
+
+  const handleCheckout = async (plan: string) => {
+    setLoading(plan)
+    await redirectToCheckout(plan)
+    setLoading(null)
+  }
+
   const scrollToContact = () =>
     document.querySelector('#contatti')?.scrollIntoView({ behavior: 'smooth' })
   const sdFeatures = t('pricing.saveDate.features', { returnObjects: true }) as string[]
@@ -86,12 +72,12 @@ export function PricingSection() {
             style={{
               display: 'inline-block',
               borderRadius: 9999,
-              border: '1px solid rgba(201,169,110,0.3)',
-              background: 'rgba(201,169,110,0.08)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              background: 'rgba(255,255,255,0.06)',
               padding: '6px 16px',
               fontSize: 11,
               fontWeight: 600,
-              color: '#c9a96e',
+              color: 'rgba(245,240,232,0.65)',
               letterSpacing: '0.15em',
               textTransform: 'uppercase' as const,
               marginBottom: 16,
@@ -263,10 +249,10 @@ export function PricingSection() {
               glareAngle={-45}
               glareSize={220}
               transitionDuration={600}
-              onClick={scrollToContact}
-              style={{ padding: '12px 0', fontSize: 14, fontWeight: 600, color: '#fff', backdropFilter: 'blur(8px)', textAlign: 'center' } as React.CSSProperties}
+              onClick={() => handleCheckout(rsvpAddon ? 'save_date_rsvp' : 'save_date')}
+              style={{ padding: '12px 0', fontSize: 14, fontWeight: 600, color: '#fff', backdropFilter: 'blur(8px)', textAlign: 'center', opacity: loading ? 0.7 : 1, cursor: loading ? 'wait' : 'pointer' } as React.CSSProperties}
             >
-              {rsvpAddon ? t('pricing.saveDate.ctaRsvp') : t('pricing.saveDate.cta')}
+              {loading === 'save_date' || loading === 'save_date_rsvp' ? 'Caricamento...' : (rsvpAddon ? t('pricing.saveDate.ctaRsvp') : t('pricing.saveDate.cta'))}
             </GlareHover>
           </motion.div>
 
@@ -331,10 +317,10 @@ export function PricingSection() {
                 background="linear-gradient(135deg, #6d28d9 0%, #9333ea 45%, #c026d3 100%)"
                 borderRadius="9999px" borderColor="transparent"
                 glareColor="#f79adb" glareOpacity={0.55} glareAngle={-45} glareSize={220} transitionDuration={600}
-                onClick={scrollToContact}
-                style={{ padding: '12px 0', fontSize: 14, fontWeight: 600, color: '#fff', textAlign: 'center' } as React.CSSProperties}
+                onClick={() => handleCheckout('landing')}
+                style={{ padding: '12px 0', fontSize: 14, fontWeight: 600, color: '#fff', textAlign: 'center', opacity: loading === 'landing' ? 0.7 : 1, cursor: loading === 'landing' ? 'wait' : 'pointer' } as React.CSSProperties}
               >
-                {t('pricing.landing.cta')}
+                {loading === 'landing' ? 'Caricamento...' : t('pricing.landing.cta')}
               </GlareHover>
             </motion.div>
           </div>
@@ -362,8 +348,8 @@ export function PricingSection() {
             <div style={{ marginBottom: 20 }}>
               <span style={{
                 display: 'inline-block', borderRadius: 9999, padding: '4px 12px',
-                fontSize: 11, fontWeight: 600, background: 'rgba(201,169,110,0.12)',
-                color: '#c9a96e', border: '1px solid rgba(201,169,110,0.25)',
+                fontSize: 11, fontWeight: 600, background: 'rgba(255,255,255,0.07)',
+                color: 'rgba(245,240,232,0.7)', border: '1px solid rgba(255,255,255,0.14)',
               }}>
                 {t('pricing.custom.badge')}
               </span>
@@ -378,7 +364,7 @@ export function PricingSection() {
             <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
               {customFeatures.map((feat) => (
                 <li key={feat} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                  <Check size={14} color="rgba(201,169,110,0.7)" style={{ marginTop: 2, flexShrink: 0 }} />
+                  <Check size={14} color="rgba(245,240,232,0.5)" style={{ marginTop: 2, flexShrink: 0 }} />
                   <span style={{ fontSize: 13, color: 'rgba(245,240,232,0.65)' }}>{feat}</span>
                 </li>
               ))}
@@ -387,12 +373,12 @@ export function PricingSection() {
               width="100%" height="auto"
               background="rgba(255,255,255,0.07)"
               borderRadius="9999px"
-              borderColor="rgba(201,169,110,0.3)"
-              glareColor="#c9a96e" glareOpacity={0.25} glareAngle={-45} glareSize={220} transitionDuration={600}
-              onClick={scrollToContact}
-              style={{ padding: '12px 0', fontSize: 14, fontWeight: 600, color: '#c9a96e', backdropFilter: 'blur(8px)', textAlign: 'center' } as React.CSSProperties}
+              borderColor="rgba(255,255,255,0.14)"
+              glareColor="#ffffff" glareOpacity={0.25} glareAngle={-45} glareSize={220} transitionDuration={600}
+              onClick={() => handleCheckout('custom')}
+              style={{ padding: '12px 0', fontSize: 14, fontWeight: 600, color: '#f5f0e8', backdropFilter: 'blur(8px)', textAlign: 'center', opacity: loading === 'custom' ? 0.7 : 1, cursor: loading === 'custom' ? 'wait' : 'pointer' } as React.CSSProperties}
             >
-              {t('pricing.custom.cta')}
+              {loading === 'custom' ? 'Caricamento...' : t('pricing.custom.cta')}
             </GlareHover>
           </motion.div>
 

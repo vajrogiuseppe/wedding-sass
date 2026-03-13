@@ -70,7 +70,7 @@ function BubbleFAQ({ faq, index, open, onToggle }: {
               >
                 <span
                   className="font-display"
-                  style={{ fontSize: 12, color: '#c9a96e', fontStyle: 'normal', fontWeight: 700 }}
+                  style={{ fontSize: 12, color: 'rgba(245,240,232,0.6)', fontStyle: 'normal', fontWeight: 700 }}
                 >
                   L
                 </span>
@@ -113,7 +113,7 @@ export function FAQSection() {
         animate={{ y: [0, -20, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         style={{
-          position: 'absolute', top: '-8%', left: '2%',
+          position: 'absolute', top: '12%', left: '2%',
           width: 520, height: 520, borderRadius: '50%', pointerEvents: 'none',
           background: 'radial-gradient(circle, rgba(147,51,234,0.32) 0%, transparent 68%)',
           filter: 'blur(60px)', zIndex: 0,
@@ -129,12 +129,12 @@ export function FAQSection() {
             style={{
               display: 'inline-block',
               borderRadius: 9999,
-              border: '1px solid rgba(201,169,110,0.4)',
-              background: 'rgba(201,169,110,0.08)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              background: 'rgba(255,255,255,0.06)',
               padding: '6px 16px',
               fontSize: 11,
               fontWeight: 600,
-              color: '#c9a96e',
+              color: 'rgba(245,240,232,0.65)',
               letterSpacing: '0.15em',
               textTransform: 'uppercase' as const,
               marginBottom: 16,

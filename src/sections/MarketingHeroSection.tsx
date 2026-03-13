@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import StarBorder from "@/components/ui/StarBorder";
 import Ballpit from "@/components/ui/Ballpit";
 import GradienText from "@/components/ui/GradienText";
 import Grainient from "@/components/ui/Grainient";
@@ -16,10 +14,6 @@ const people = [
   {
     name: "Maria",
     avatar: "assets/people/maria.png",
-  },
-  {
-    name: "Pietro",
-    avatar: "assets/people/pietro.png",
   },
   {
     name: "Luca",
@@ -146,10 +140,10 @@ export function MarketingHeroSection() {
             fontSize: 14,
             fontWeight: 700,
             textTransform: "uppercase",
-            color: "#d4aa6e",
+            color: "rgba(245,240,232,0.7)",
             marginBottom: 8,
           }}
-          className="font-mono"
+          className="font-display"
         >
           {t('hero.badge')}
         </motion.p>
@@ -340,7 +334,7 @@ export function MarketingHeroSection() {
                 glareAngle={-45}
                 glareSize={220}
                 transitionDuration={600}
-                onClick={() => document.querySelector("#contatti")?.scrollIntoView({ behavior: "smooth" })}
+                onClick={() => document.querySelector("#prezzi")?.scrollIntoView({ behavior: "smooth" })}
                 style={{
                   padding: '11px 26px',
                   fontSize: 14,

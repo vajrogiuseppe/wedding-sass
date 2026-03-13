@@ -401,7 +401,7 @@ const DEFAULT_CONFIG = {
   ambientColor: 0xffffff,
   ambientIntensity: 1,
   lightIntensity: 200,
-  materialParams: { metalness: 0.5, roughness: 0.5, clearcoat: 1, clearcoatRoughness: 0.15 },
+  materialParams: { metalness: 0.15, roughness: 0.45, clearcoat: 0.35, clearcoatRoughness: 0.15 },
   minSize: 0.5, maxSize: 1, size0: 1,
   gravity: 0.5, friction: 0.9975, wallBounce: 0.95, maxVelocity: 0.15,
   maxX: 5, maxY: 5, maxZ: 2,
@@ -536,6 +536,7 @@ interface BallpitProps {
   ambientColor?: number
   ambientIntensity?: number
   lightIntensity?: number
+  materialParams?: { metalness?: number; roughness?: number; clearcoat?: number; clearcoatRoughness?: number }
 }
 
 const Ballpit = ({ className = '', followCursor = true, ...props }: BallpitProps) => {

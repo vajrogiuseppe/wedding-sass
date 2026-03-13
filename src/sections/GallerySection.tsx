@@ -96,7 +96,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
               width: 8,
               height: 8,
               borderRadius: '50%',
-              background: n <= t.rating ? '#c9a96e' : '#e0d8cc',
+              background: n <= t.rating ? 'rgba(245,240,232,0.8)' : '#e0d8cc',
             }}
           />
         ))}
@@ -119,7 +119,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
             justifyContent: 'center',
             fontSize: 11,
             fontWeight: 700,
-            color: '#c9a96e',
+            color: 'rgba(245,240,232,0.7)',
             flexShrink: 0,
           }}
         >

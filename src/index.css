@@ -16,7 +16,7 @@
   --text:         #1e1a14;
   --text-muted:   #7a6f63;
   --text-faint:   #b5a898;
-  --accent:       #c9a96e;
+  --accent:       rgba(245,240,232,0.7);
   --accent-light: #e8d5b0;
   --accent-dark:  #a07838;
   --border:       #e0d8cc;
@@ -27,8 +27,6 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
-  max-width: 100%;
 }
 body {
   font-family: 'Lato', sans-serif;
@@ -42,7 +40,7 @@ body {
 
 /* ─── Gradient text ─────────────────────────────────── */
 .text-gradient-gold {
-  background: linear-gradient(135deg, #a07838, #c9a96e, #8b6914);
+  background: linear-gradient(135deg, #faf6f0 0%, #f79adb 50%, #cf8300 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

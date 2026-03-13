@@ -13,7 +13,7 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', background: '#eeeeee' }}>
+    <section style={{ position: 'relative', width: '100%', height: '100svh', overflow: 'hidden', background: '#eeeeee' }}>
 
       <NoiseMaskHeroNew
         imageUrl="https://assets.unicorn.studio/images/d86YggFJjQTQnc3f9iBINHmvAMJ3/remix_16453%20(1).jpg"
